@@ -1,19 +1,6 @@
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-  
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, shrink-to-fit=no">
-    <meta name="description" content="Suha - Multipurpose Ecommerce Mobile HTML Template">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="theme-color" content="#100DD1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <!-- The above tags *must* come first in the head, any other head content must come *after* these tags -->
-    <!-- Title -->
-    <title>فروشگاه موبایلی سوها</title>
+{% partialdef header_references %}
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
@@ -35,6 +22,40 @@
     <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="{% static 'style.css' %}">
+{% endpartialdef header_references %}
+
+{% partialdef footer_references %}
+    <!-- All JavaScript Files-->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/waypoints.min.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'js/jquery.passwordstrength.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/theme-switching.js' %}"></script>
+    <script src="{% static 'js/no-internet.js' %}"></script>
+    <script src="{% static 'js/active.js' %}"></script>
+{% endpartialdef footer_references %}
+
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, shrink-to-fit=no">
+    <meta name="description" content="Suha - Multipurpose Ecommerce Mobile HTML Template">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#100DD1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- The above tags *must* come first in the head, any other head content must come *after* these tags -->
+    <!-- Title -->
+    <title>فروشگاه موبایلی سوها</title>
+    {% partial header_references %}
   </head>
   <body>
     <!-- Preloader-->
@@ -110,20 +131,7 @@
         </ul>
       </div>
     </div>
-    <!-- All JavaScript Files-->
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/waypoints.min.js' %}"></script>
-    <script src="{% static 'js/jquery.easing.min.js' %}"></script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'js/jquery.counterup.min.js' %}"></script>
-    <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
-    <script src="{% static 'js/jquery.passwordstrength.js' %}"></script>
-    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
-    <script src="{% static 'js/theme-switching.js' %}"></script>
-    <script src="{% static 'js/no-internet.js' %}"></script>
-    <script src="{% static 'js/active.js' %}"></script>
-  </body>
 
+  </body>
+    {% partial footer_references %}
 </html>
