@@ -35,7 +35,7 @@ Template Name: Suha - Multipurpose Ecommerce Mobile HTML Template
 /* Reboot CSS */
 @font-face {
   font-family: iransans;
-  src: url('./webfonts/IRANSansWeb(FaNum).ttf');
+  src: url('/static/webfonts/IRANSansWeb(FaNum).ttf');
 }
 * {
   margin: 0;
@@ -414,7 +414,7 @@ textarea:invalid {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: url("img/bg-img/dark-bg.jpg");
+  background-image: url("/static/img/bg-img/dark-bg.jpg");
   background-position: center center;
   top: 0;
   opacity: 0.3;
@@ -727,7 +727,7 @@ textarea:invalid {
 .preview-iframe-wrapper .preview-hero-area::after {
   position: absolute;
   content: "";
-  background-image: url(img/core-img/curve.png);
+  background-image: url('/static/img/core-img/curve.png');
   bottom: 0;
   width: 142px;
   height: 121px;
@@ -1632,7 +1632,7 @@ textarea:invalid {
   height: 110px;
   top: -15px;
   right: -15px;
-  background-image: url(img/core-img/dot.png);
+  background-image: url('/static/img/core-img/dot.png');
   content: "";
   z-index: -10;
   opacity: 0.2;
@@ -2871,7 +2871,7 @@ li.suha-dropdown-menu .dropdown-trigger-btn.active i {
 .product-title-meta-data::after {
   position: absolute;
   content: "";
-  background-image: url(img/core-img/curve.png);
+  background-image: url('/static/img/core-img/curve.png');
   top: -120px;
   width: 142px;
   height: 121px;
@@ -4689,7 +4689,7 @@ li.suha-dropdown-menu .dropdown-trigger-btn.active i {
   background-color: #242644 !important;
 }
 [theme-color=dark] .product-title-meta-data::after {
-  background-image: url(img/core-img/curve2.png);
+  background-image: url('/static/img/core-img/curve2.png');
 }
 [theme-color=dark] .p-wishlist-share a {
   color: #ea4c62;
@@ -4869,7 +4869,7 @@ li.suha-dropdown-menu .dropdown-trigger-btn.active i {
   background-color: #0C153B;
 }
 [theme-color=dark] .preview-iframe-wrapper .preview-hero-area::after {
-  background-image: url(img/core-img/curve2.png);
+  background-image: url('/static/img/core-img/curve2.png');
 }
 [theme-color=dark] .preview-iframe-wrapper .preview-content-wrapper .demo-title span {
   color: #ffaf00;
