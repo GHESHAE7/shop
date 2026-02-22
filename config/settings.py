@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     # app
     "home_module.apps.HomeModuleConfig"
+    "account_module.apps.AccountModuleConfig"
 ]
 
 MIDDLEWARE = [
