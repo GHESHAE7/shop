@@ -26,6 +26,8 @@ urlpatterns = [
     # package
     path('captcha/', include('captcha.urls')),
     path('summernote/', include('django_summernote.urls')),
+    # app
+    path('', include('home_module.urls'))
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
