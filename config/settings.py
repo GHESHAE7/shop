@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     "captcha",
     "django_summernote",
     "django_extensions",
+    # app
+    "home_module.apps.HomeModuleConfig"
 ]
 
 MIDDLEWARE = [
