@@ -1,2 +1,570 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block title %}home page{% endblock title %}
+
+{% block body %}
+    <div class="page-content-wrapper">
+      <!-- Search Form-->
+      <!-- Search Form-->
+      <div class="container">
+        <div class="search-form pt-3 rtl-flex-d-row-r">
+          <form action="#" method="">
+            <input class="form-control" type="search" placeholder="جستجو کردن">
+            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </form>
+          <!-- Alternative Search Options -->
+          <div class="alternative-search-options">
+            <div class="dropdown"><a class="btn btn-danger dropdown-toggle" id="altSearchOption" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-sliders"></i></a>
+              <!-- Dropdown Menu -->
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="altSearchOption">
+                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-microphone"> </i>جستجوی صوتی</a></li>
+                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-image"> </i>جستجوی تصویر</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Hero Wrapper -->
+      <div class="hero-wrapper">
+        <div class="container">
+          <div class="pt-3">
+            <!-- Hero Slides-->
+            <div class="hero-slides owl-carousel">
+              <!-- Single Hero Slide-->
+              <div class="single-hero-slide" style="background-image: url({% static 'img/bg-img/1.jpg' %})">
+                <div class="slide-content h-100 d-flex align-items-center">
+                  <div class="slide-text">
+                    <h4 class="text-white mb-0" data-animation="fadeInUp" data-delay="100ms" data-duration="1000ms">آمازون اکو</h4>
+                    <p class="text-white" data-animation="fadeInUp" data-delay="400ms" data-duration="1000ms">نسل 3 ، ذغال سنگ</p><a class="btn btn-primary" href="#" data-animation="fadeInUp" data-delay="800ms" data-duration="1000ms">هم اکنون خریداری کنید</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Single Hero Slide-->
+              <div class="single-hero-slide" style="background-image: url({% static 'img/bg-img/2.jpg' %})">
+                <div class="slide-content h-100 d-flex align-items-center">
+                  <div class="slide-text">
+                    <h4 class="text-white mb-0" data-animation="fadeInUp" data-delay="100ms" data-duration="1000ms">شمع سبک</h4>
+                    <p class="text-white" data-animation="fadeInUp" data-delay="400ms" data-duration="1000ms">فقط الان 20000 تومان</p><a class="btn btn-success" href="#" data-animation="fadeInUp" data-delay="500ms" data-duration="1000ms">هم اکنون خریداری کنید</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Single Hero Slide-->
+              <div class="single-hero-slide" style="background-image: url({% static 'img/bg-img/3.jpg' %})">
+                <div class="slide-content h-100 d-flex align-items-center">
+                  <div class="slide-text">
+                    <h4 class="text-white mb-0" data-animation="fadeInUp" data-delay="100ms" data-duration="1000ms">بهترین مبلمان</h4>
+                    <p class="text-white" data-animation="fadeInUp" data-delay="400ms" data-duration="1000ms">3 سال گارانتی </p><a class="btn btn-danger" href="#" data-animation="fadeInUp" data-delay="800ms" data-duration="1000ms">هم اکنون خریداری کنید</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Product Catagories -->
+      <div class="product-catagories-wrapper py-3">
+        <div class="container">
+          <div class="row g-2 rtl-flex-d-row-r">
+            <!-- Catagory Card -->
+            <div class="col-3">
+              <div class="card catagory-card">
+                <div class="card-body px-2"><a href="catagory.html"><img src="{% static 'img/core-img/woman-clothes.png' %}" alt=""><span>مد زنان</span></a></div>
+              </div>
+            </div>
+            <!-- Catagory Card -->
+            <div class="col-3">
+              <div class="card catagory-card">
+                <div class="card-body px-2"><a href="catagory.html"><img src="{% static 'img/core-img/grocery.png' %}" alt=""><span>مواد غذایی &amp; حیوانات اهلی</span></a></div>
+              </div>
+            </div>
+            <!-- Catagory Card -->
+            <div class="col-3">
+              <div class="card catagory-card">
+                <div class="card-body px-2"><a href="catagory.html"><img src="{% static 'img/core-img/shampoo.png' %}" alt=""><span>سلامتی &amp; زیبایی</span></a></div>
+              </div>
+            </div>
+            <!-- Catagory Card -->
+            <div class="col-3">
+              <div class="card catagory-card">
+                <div class="card-body px-2"><a href="catagory.html"><img src="{% static 'img/core-img/rowboat.png' %}" alt=""><span>ورزش ها &amp; بیرون از خانه</span></a></div>
+              </div>
+            </div>
+            <!-- Catagory Card -->
+            <div class="col-3">
+              <div class="card catagory-card">
+                <div class="card-body px-2"><a href="catagory.html"><img src="{% static 'img/core-img/tv-table.png' %}" alt=""><span>لوازم خانگی</span></a></div>
+              </div>
+            </div>
+            <!-- Catagory Card -->
+            <div class="col-3">
+              <div class="card catagory-card">
+                <div class="card-body px-2"><a href="catagory.html"><img src="{% static 'img/core-img/beach.png' %}" alt=""><span>تور &amp; سفر</span></a></div>
+              </div>
+            </div>
+            <!-- Catagory Card -->
+            <div class="col-3">
+              <div class="card catagory-card">
+                <div class="card-body px-2"><a href="catagory.html"><img src="{% static 'img/core-img/baby-products.png' %}" alt=""><span>مادر &amp; عزیزم</span></a></div>
+              </div>
+            </div>
+            <!-- Catagory Card -->
+            <div class="col-3">
+              <div class="card catagory-card active">
+                <div class="card-body px-2"><a href="catagory.html"><img src="{% static 'img/core-img/price-tag.png' %}" alt=""><span>حراج کلی</span></a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Flash Sale Slide -->
+      <div class="flash-sale-wrapper">
+        <div class="container">
+          <div class="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+            <h6 class="d-flex align-items-center rtl-flex-d-row-r"><i class="fa-solid fa-bolt-lightning me-1 text-danger lni-flashing-effect"></i>سیکلون پیشنهاد</h6>
+            <!-- Please use event time this format: YYYY/MM/DD hh:mm:ss -->
+            <ul class="sales-end-timer ps-0 d-flex align-items-center rtl-flex-d-row-r" data-countdown="2022/12/31 14:21:59">
+              <li><span class="days">0</span>ر</li>
+              <li><span class="hours">0</span>س</li>
+              <li><span class="minutes">0</span>د</li>
+              <li><span class="seconds">0</span>ث</li>
+            </ul>
+          </div>
+          <!-- Flash Sale Slide-->
+          <div class="flash-sale-slide owl-carousel">
+            <!-- Flash Sale Card -->
+            <div class="card flash-sale-card">
+              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/1.png' %}" alt=""><span class="product-title">لامپ میز سیاه</span>
+                  <p class="sale-price">7000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">33% فروخته شده</span>
+                  <!-- Progress Bar-->
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div></a></div>
+            </div>
+            <!-- Flash Sale Card -->
+            <div class="card flash-sale-card">
+              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/2.png' %}" alt=""><span class="product-title">مبل مدرن</span>
+                <p class="sale-price">7000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">33% فروخته شده</span>
+                  <!-- Progress Bar-->
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 57%" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div></a></div>
+            </div>
+            <!-- Flash Sale Card -->
+            <div class="card flash-sale-card">
+              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/3.png' %}" alt=""><span class="product-title">صندلی باغ کلاسیک</span>
+                <p class="sale-price">7000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">93% فروخته شده</span>
+                  <!-- Progress Bar-->
+                  <div class="progress">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div></a></div>
+            </div>
+            <!-- Flash Sale Card -->
+            <div class="card flash-sale-card">
+              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/1.png' %}" alt=""><span class="product-title">لامپ میز سیاه</span>
+                <p class="sale-price">8000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">63% فروخته شده</span>
+                  <!-- Progress Bar-->
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div></a></div>
+            </div>
+            <!-- Flash Sale Card -->
+            <div class="card flash-sale-card">
+              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/2.png' %}" alt=""><span class="product-title">مبل مدرن</span>
+                <p class="sale-price">7000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">33% فروخته شده</span>
+                  <!-- Progress Bar-->
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 57%" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div></a></div>
+            </div>
+            <!-- Flash Sale Card -->
+            <div class="card flash-sale-card">
+              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/3.png' %}" alt=""><span class="product-title">صندلی باغ کلاسیک</span>
+                <p class="sale-price">7000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">23% فروخته شده</span>
+                  <!-- Progress Bar-->
+                  <div class="progress">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div></a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Dark Mode -->
+      <div class="container">
+        <div class="dark-mode-wrapper mt-3 bg-img p-4 p-lg-5">
+          <p class="text-white">با استفاده از حالت تاریک می توانید صفحه نمایش خود را به یک پس زمینه تاریک تغییر دهید.</p>
+          <div class="form-check form-switch mb-0">
+            <label class="form-check-label text-white h6 mb-0" for="darkSwitch">به حالت تاریک بروید</label>
+            <input class="form-check-input" id="darkSwitch" type="checkbox" role="switch">
+          </div>
+        </div>
+      </div>
+      <!-- Top Products -->
+      <div class="top-products-area py-3">
+        <div class="container">
+          <div class="section-heading d-flex align-items-center justify-content-between dir-rtl">
+            <h6>محصولات برتر</h6><a class="btn p-0" href="shop-grid.html">مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
+          </div>
+          <div class="row g-2">
+            <!-- Product Card -->
+            <div class="col-6 col-md-4">
+              <div class="card product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge rounded-pill badge-warning">فروش</span>
+                  <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart">                       </i></a>
+                  <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img class="mb-2" src="{% static 'img/product/11.png' %}" alt="">
+                    <!-- Offer Countdown Timer: Please use event time this format: YYYY/MM/DD hh:mm:ss -->
+                    <ul class="offer-countdown-timer d-flex align-items-center shadow-sm" data-countdown="2023/12/31 23:59:59">
+                      <li><span class="days">0</span>ر</li>
+                      <li><span class="hours">0</span>س</li>
+                      <li><span class="minutes">0</span>د</li>
+                      <li><span class="seconds">0</span>ث</li>
+                    </ul></a>
+                  <!-- Product Title --><a class="product-title" href="single-product.html">کلاه ساحلی</a>
+                  <!-- Product Price -->
+                  <p class="sale-price">2000 تومان<span>5000 تومان</span></p>
+                  <!-- Rating -->
+                  <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                  <!-- Add to Cart --><a class="btn btn-success btn-sm" href="#"><i class="fa-solid fa-plus"></i></a>
+                </div>
+              </div>
+            </div>
+            <!-- Product Card -->
+            <div class="col-6 col-md-4">
+              <div class="card product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge rounded-pill badge-success">جدید</span>
+                  <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart">                       </i></a>
+                  <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img class="mb-2" src="{% static 'img/product/5.png' %}" alt=""></a>
+                  <!-- Product Title --><a class="product-title" href="single-product.html">مبل چوبی</a>
+                  <!-- Product Price -->
+                  <p class="sale-price">7000 تومان<span>9000 تومان</span></p>
+                  <!-- Rating -->
+                  <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                  <!-- Add to Cart --><a class="btn btn-success btn-sm" href="#"><i class="fa-solid fa-plus"></i></a>
+                </div>
+              </div>
+            </div>
+            <!-- Product Card -->
+            <div class="col-6 col-md-4">
+              <div class="card product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge rounded-pill badge-success">Sale</span>
+                  <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart">                       </i></a>
+                  <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img class="mb-2" src="{% static 'img/product/6.png' %}" alt=""></a>
+                  <!-- Product Title --><a class="product-title" href="single-product.html">چراغ پشت بام</a>
+                  <!-- Product Price -->
+                  <p class="sale-price">7000 تومان<span>9000 تومان</span></p>
+                  <!-- Rating -->
+                  <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                  <!-- Add to Cart --><a class="btn btn-success btn-sm" href="#"><i class="fa-solid fa-plus"></i></a>
+                </div>
+              </div>
+            </div>
+            <!-- Product Card -->
+            <div class="col-6 col-md-4">
+              <div class="card product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge rounded-pill badge-danger">-18%</span>
+                  <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart">                       </i></a>
+                  <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img class="mb-2" src="{% static 'img/product/9.png' %}" alt="">
+                    <!-- Offer Countdown Timer: Please use event time this format: YYYY/MM/DD hh:mm:ss -->
+                    <ul class="offer-countdown-timer d-flex align-items-center shadow-sm" data-countdown="2024/12/23 00:21:29">
+                      <li><span class="days">0</span>ر</li>
+                      <li><span class="hours">0</span>س</li>
+                      <li><span class="minutes">0</span>د</li>
+                      <li><span class="seconds">0</span>ث</li>
+                    </ul></a>
+                  <!-- Product Title --><a class="product-title" href="single-product.html">کفش کفش ورزشی</a>
+                  <!-- Product Price -->
+                  <p class="sale-price">7000 تومان<span>9000 تومان</span></p>
+                  <!-- Rating -->
+                  <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                  <!-- Add to Cart --><a class="btn btn-success btn-sm" href="#"><i class="fa-solid fa-plus"></i></a>
+                </div>
+              </div>
+            </div>
+            <!-- Product Card -->
+            <div class="col-6 col-md-4">
+              <div class="card product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge rounded-pill badge-danger">-11%</span>
+                  <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a>
+                  <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img class="mb-2" src="{% static 'img/product/8.png' %}" alt=""></a>
+                  <!-- Product Title --><a class="product-title" href="single-product.html">صندلی چوبی</a>
+                  <!-- Product Price -->
+                  <p class="sale-price">3000 تومان<span>6000 تومان</span></p>
+                  <!-- Rating -->
+                  <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                  <!-- Add to Cart --><a class="btn btn-success btn-sm" href="#"><i class="fa-solid fa-plus"></i></a>
+                </div>
+              </div>
+            </div>
+            <!-- Product Card -->
+            <div class="col-6 col-md-4">
+              <div class="card product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge rounded-pill badge-warning">حراج</span>
+                  <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a>
+                  <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img class="mb-2" src="{% static 'img/product/4.png' %}" alt=""></a>
+                  <!-- Product Title --><a class="product-title" href="single-product.html">پیراهن چوگان</a>
+                  <!-- Product Price -->
+                  <p class="sale-price">7000 تومان<span>9000 تومان</span></p>
+                  <!-- Rating -->
+                  <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                  <!-- Add to Cart --><a class="btn btn-success btn-sm" href="#"><i class="fa-solid fa-plus"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CTA Area -->
+      <div class="container">
+        <div class="cta-text dir-rtl p-4 p-lg-5">
+          <div class="row">
+            <div class="col-9">
+              <h4 class="text-white mb-1">20% تخفیف در مورد مراقبت از زنان</h4>
+              <p class="text-white mb-2 opacity-75">پیشنهاد تا این جمعه ادامه خواهد یافت.</p><a class="btn btn-warning" href="#">این پیشنهاد را بگیرید</a>
+            </div>
+          </div><img src="img/bg-img/make-up.png' %}" alt="">
+        </div>
+      </div>
+      <!-- Weekly Best Sellers-->
+      <div class="weekly-best-seller-area py-3">
+        <div class="container">
+          <div class="section-heading d-flex align-items-center justify-content-between dir-rtl">
+            <h6>پرفروش ترین هفتگی</h6><a class="btn p-0" href="shop-list.html">
+               مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
+          </div>
+          <div class="row g-2">
+            <!-- Weekly Product Card -->
+            <div class="col-12">
+              <div class="horizontal-product-card">
+                <div class="d-flex align-items-center">
+                  <div class="product-thumbnail-side">
+                    <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="single-product.html"><img src="{% static 'img/product/18.png' %}" alt=""></a>
+                  </div>
+                  <div class="product-description">
+                    <!-- Wishlist  --><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a>
+                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">شیشه قهوه نسف</a>
+                    <!-- Price -->
+                    <p class="sale-price"><i class="fa-solid fa-dollar-sign"></i>6000 تومان<span>8000 تومان</span></p>
+                    <!-- Rating -->
+                    <div class="product-rating"><i class="fa-solid fa-star"></i>4.88 <span class="ms-1">(39 مرور)</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Weekly Product Card -->
+            <div class="col-12">
+              <div class="horizontal-product-card">
+                <div class="d-flex align-items-center">
+                  <div class="product-thumbnail-side">
+                    <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="single-product.html"><img src="{% static 'img/product/7.png' %}" alt=""></a>
+                  </div>
+                  <div class="product-description">
+                    <!-- Wishlist  --><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a>
+                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">صندلی دفتر مدرن</a>
+                    <!-- Price -->
+                    <p class="sale-price"><i class="fa-solid fa-dollar-sign"></i>6000 تومان<span>8000 تومان</span></p>
+                    <!-- Rating -->
+                    <div class="product-rating"><i class="fa-solid fa-star"></i>4.82 <span class="ms-1">(125 مرور)</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Weekly Product Card -->
+            <div class="col-12">
+              <div class="horizontal-product-card">
+                <div class="d-flex align-items-center">
+                  <div class="product-thumbnail-side">
+                    <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="single-product.html"><img src="{% static 'img/product/12.png' %}" alt=""></a>
+                  </div>
+                  <div class="product-description">
+                    <!-- Wishlist  --><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a>
+                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">عینک آفتابی ساحل</a>
+                    <!-- Price -->
+                    <p class="sale-price"><i class="fa-solid fa-dollar-sign"></i>4000 تومان<span>8000 تومان</span></p>
+                    <!-- Rating -->
+                    <div class="product-rating"><i class="fa-solid fa-star"></i>4.79 <span class="ms-1">(63 مرور)</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Weekly Product Card -->
+            <div class="col-12">
+              <div class="horizontal-product-card">
+                <div class="d-flex align-items-center">
+                  <div class="product-thumbnail-side">
+                    <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="single-product.html"><img src="{% static 'img/product/17.png' %}" alt=""></a>
+                  </div>
+                  <div class="product-description">
+                    <!-- Wishlist  --><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a>
+                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">غذای گربه مخلوط میو</a>
+                    <!-- Price -->
+                    <p class="sale-price"><i class="fa-solid fa-dollar-sign"></i>6000 تومان<span>8000 تومان</span></p>
+                    <!-- Rating -->
+                    <div class="product-rating"><i class="fa-solid fa-star"></i>4.78 <span class="ms-1">(7 مرور)</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Discount Coupon Card-->
+      <div class="container">
+        <div class="discount-coupon-card p-4 p-lg-5 dir-rtl">
+          <div class="d-flex align-items-center">
+            <div class="discountIcon"><img class="w-100" src="{% static 'img/core-img/discount.png' %}" alt=""></div>
+            <div class="text-content">
+              <h4 class="text-white mb-1">گرفتن 20% تخفیف!</h4>
+              <p class="text-white mb-0">برای دریافت تخفیف ، وارد شوید<span class="px-1 fw-bold">گرفتن20</span> در صفحه پرداخت.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Featured Products Wrapper-->
+      <div class="featured-products-wrapper py-3">
+        <div class="container">
+          <div class="section-heading d-flex align-items-center justify-content-between dir-rtl">
+            <h6>محصولات برجسته</h6><a class="btn p-0" href="featured-products.html">مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
+          </div>
+          <div class="row g-2">
+            <!-- Featured Product Card-->
+            <div class="col-4">
+              <div class="card featured-product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge badge-warning custom-badge"><i class="fa-solid fa-star"></i></span>
+                  <div class="product-thumbnail-side">
+                    <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img src="{% static 'img/product/14.png' %}" alt=""></a>
+                  </div>
+                  <div class="product-description">
+                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">اسکیت آبی</a>
+                    <!-- Price -->
+                    <p class="sale-price">6000 تمان<span>8000 تومان</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Featured Product Card-->
+            <div class="col-4">
+              <div class="card featured-product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge badge-warning custom-badge"><i class="fa-solid fa-star"></i></span>
+                  <div class="product-thumbnail-side">
+                    <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img src="{% static 'img/product/15.png' %}" alt=""></a>
+                  </div>
+                  <div class="product-description">
+                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">کیف مسافرتی</a>
+                    <!-- Price -->
+                    <p class="sale-price">6000 تمان<span>8000 تومان</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Featured Product Card-->
+            <div class="col-4">
+              <div class="card featured-product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge badge-warning custom-badge"><i class="fa-solid fa-star"></i></span>
+                  <div class="product-thumbnail-side">
+                    <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img src="{% static 'img/product/16.png' %}" alt=""></a>
+                  </div>
+                  <div class="product-description">
+                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">تی شرت های پنبه ای</a>
+                    <!-- Price -->
+                    <p class="sale-price">6000 تمان<span>8000 تومان</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Featured Product Card-->
+            <div class="col-4">
+              <div class="card featured-product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge badge-warning custom-badge"><i class="fa-solid fa-star"></i></span>
+                  <div class="product-thumbnail-side">
+                    <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img src="{% static 'img/product/21.png' %}" alt=""></a>
+                  </div>
+                  <div class="product-description">
+                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">اجاق گاز  </a>
+                    <!-- Price -->
+                    <p class="sale-price">6000 تمان<span>8000 تومان</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Featured Product Card-->
+            <div class="col-4">
+              <div class="card featured-product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge badge-warning custom-badge"><i class="fa-solid fa-star"></i></span>
+                  <div class="product-thumbnail-side">
+                    <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img src="{% static 'img/product/20.png' %}" alt=""></a>
+                  </div>
+                  <div class="product-description">
+                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">لوازم آرایشی زیبایی</a>
+                    <!-- Price -->
+                    <p class="sale-price">6000 تمان<span>8000 تومان</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Featured Product Card-->
+            <div class="col-4">
+              <div class="card featured-product-card">
+                <div class="card-body">
+                  <!-- Badge--><span class="badge badge-warning custom-badge"><i class="fa-solid fa-star"></i></span>
+                  <div class="product-thumbnail-side">
+                    <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img src="{% static 'img/product/19.png' %}" alt=""></a>
+                  </div>
+                  <div class="product-description">
+                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">بسکتبال</a>
+                    <!-- Price -->
+                    <p class="sale-price">6000 تمان<span>8000 تومان</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pb-3">
+        <div class="container">
+          <div class="section-heading d-flex align-items-center justify-content-between dir-rtl">
+            <h6>دسته بندی ها</h6><a class="btn p-0" href="#">
+               مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
+          </div>
+          <!-- Collection Slide-->
+          <div class="collection-slide owl-carousel">
+            <!-- Collection Card-->
+            <div class="card collection-card"><a href="single-product.html"><img src="{% static 'img/product/17.jpg' %}" alt=""></a>
+              <div class="collection-title"><span>زنان</span><span class="badge bg-danger">9</span></div>
+            </div>
+            <!-- Collection Card-->
+            <div class="card collection-card"><a href="single-product.html"><img src="{% static 'img/product/19.jpg' %}" alt=""></a>
+              <div class="collection-title"><span>مردان</span><span class="badge bg-danger">29</span></div>
+            </div>
+            <!-- Collection Card-->
+            <div class="card collection-card"><a href="single-product.html"><img src="{% static 'img/product/21.jpg' %}" alt=""></a>
+              <div class="collection-title"><span>بچه</span><span class="badge bg-danger">4</span></div>
+            </div>
+            <!-- Collection Card-->
+            <div class="card collection-card"><a href="single-product.html"><img src="{% static 'img/product/22.jpg' %}" alt=""></a>
+              <div class="collection-title"><span>اسباب</span><span class="badge bg-danger">11</span></div>
+            </div>
+            <!-- Collection Card-->
+            <div class="card collection-card"><a href="single-product.html"><img src="{% static 'img/product/23.jpg' %}" alt=""></a>
+              <div class="collection-title"><span>خوراکی ها</span><span class="badge bg-danger">2</span></div>
+            </div>
+            <!-- Collection Card-->
+            <div class="card collection-card"><a href="single-product.html"><img src="{% static 'img/product/24.jpg' %}" alt=""></a>
+              <div class="collection-title"><span>ورزش ها</span><span class="badge bg-danger">5</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock body %}
