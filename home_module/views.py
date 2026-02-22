@@ -10,3 +10,13 @@ class HomeView(View):
     
     def post(self, request):
         pass
+    
+    
+def header_component(request):
+    context = {}
+    return render(request, "component_partial/header_component.html", context)
+
+
+def footer_component(request):
+    context = {}
+    return render(request, "component_partial/footer_component.html", context)
