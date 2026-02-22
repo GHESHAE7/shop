@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "captcha",
     "django_summernote",
     "django_extensions",
+    "debug_toolbar",
     # app
     "home_module.apps.HomeModuleConfig"
 ]
