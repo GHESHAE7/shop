@@ -5,7 +5,8 @@ from django.views import View
 
 class HomeView(View):
     def get(self, request):
-        pass
+        context = {}
+        return render(request, 'home_module/home.html', context)
     
     def post(self, request):
         pass
