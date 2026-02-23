@@ -5,6 +5,7 @@ from .forms import RegisterFormModel
 from .models import User
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 # Create your views here.
 
 
@@ -28,4 +29,26 @@ class RegisterView(View):
         # messages.error(request, 'کاربری با این مشخصات وجود دارد')
         print(form.errors)
         return redirect(reverse('account_module:register_page'))
-            
+    
+    
+
+class LoginView(View):
+    def get(self, request):
+        context = {}
+        return render(request, 'account_module/login.html', context)  
+    
+    def post(self, request):
+        if not request.user.is_authenticated:
+            username = request.POST['username']
+            print(username)
+            password = request.POST['password']     
+            print(password)
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect(reverse('home_module:home_page'))
+            else:
+                print('مشخصات وارد شده اشتباه می باشد') 
+                return redirect(reverse('account_module:login_page'))
+        print('حساب کاربری شما لاگین است')
+        return redirect(reverse('home_module:home_page'))
