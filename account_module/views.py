@@ -5,7 +5,7 @@ from .forms import RegisterFormModel
 from .models import User
 from django.db.models import Q
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 
@@ -51,4 +51,15 @@ class LoginView(View):
                 print('مشخصات وارد شده اشتباه می باشد') 
                 return redirect(reverse('account_module:login_page'))
         print('حساب کاربری شما لاگین است')
+        return redirect(reverse('home_module:home_page'))
+    
+    
+    
+def logout_view(request):
+    if request.user.is_authenticated:
+        logout(request)
+        print('از حساب کاربری خارج شدید')
+        return redirect(reverse('home_module:home_page'))
+    else:
+        print('شما لاگین نیستید')
         return redirect(reverse('home_module:home_page'))
