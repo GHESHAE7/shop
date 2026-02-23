@@ -14,7 +14,12 @@
           <!-- Cart Icon -->
           <div class="cart-icon-wrap"><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i><span>2</span></a></div>
           <!-- User Profile Icon -->
-          <div class="user-profile-icon ms-2"><a href="profile.html"><img src="{% static 'img/bg-img/9.jpg' %}" alt=""></a></div>
+          
+          {% if request.user.is_authenticated %}
+            <div class="user-profile-icon ms-2"><a href="{% url 'account_module:profile_page' %}"><img src="{% static 'img/bg-img/9.jpg' %}" alt=""></a></div>
+            {% else %}
+            <a href="{% url 'account_module:login_page' %}">ورود به حساب</a>
+          {% endif %}
           <!-- Navbar Toggler -->
           <div class="suha-navbar-toggler ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaOffcanvas" aria-controls="suhaOffcanvas">
             <div><span></span><span></span><span></span></div>
