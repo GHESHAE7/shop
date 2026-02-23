@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
-from .forms import RegisterFormModel
+from .forms import RegisterFormModel, EditProfileFormModel
 from .models import User
 from django.db.models import Q
 from django.contrib import messages
@@ -78,3 +78,26 @@ class ProfileView(View):
     
     def post(self, request):
         pass
+    
+    
+    
+class EditProfileView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            user = request.user
+            form = EditProfileFormModel(instance=user)
+            context = {
+                'form': form
+            }
+            return render(request, 'account_module/edit_profile.html', context)
+            
+    def post(self, request):
+        user = request.user
+        form = EditProfileFormModel(request.POST, request.FILES ,instance=user)
+        if form.is_valid():
+            form.save()
+            print('تغییرات ذخیره شد')
+            return redirect(reverse('account_module:profile_page'))
+        else:
+            print(form.errors)
+            return redirect(reverse('account_module:edit_profile_page'))
