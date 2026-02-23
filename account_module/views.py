@@ -63,3 +63,18 @@ def logout_view(request):
     else:
         print('شما لاگین نیستید')
         return redirect(reverse('home_module:home_page'))
+    
+    
+    
+class ProfileView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            current_user = User.objects.filter(id=user_id, is_active=True).first()
+            context = {
+                'user': current_user
+            }
+            return render(request , 'account_module/profile.html', context)
+    
+    def post(self, request):
+        pass

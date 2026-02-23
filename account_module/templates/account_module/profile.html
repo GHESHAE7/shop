@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    پروفایل
+{% endblock title %}
+
+
+
+{% block body %}
+        <div class="page-content-wrapper">
+      <div class="container">
+        <!-- Profile Wrapper-->
+        <div class="profile-wrapper-area py-3">
+          <!-- User Information-->
+          <div class="card user-info-card">
+            <div class="card-body p-4 d-flex align-items-center">
+              <div class="user-profile me-3">
+              {% if user.avatar %}<img src="{{ user.avatar.url }}" alt="">{% else %}<img src="{% static 'img/bg-img/9.jpg' %}" alt="">{% endif %}
+                </div>
+              <div class="user-info">
+                <p class="mb-0 text-dark">{% if user.username %}{{ user.username }}{% else %}خالی{% endif %}</p>
+                <h5 class="mb-0">{{ user.get_full_name }}</h5>
+              </div>
+            </div>
+          </div>
+          <!-- User Meta Data-->
+          <div class="card user-data-card">
+            <div class="card-body">
+              <div class="single-profile-data d-flex align-items-center justify-content-between">
+                <div class="title d-flex align-items-center"><i class="fa-solid fa-at"></i><span>نام کاربری</span></div>
+                <div class="data-content">{% if user.username %}{{ user.username }}{% else %}خالی{% endif %}</div>
+              </div>
+              <div class="single-profile-data d-flex align-items-center justify-content-between">
+                <div class="title d-flex align-items-center"><i class="fa-solid fa-user"></i><span>نام و نام خانوادگی</span></div>
+                <div class="data-content">{{ user.get_full_name }}</div>
+              </div>
+              <div class="single-profile-data d-flex align-items-center justify-content-between">
+                <div class="title d-flex align-items-center"><i class="fa-solid fa-phone"></i><span>تلفن</span></div>
+                <div class="data-content">{% if user.phone %}{{ user.phone }}{% else %}خالی{% endif %}</div>
+              </div>
+              <div class="single-profile-data d-flex align-items-center justify-content-between">
+                <div class="title d-flex align-items-center"><i class="fa-solid fa-envelope"></i><span>پست الکترونیک</span></div>
+                <div class="data-content">{% if user.email %}{{ user.email }}{% else %}خالی{% endif %}</div>
+              </div>
+              <div class="single-profile-data d-flex align-items-center justify-content-between">
+                <div class="title d-flex align-items-center"><i class="fa-solid fa-location-dot"></i><span>آدرس حمل و نقل</span></div>
+                <div class="data-content">{% if user.address %}{{ user.address }}{% else %}خالی{% endif %}</div>
+              </div>
+              <div class="single-profile-data d-flex align-items-center justify-content-between">
+                <div class="title d-flex align-items-center"><i class="fa-solid fa-star"></i><span>دستورات من</span></div>
+                <div class="data-content"><a class="btn btn-success btn-sm" href="my-order.html">وضعیت مشاهده</a></div>
+              </div>
+              <!-- Edit Profile-->
+              <div class="edit-profile-btn mt-3"><a class="btn btn-primary w-100" href="edit-profile.html"><i class="fa-solid fa-pen me-2"></i>نمایه ویرایش</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock body %}
+    
