@@ -18,15 +18,15 @@
               <form action="{% url 'account_module:register_apge' %}" method="POST">
                 <div class="form-group text-start mb-4"><span>نام کاربری</span>
                   <label for="username"><i class="fa-solid fa-user"></i></label>
-                  <input class="form-control" id="username" type="text" placeholder="farhanazizi7">
+                  <input class="form-control" id="username" type="text" name='username' placeholder="farhanazizi7">
                 </div>
                 <div class="form-group text-start mb-4"><span>پست الکترونیک</span>
                   <label for="email"><i class="fa-solid fa-at"></i></label>
-                  <input class="form-control" id="email" type="email" placeholder="help@example.com">
+                  <input class="form-control" id="email" type="email" name='email' placeholder="help@example.com">
                 </div>
                 <div class="form-group text-start mb-4"><span>کلمه عبور</span>
                   <label for="password"><i class="fa-solid fa-key"></i></label>
-                  <input class="input-psswd form-control" id="registerPassword" type="password" placeholder="aaaa4444">
+                  <input class="input-psswd form-control" id="registerPassword" name='password' type="password" placeholder="aaaa4444">
                 </div>
                 {% csrf_token %}
                 <button class="btn btn-warning btn-lg w-100" type="submit">ثبت نام</button>
