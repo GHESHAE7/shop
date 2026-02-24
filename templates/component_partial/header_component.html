@@ -9,12 +9,11 @@
     <div class="header-area" id="headerArea">
       <div class="container h-100 d-flex align-items-center justify-content-between d-flex rtl-flex-d-row-r">
         <!-- Logo Wrapper -->
-        <div class="logo-wrapper"><a href="home.html"><img src="{% static 'img/core-img/logo-small.png' %}" alt=""></a></div>
+        <div class="logo-wrapper"><a href="{% url 'home_module:home_page' %}"><img src="{% static 'img/core-img/logo-small.png' %}" alt=""></a></div>
         <div class="navbar-logo-container d-flex align-items-center">
           <!-- Cart Icon -->
           <div class="cart-icon-wrap"><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i><span>2</span></a></div>
           <!-- User Profile Icon -->
-          
           {% if request.user.is_authenticated %}
             <div class="user-profile-icon ms-2"><a href="{% url 'account_module:profile_page' %}"><img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt=""></a></div>
             {% else %}
@@ -33,16 +32,28 @@
       <!-- Offcanvas body-->
       <div class="offcanvas-body">
         <!-- Sidenav Profile-->
+        {% if request.user.is_authenticated %}
         <div class="sidenav-profile">
-          <div class="user-profile"><img src="{% static 'img/bg-img/9.jpg' %}" alt=""></div>
+            {% if user.avatar %}
+              <div class="user-profile"><img src="{{ user.avatar.email }}" alt=""></div>
+            {% else %}
+              <div class="user-profile"><img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt=""></div>
+            {% endif %}
+          {% comment %} {% else %}
+            <div class="user-profile"><img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt=""></div> {% endcomment %}
+
+
           <div class="user-info">
-             <h5 class="user-name mb-1 text-white">سوها سارا</h5>
+             <h5 class="user-name mb-1 text-white">{% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.email }}{% endif %}</h5>
             <p class="available-balance text-white"> موجودی <span class="counter">5000</span> <span>تومان</span> </p>
           </div>
         </div>
+        {% else %}
+        <a href="{% url 'account_module:login_page' %}" style="color: white;">ورود به حساب کاربری</a>
+        {% endif %}
         <!-- Sidenav Nav-->
         <ul class="sidenav-nav ps-0">
-          <li><a href="profile.html"><i class="fa-solid fa-user"></i>پروفایل من</a></li></li>
+          <li><a href="{% url 'account_module:profile_page' %}"><i class="fa-solid fa-user"></i>پروفایل من</a></li></li>
           <li><a href="notifications.html"><i class="fa-solid fa-bell lni-tada-effect"></i>اعلانات<span class="ms-1 badge badge-warning">3</span></a></li>
           <li class="suha-dropdown-menu"><a href="#"><i class="fa-solid fa-store"></i>صفحات فروشگاه</a>
             <ul>

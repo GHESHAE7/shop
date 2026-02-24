@@ -21,7 +21,7 @@
                 </div>
               <div class="user-info">
                 <p class="mb-0 text-dark">{% if user.username %}{{ user.username }}{% else %}خالی{% endif %}</p>
-                <h5 class="mb-0">{{ user.get_full_name }}</h5>
+                <h5 class="mb-0">{% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.email }}{% endif %}</h5>
               </div>
             </div>
           </div>
@@ -34,7 +34,7 @@
               </div>
               <div class="single-profile-data d-flex align-items-center justify-content-between">
                 <div class="title d-flex align-items-center"><i class="fa-solid fa-user"></i><span>نام و نام خانوادگی</span></div>
-                <div class="data-content">{{ user.get_full_name }}</div>
+                <div class="data-content">{% if user.get_full_name %}{{ user.get_full_name }}{% else %}خالی{% endif %}</div>
               </div>
               <div class="single-profile-data d-flex align-items-center justify-content-between">
                 <div class="title d-flex align-items-center"><i class="fa-solid fa-phone"></i><span>تلفن</span></div>
