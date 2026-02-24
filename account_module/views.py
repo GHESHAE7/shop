@@ -124,9 +124,10 @@ class EditProfileView(View):
         
         
 
-class ChangePasswordView(View):
+class SettingsView(View):
     def get(self, request):
-        pass
+        context = {}
+        return render(request, 'account_module/settings.html', context)
     
     def post(self, request):
         pass
