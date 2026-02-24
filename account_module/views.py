@@ -136,7 +136,34 @@ class SettingsView(View):
     
 class ChangePasswordView(View):
     def get(self, request):
-        pass
+        if request.user.is_authenticated:
+            user = request.user
+            current_user = User.objects.filter(pk=user.id, is_active=True).first()
+            context = {
+                'user': current_user,
+            }
+            return render(request, 'account_module/change_password.html', context)
+        else:
+            print('برای تغییر رمز باید ابتدا لاگین فرمایید')
+            return redirect(reverse('account_module:login_page'))
     
     def post(self, request):
-        pass
+        user = request.user
+        current_user = User.objects.filter(pk=user.id, is_active=True).first()
+        current_password = request.POST.get('current_password')
+        if current_user.check_password(current_password):
+            print('پسوورد شما درست می باشذ')
+            new_password = request.POST.get('new_password')
+            confirm_new_password = request.POST.get('confirm_new_password')
+            if new_password == confirm_new_password:
+                current_user.set_password(confirm_new_password)
+                current_user.save()
+                print('پسوورد کاربر تغییر  کرد')
+                logout(request)
+                return redirect(reverse('account_module:login_page'))
+            else:
+                print('پسوورد و تکرار پسوورد یکی نیستند')
+                return redirect(reverse('account_module:change_password_page'))
+        else:
+            print('پسوورد فعلی شما درست نمی باشد')
+            return redirect(reverse('account_module:change_password_page'))    
