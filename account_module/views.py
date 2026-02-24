@@ -131,3 +131,12 @@ class SettingsView(View):
     
     def post(self, request):
         pass
+    
+    
+    
+class ChangePasswordView(View):
+    def get(self, request):
+        pass
+    
+    def post(self, request):
+        pass
