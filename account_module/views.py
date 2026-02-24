@@ -74,6 +74,10 @@ class ProfileView(View):
                 'user': current_user
             }
             return render(request , 'account_module/profile.html', context)
+        else:
+            print('شما لاگین نیستید')
+            return redirect(reverse('account_module:login_page'))
+            
     
     def post(self, request):
         pass
@@ -89,6 +93,9 @@ class EditProfileView(View):
                 'form': form
             }
             return render(request, 'account_module/edit_profile.html', context)
+        else:
+            print('شما لاگین نیستید')
+            return redirect(reverse('account_module:login_page'))
             
     def post(self, request):
         user = request.user
