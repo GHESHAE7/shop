@@ -94,9 +94,23 @@ class EditProfileView(View):
         user = request.user
         form = EditProfileFormModel(request.POST, request.FILES ,instance=user)
         if form.is_valid():
-            form.save()
-            print('تغییرات ذخیره شد')
-            return redirect(reverse('account_module:profile_page'))
+            email = form.cleaned_data.get('email')
+            current_user = User.objects.filter(pk=user.id).first()
+            print(f'current user: {current_user}')
+            if current_user.email == email:
+                form.save()
+                print('تغییرات ذخیره شد')
+                return redirect(reverse('account_module:profile_page'))
+            else:
+                dip_user = User.objects.filter(email__exact=email).first()
+                print(f'dip user: {dip_user}')
+                if dip_user is not None:
+                    print('ایمیل وجود دارد ایمیل دیگری انتخاب کنید')
+                    return redirect(reverse('account_module:edit_profile_page'))
+                else:
+                    form.save()
+                    print('تغییرات ذخیره شد')
+                    return redirect(reverse('account_module:profile_page'))
         else:
             print(form.errors)
             return redirect(reverse('account_module:edit_profile_page'))
