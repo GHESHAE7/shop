@@ -16,7 +16,7 @@
           <!-- User Profile Icon -->
           
           {% if request.user.is_authenticated %}
-            <div class="user-profile-icon ms-2"><a href="{% url 'account_module:profile_page' %}"><img src="{% static 'img/bg-img/9.jpg' %}" alt=""></a></div>
+            <div class="user-profile-icon ms-2"><a href="{% url 'account_module:profile_page' %}"><img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt=""></a></div>
             {% else %}
             <a href="{% url 'account_module:login_page' %}">ورود به حساب</a>
           {% endif %}
