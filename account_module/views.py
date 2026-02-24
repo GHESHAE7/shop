@@ -121,3 +121,12 @@ class EditProfileView(View):
         else:
             print(form.errors)
             return redirect(reverse('account_module:edit_profile_page'))
+        
+        
+
+class ChangePasswordView(View):
+    def get(self, request):
+        pass
+    
+    def post(self, request):
+        pass
