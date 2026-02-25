@@ -6,6 +6,7 @@ from .models import User
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.utils.crypto import get_random_string
 # Create your views here.
 
 
@@ -21,6 +22,7 @@ class RegisterView(View):
             new_user = form.save(commit=False)
             n_password = form.cleaned_data['password']
             new_user.set_password(n_password)
+            new_user.is_active = False
             new_user.save()
             # messages.success(request, 'حساب کاربری شما با موفقیت ساخته شد')
             print('new_user save')
@@ -28,6 +30,20 @@ class RegisterView(View):
         # messages.error(request, 'کاربری با این مشخصات وجود دارد')
         print(form.errors)
         return redirect(reverse('account_module:register_page'))
+    
+    
+    
+def active_account(request, email_active_code):
+    current_user = User.objects.filter(email_active_code__exact=email_active_code, is_active=False).first()
+    if current_user is not None:
+        current_user.is_active = True
+        current_user.email_active_code = get_random_string(126)
+        current_user.save()
+        print('حساب کاربر فعال شد')
+        return redirect('account_module:login_page')
+    else:
+        print('کاربری پیدا نشد که حساب آن را فعال کنیم')
+        return redirect(reverse('home_module:home_page'))
     
     
 
@@ -39,15 +55,13 @@ class LoginView(View):
     def post(self, request):
         if not request.user.is_authenticated:
             username = request.POST['username']
-            print(username)
             password = request.POST['password']     
-            print(password)
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect(reverse('home_module:home_page'))
             else:
-                print('مشخصات وارد شده اشتباه می باشد') 
+                print('مشخصات وارد شده اشتباه می باشد یا حساب کاربری شما فعال نیست')
                 return redirect(reverse('account_module:login_page'))
         print('حساب کاربری شما لاگین است')
         return redirect(reverse('home_module:home_page'))
@@ -189,11 +203,11 @@ class ForgetPasswordView(View):
         
         
 class ResetPasswordView(View):
-    def get(self, request, id):
-        current_user = User.objects.filter(pk=id, is_active=True).first()
+    def get(self, request, email_active_code):
+        current_user = User.objects.filter(email_active_code__exact=email_active_code, is_active=True).first()
         if current_user is not None:
             context = {
-                'user_id': current_user.id
+                'user_email_active_code': current_user.email_active_code
             }
             return render(request, 'account_module/reset_password.html', context)
         else:
@@ -201,13 +215,14 @@ class ResetPasswordView(View):
             return redirect(reverse('home_module:home_page'))
             
     
-    def post(self, request, id):
-        current_user = User.objects.filter(pk=id, is_active=True).first()
+    def post(self, request, email_active_code):
+        current_user = User.objects.filter(email_active_code__exact=email_active_code, is_active=True).first()
         if current_user is not None:
             password = request.POST.get('password')
             confirm_password = request.POST.get('confirm_password')
             if password == confirm_password:
                 current_user.set_password(confirm_password)
+                current_user.email_active_code = get_random_string(126)
                 current_user.save()
                 print('پسوورد کاربر تغییر کرد')
                 if request.user.is_authenticated:
@@ -216,7 +231,7 @@ class ResetPasswordView(View):
                 return redirect(reverse('account_module:login_page'))
             else:
                 print('پسوورد و تکرار پسوورد یکی نیستند')
-                return redirect(reverse('account_module:reset_password_page', kwargs={"id": current_user.id}))
+                return redirect(reverse('account_module:reset_password_page', kwargs={"email_active_code": current_user.email_active_code}))
         else:
             print('چنین کاربری وجود ندارد که ما رمزش را عوض کنیم')
             return redirect(reverse('home_module:home_page'))
