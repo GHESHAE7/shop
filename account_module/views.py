@@ -185,3 +185,38 @@ class ForgetPasswordView(View):
         else:
             print('کاربری با این مشخصات یاقت نشد')
             return redirect(reverse('account_module:forget_password_page'))
+        
+        
+        
+class ResetPasswordView(View):
+    def get(self, request, id):
+        current_user = User.objects.filter(pk=id, is_active=True).first()
+        if current_user is not None:
+            context = {
+                'user_id': current_user.id
+            }
+            return render(request, 'account_module/reset_password.html', context)
+        else:
+            print('چنین کاربری وجود ندارد')
+            return redirect(reverse('home_module:home_page'))
+            
+    
+    def post(self, request, id):
+        current_user = User.objects.filter(pk=id, is_active=True).first()
+        if current_user is not None:
+            password = request.POST.get('password')
+            confirm_password = request.POST.get('confirm_password')
+            if password == confirm_password:
+                current_user.set_password(confirm_password)
+                current_user.save()
+                print('پسوورد کاربر تغییر کرد')
+                if request.user.is_authenticated:
+                    logout(request)
+                    return redirect(reverse('account_module:login_page'))
+                return redirect(reverse('account_module:login_page'))
+            else:
+                print('پسوورد و تکرار پسوورد یکی نیستند')
+                return redirect(reverse('account_module:reset_password_page', kwargs={"id": current_user.id}))
+        else:
+            print('چنین کاربری وجود ندارد که ما رمزش را عوض کنیم')
+            return redirect(reverse('home_module:home_page'))

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RegisterView, LoginView, logout_view, ProfileView, EditProfileView, SettingsView, ChangePasswordView, ForgetPasswordView
+from .views import RegisterView, LoginView, logout_view, ProfileView, EditProfileView, SettingsView, ChangePasswordView, ForgetPasswordView, ResetPasswordView
 
 app_name = 'account_module'
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path( 'settings', SettingsView.as_view(), name='settings_page'),
     path( 'change-password', ChangePasswordView.as_view(), name='change_password_page'),
     path( 'forget-password', ForgetPasswordView.as_view(), name='forget_password_page'),
+    path( 'reset-password/<id>', ResetPasswordView.as_view(), name='reset_password_page'),
 ]
