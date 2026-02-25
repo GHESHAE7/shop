@@ -166,4 +166,14 @@ class ChangePasswordView(View):
                 return redirect(reverse('account_module:change_password_page'))
         else:
             print('پسوورد فعلی شما درست نمی باشد')
-            return redirect(reverse('account_module:change_password_page'))    
+            return redirect(reverse('account_module:change_password_page'))
+        
+        
+
+class ForgetPasswordView(View):
+    def get(self, request):
+        context = {}
+        return render(request, 'account_module/forget_password.html', context)
+    
+    def post(self, request):
+        pass
