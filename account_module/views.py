@@ -176,4 +176,12 @@ class ForgetPasswordView(View):
         return render(request, 'account_module/forget_password.html', context)
     
     def post(self, request):
-        pass
+        email = request.POST.get('email')
+        current_user = User.objects.filter(email__exact=email, is_active=True).first()
+        if current_user is not None:
+            print('کاربر یافت شد')
+            # ارسال ایمیل
+            return render(request, 'account_module/forget_password_success.html')
+        else:
+            print('کاربری با این مشخصات یاقت نشد')
+            return redirect(reverse('account_module:forget_password_page'))
