@@ -36,7 +36,7 @@ class Product(models.Model):
         both = 'both', _('Both')
     
     name = models.CharField(max_length=255, null=False, blank=False, verbose_name='نام محصول')
-    category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, verbose_name='دسته بندی محصول')
+    category = models.ManyToManyField(Category, null=False, verbose_name='دسته بندی محصول')
     brand = models.ForeignKey(Brand, null=True, on_delete=models.SET_NULL, verbose_name='برند محصول')
     price = models.BigIntegerField(null=False, blank=False, verbose_name='قیمت محصول')
     description = models.TextField(verbose_name='توضیحات محصول', null=False, blank=False)
