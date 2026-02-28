@@ -71,7 +71,10 @@ class ProductVariant(models.Model):
     
 class ManyImages(models.Model):
     image = models.ImageField(upload_to='product/image', null=True, blank=True)
-    product = models.ForeignKey(ProductVariant, models.SET_NULL, null=True, blank=True, related_name='variant_images')
+    product_variant = models.ForeignKey(ProductVariant, models.SET_NULL, null=True, blank=True, related_name='variant_images')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
 
     def __str__(self):
-        return self.product.name / self.id
+        return self.product_variant.product.name /self.id
