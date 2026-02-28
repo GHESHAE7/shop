@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # app
     "home_module.apps.HomeModuleConfig",
     "account_module.apps.AccountModuleConfig",
+    "product_module.apps.ProductModuleConfig",
 ]
 
 MIDDLEWARE = [
