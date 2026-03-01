@@ -7,6 +7,7 @@ class Category(models.Model):
     name = models.CharField(max_length=90, null=False, blank=False, verbose_name='نام دسته بندی', unique=True)
     url = models.CharField(max_length=120, null=False, blank=False, verbose_name='نام دسته بندی در url', unique=True)
     description = models.TextField(null=True, blank=True, verbose_name='توضیحات دسته بندی')
+    image = models.ImageField(upload_to='category/image', null=False, blank=False)
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
