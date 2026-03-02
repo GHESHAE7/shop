@@ -66,7 +66,7 @@ class ProductVariant(models.Model):
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
     
     def __str__(self):
-        return self.product.name / self.id
+        return self.product.name
     
     
     
