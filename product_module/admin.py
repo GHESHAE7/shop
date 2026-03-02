@@ -44,7 +44,7 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at',)
     date_hierarchy = 'created_at'
     search_fields = ('name', 'slug', 'category', 'brand',)
-    inlines = (ProductVariantInline, )
+    inlines = (ManyImageInline, ProductVariantInline)
     
     
     
@@ -56,14 +56,13 @@ class ProductVariantAdmin(admin.ModelAdmin):
     list_editable = ('is_active', 'stock', 'discount', 'is_active')
     readonly_fields = ('created_at', 'updated_at',)
     search_fields = ('product__name',)
-    inlines = (ManyImageInline, )
     
     
     
 @admin.register(ManyImages)
 class ManyImageAdmin(admin.ModelAdmin):
     empty_value_display = '-empty-'
-    list_display = ('product_variant' ,'is_active', 'updated_at', 'created_at',)
+    list_display = ('product' ,'is_active', 'updated_at', 'created_at',)
     list_filter = ('is_active', 'created_at', 'updated_at',)
     list_editable = ('is_active',)
     readonly_fields = ('created_at', 'updated_at',)
