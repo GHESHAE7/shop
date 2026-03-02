@@ -56,7 +56,6 @@ class Product(models.Model):
     
 class ProductVariant(models.Model):
     product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL, related_name='product_variant')
-    images = models.ImageField(upload_to='product/image', null=False, blank=False)
     color = models.CharField(max_length=120, null=False, blank=False, verbose_name='رنگ')
     size = models.CharField(max_length=20, null=False, blank=False, verbose_name='سایز')
     stock = models.IntegerField(default=0, null=False, blank=False)
@@ -72,10 +71,10 @@ class ProductVariant(models.Model):
     
 class ManyImages(models.Model):
     image = models.ImageField(upload_to='product/image', null=True, blank=True)
-    product_variant = models.ForeignKey(ProductVariant, models.SET_NULL, null=True, blank=True, related_name='variant_images')
+    product_variant = models.ForeignKey(Product, models.SET_NULL, null=True, blank=True, related_name='product_images')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
 
     def __str__(self):
-        return self.product_variant.product.name /self.id
+        return self.product_variant.product.name
