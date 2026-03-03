@@ -16,11 +16,13 @@ class ProductsListView(ListView):
     
     def get_queryset(self, *args, **kwargs):
         query = super().get_queryset(*args, **kwargs)
-        category_url = self.kwargs['category_url']
+        query = query.filter(is_active=True).annotate(discount=Max('product_variant__discount')).order_by('-created_at')
+        category_url = self.kwargs.get('category_url') or None
+        brand_url = self.kwargs.get('brand_url') or None 
         if category_url is not None:
-            query = query.filter(is_active=True, category__url__exact=category_url).annotate(discount=Max('product_variant__discount')).order_by('-created_at')
-        else:
-            query = query.filter(is_active=True).annotate(discount=Max('product_variant__discount')).order_by('-created_at')
+            query = query.filter(category__url__exact=category_url)
+        elif brand_url is not None:
+            query = query.filter(brand__url__exact=brand_url)
         return query
     
     
