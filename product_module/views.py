@@ -35,6 +35,8 @@ class ProductsListView(ListView):
             query = query.filter(price__gte=min_price)
         if max_price:
             query = query.filter(price__lte=max_price)
+        if self.request.path.endswith('/discount'):
+            query = query.filter(product_variant__discount__gt=0)
         return query
     
     
@@ -50,4 +52,24 @@ class ProductsListView(ListView):
         context['checked_categories'] = self.request.GET.getlist('category')
         context['max_price'] = Product.objects.filter(is_active=True).aggregate(Max('price'))['price__max'] or 0
         context['min_price'] = Product.objects.filter(is_active=True).aggregate(Min('price'))['price__min'] or 0
+        
+        if self.request.path.endswith(''):
+            context['title_heading'] = 'محصولات'
+            context['title'] = 'تمام محصولات فروشگاه'
+            
+        if self.request.path.endswith('/discount'):
+            context['title_heading'] = 'محصولات تخفیف دار'
+            context['title'] = 'تمام محصولات تخفیف دار'
+            
+            
+        if '/category/' in self.request.path:
+            category_url = self.kwargs.get('category_url')
+            context['title_heading'] = f'دسته بندی {category_url}'
+            context['title'] = f'تمام محصولات در دسته بندی {category_url}'
+            
+        if '/brand/' in self.request.path:
+            brnad_url = self.kwargs.get('brand_url')
+            context['title_heading'] = f'برند {brnad_url}'
+            context['title'] = f'تمام محصولات در برند {brnad_url}'
+            
         return context
