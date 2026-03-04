@@ -5,7 +5,7 @@
 
 
 {% block title %}
-    محصولات
+{{ title }}
 {% endblock title %}
     
 {% partialdef single_product %}
@@ -48,7 +48,7 @@
         <div class="back-button me-2"><a href="{% url 'home_module:home_page' %}"><i class="fa-solid fa-arrow-right-long"></i></a></div>
         <!-- Page Title-->
         <div class="page-heading">
-          <h6 class="mb-0">شبکه فروشگاه</h6>
+          <h6 class="mb-0">{{ title_heading }}</h6>
         </div>
         <!-- Filter Option-->
         <div class="filter-option ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaFilterOffcanvas" aria-controls="suhaFilterOffcanvas"><i class="fa-solid fa-sliders"></i></div>
