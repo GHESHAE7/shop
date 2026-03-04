@@ -169,7 +169,7 @@
               <!-- Product Catagories Slide -->
               <div class="product-catagories owl-carousel catagory-slides">
                 {% for category in categories %}
-                <a class="shadow-sm" href="{% url 'product_module:products_by_category' category_url=category.url%}"> {{ category.name }} <img src="{{ category.image.url }}" alt=""></a>
+                <a class="shadow-sm" href="{% url 'product_module:products_by_category_page' category_url=category.url%}"> {{ category.name }} <img src="{{ category.image.url }}" alt=""></a>
                 {% endfor %}
               </div>
             </div>
