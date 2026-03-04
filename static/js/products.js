@@ -62,3 +62,20 @@ function delete_filter_by_price(){
     search_params.delete('min_price');
     window.location.href = '?' + search_params.toString();
 }
+
+
+const discounted_checkbox = document.getElementById('discounted');
+discounted_checkbox.addEventListener('change', filter_discount)
+
+function filter_discount(){
+    const checked_discounted = document.getElementById('discounted');
+    const search_params = new URLSearchParams(window.location.search);
+    if (checked_discounted.checked == true){
+        search_params.delete('discounted');
+        search_params.append('discounted', 'on');
+        window.location.href = '?' + search_params.toString();
+    }else{
+        search_params.delete('discounted');
+        window.location.href = '?' + search_params.toString();
+    }
+};
