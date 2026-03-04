@@ -11,6 +11,125 @@
 
 
 {% block body %}
+    <div class="header-area" id="headerArea">
+      <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+        <!-- Back Button-->
+        <div class="back-button me-2"><a href="{% url 'home_module:home_page' %}"><i class="fa-solid fa-arrow-right-long"></i></a></div>
+        <!-- Page Title-->
+        <div class="page-heading">
+          <h6 class="mb-0">شبکه فروشگاه</h6>
+        </div>
+        <!-- Filter Option-->
+        <div class="filter-option ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaFilterOffcanvas" aria-controls="suhaFilterOffcanvas"><i class="fa-solid fa-sliders"></i></div>
+      </div>
+    </div>
+    <div class="offcanvas offcanvas-start suha-filter-offcanvas-wrap" tabindex="-1" id="suhaFilterOffcanvas" aria-labelledby="suhaFilterOffcanvasLabel">
+      <!-- Close button-->
+      <button class="btn-close text-reset" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <!-- Offcanvas body-->
+      <div class="offcanvas-body py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <!-- Catagory-->
+              <div class="widget catagory mb-4">
+                <h6 class="widget-title mb-2">دسته بندی</h6>
+                <div class="widget-desc">
+                  {% for category in categories %}
+                    <!-- Single Checkbox-->
+                    <div class="form-check">
+                      <input class="form-check-input" name='check_category' value="{{ category.url }}" type="checkbox" {% if category.url in checked_categories %}checked{% endif %}>
+                      <label class="form-check-label">{{ category.name }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <!-- Color-->
+              <div class="widget color mb-4">
+                <h6 class="widget-title mb-2">برند</h6>
+                <div class="widget-desc">
+                  {% for brand in brands %}
+                    <!-- Single Checkbox-->
+                    <div class="form-check">
+                      <input class="form-check-input" name='check_brand' value="{{ brand.url }}" type="checkbox" {% if brand.url in checked_brands %}checked{% endif %}>
+                      <label class="form-check-label">{{ brand.name }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+            </div>
+            <div class="col-12">
+              <!-- Ratings-->
+              <div class="widget ratings mb-4">
+                <h6 class="widget-title mb-2">امتیازات</h6>
+                <div class="widget-desc">
+                  <!-- Single Checkbox-->
+                  <div class="form-check">
+                    <input class="form-check-input" id="5star" type="checkbox">
+                    <label class="form-check-label" for="5star"><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-warning"></i></label>
+                  </div>
+                  <!-- Single Checkbox-->
+                  <div class="form-check">
+                    <input class="form-check-input" id="4star" type="checkbox">
+                    <label class="form-check-label" for="4star"><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-secondary"></i></label>
+                  </div>
+                  <!-- Single Checkbox-->
+                  <div class="form-check">
+                    <input class="form-check-input" id="3star" type="checkbox">
+                    <label class="form-check-label" for="3star"><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-secondary"></i><i class="fa-solid fa-star text-secondary"></i></label>
+                  </div>
+                  <!-- Single Checkbox-->
+                  <div class="form-check">
+                    <input class="form-check-input" id="2star" type="checkbox">
+                    <label class="form-check-label" for="2star"><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-secondary"></i><i class="fa-solid fa-star text-secondary"></i><i class="fa-solid fa-star text-secondary"></i></label>
+                  </div>
+                  <!-- Single Checkbox-->
+                  <div class="form-check">
+                    <input class="form-check-input" id="1star" type="checkbox">
+                    <label class="form-check-label" for="1star"><i class="fa-solid fa-star text-warning"></i><i class="fa-solid fa-star text-secondary"></i><i class="fa-solid fa-star text-secondary"></i><i class="fa-solid fa-star text-secondary"></i><i class="fa-solid fa-star text-secondary"></i></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+            </div>
+            <div class="col-12">
+              <!-- Price Range-->
+              <div class="widget price-range mb-4">
+                <h6 class="widget-title mb-2">حدود قیمت</h6>
+                <div class="widget-desc">
+                  <!-- Min Value-->
+                  <div class="row g-3">
+                    <div class="col-6">
+                      <div class="form-floating">
+                        <input class="form-control" id="min_price_filter" type="text" placeholder="1" value="{{ min_price }}">
+                        <label for="min_price_filter">پایین</label>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-floating">
+                        <input class="form-control" id="max_price_filter" type="text" placeholder="1" value="{{ max_price }}">
+                        <label for="max_price_filter">بالا</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <!-- Apply Filter-->
+              <div class="apply-filter-btn"><button class="btn btn-success w-100" id="submit_price_filter">اعمال محدودیت</button></div>
+              <br>
+              <div class="apply-filter-btn"><button class="btn btn-danger w-100" id="delete_price_filter">حذف محدودیت</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
         <div class="page-content-wrapper">
       <div class="py-3">
         <div class="container">
@@ -19,7 +138,7 @@
               <!-- Product Catagories Slide -->
               <div class="product-catagories owl-carousel catagory-slides">
                 {% for category in categories %}
-                <a class="shadow-sm" href="#"> {{ category.name }} <img src="{{ category.image.url }}" alt=""></a>
+                <a class="shadow-sm" href="{% url 'product_module:products_by_category' category_url=category.url%}"> {{ category.name }} <img src="{{ category.image.url }}" alt=""></a>
                 {% endfor %}
               </div>
             </div>
@@ -72,6 +191,8 @@
                 </div>
               </div>
             </div>
+            {% empty %}
+              <div class="alert alert-warning">محصولی وجود ندارد</div>
             {% endfor %}
 
 
