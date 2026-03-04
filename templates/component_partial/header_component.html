@@ -57,11 +57,8 @@
           <li><a href="notifications.html"><i class="fa-solid fa-bell lni-tada-effect"></i>اعلانات<span class="ms-1 badge badge-warning">3</span></a></li>
           <li class="suha-dropdown-menu"><a href="#"><i class="fa-solid fa-store"></i>صفحات فروشگاه</a>
             <ul>
-              <li><a href="shop-grid.html">شبکه فروشگاه</a></li>
-              <li><a href="shop-list.html">لیست فروشگاه</a></li>
-              <li><a href="single-product.html">مشخصات محصول</a></li>
-              <li><a href="featured-products.html">محصولات برجسته</a></li>
-              <li><a href="flash-sale.html">فروش ویژه</a></li>
+              <li><a href="{% url 'product_module:products_page' %}">محصولات</a></li>
+              <li><a href="single-product.html">محصولات تخفیف  دار</a></li>
             </ul>
           </li>
           <li><a href="pages.html"><i class="fa-solid fa-file-code"></i>تمام صفحات</a></li>
