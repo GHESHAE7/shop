@@ -21,6 +21,7 @@ class ProductsListView(ListView):
         brand_url = self.kwargs.get('brand_url') or None
         brnads = self.request.GET.getlist('brand')
         categories = self.request.GET.getlist('category')
+        discounted = self.request.GET.get('discounted')
         max_price = self.request.GET.get('max_price') or 0
         min_price = self.request.GET.get('min_price') or 0
         if category_url is not None:
@@ -31,6 +32,8 @@ class ProductsListView(ListView):
             query = query.filter(brand__url__in=brnads)
         if categories:
             query = query.filter(category__url__in=categories)
+        if discounted:
+            query = query.filter(product_variant__discount__gt=0)
         if min_price:
             query = query.filter(price__gte=min_price)
         if max_price:
@@ -50,6 +53,7 @@ class ProductsListView(ListView):
         context['brands'] = brands
         context['checked_brands'] = self.request.GET.getlist('brand')
         context['checked_categories'] = self.request.GET.getlist('category')
+        context['checked_discounted'] = self.request.GET.get('discounted')
         context['max_price'] = Product.objects.filter(is_active=True).aggregate(Max('price'))['price__max'] or 0
         context['min_price'] = Product.objects.filter(is_active=True).aggregate(Min('price'))['price__min'] or 0
         
