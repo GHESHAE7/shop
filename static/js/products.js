@@ -79,3 +79,11 @@ function filter_discount(){
         window.location.href = '?' + search_params.toString();
     }
 };
+
+
+function add_product_to_likes(id_product){
+    let csrf_token = document.getElementById('#csrf_t');
+    $.post('http://127.0.0.1:8000/likes/', {product_id:id_product, csrfmiddlewaretoken:csrf_token.value}, function(res){console.log(res);
+    });
+    
+}
