@@ -53,7 +53,7 @@ class LikeProductsView(View):
                 
         else:
             return JsonResponse({
-                'status': '404', 
+                'status': '200', 
                 'message': 'user not login'
             })
             
@@ -61,4 +61,23 @@ class LikeProductsView(View):
             
             
 def delete_product_likes(request):
-    pass
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            like_product_id = request.POST['like_product_id']
+            current_like_products = LikesProduct.objects.filter(id=like_product_id, is_active=True).first()
+            if current_like_products is not None:
+                current_like_products.delete()
+                return JsonResponse({
+                    'status': '200',
+                    'message': 'deleted'
+                })
+            else:
+                return JsonResponse({
+                    'status': '200',
+                    'message': 'not found product'
+                })
+        else:
+            return JsonResponse({
+                'status': '200',
+                'message': 'user not login'
+            })
