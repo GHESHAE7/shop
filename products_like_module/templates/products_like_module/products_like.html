@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load products_tags %}
 {% load humanize %}
+{% load static %}
 
 
 {% block title %}
@@ -33,7 +34,9 @@
       <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.product.price|intcomma }} تومان <span>{{ product.product.price|intcomma  }} تومان</span> {% else %}{{ product.product.price|intcomma }} تومان{% endif %}</p>
       <!-- Rating -->
       <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-      <!-- Add to Cart --><a class="btn btn-success btn-sm" href="#"><i class="fa-solid fa-plus"></i></a>
+      <!-- Add to Cart -->
+      <input type="hidden" id="#csrf_t" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+      <button class="btn btn-success btn-sm" onclick="delete_product_to_likes({{ product.id }})"><i class="fa-solid fa-plus"></i></button>
     </div>
               </div>
             </div>
@@ -118,3 +121,8 @@
       </div>
     </div>
 {% endblock body %}
+
+
+{% block custom_footer_references %}
+    <script src="{% static 'js/products_like.js' %}"></script>
+{% endblock custom_footer_references %}
