@@ -56,3 +56,9 @@ class LikeProductsView(View):
                 'status': '404', 
                 'message': 'user not login'
             })
+            
+            
+            
+            
+def delete_product_likes(request):
+    pass
