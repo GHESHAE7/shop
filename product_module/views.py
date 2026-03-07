@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from .models import Product, Category, Brand
 from django.db.models import Max, Min
 from django.utils import timezone
@@ -83,3 +84,8 @@ class ProductsListView(ListView):
             context['show_discount'] = True            
 
         return context
+    
+    
+    
+class ProductDetailView(DetailView):
+    pass
