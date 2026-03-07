@@ -60,20 +60,26 @@ class ProductsListView(ListView):
         if self.request.path.endswith(''):
             context['title_heading'] = 'محصولات'
             context['title'] = 'تمام محصولات فروشگاه'
+            context['show_discount'] = True
+            
             
         if self.request.path.endswith('/discount'):
             context['title_heading'] = 'محصولات تخفیف دار'
             context['title'] = 'تمام محصولات تخفیف دار'
+            context['show_discount'] = False
             
             
         if '/category/' in self.request.path:
             category_url = self.kwargs.get('category_url')
             context['title_heading'] = f'دسته بندی {category_url}'
             context['title'] = f'تمام محصولات در دسته بندی {category_url}'
+            context['show_discount'] = True
             
+
         if '/brand/' in self.request.path:
             brnad_url = self.kwargs.get('brand_url')
             context['title_heading'] = f'برند {brnad_url}'
             context['title'] = f'تمام محصولات در برند {brnad_url}'
-            
+            context['show_discount'] = True            
+
         return context
