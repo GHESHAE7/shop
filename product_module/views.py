@@ -88,4 +88,15 @@ class ProductsListView(ListView):
     
     
 class ProductDetailView(DetailView):
-    pass
+    template_name = 'product_module/product_detail.html'
+    model = Product
+    context_object_name = 'product'
+    
+    def get_queryset(self, *args, **kwargs):
+        query = super().get_queryset(*args, **kwargs)
+        query = query.filter(is_active=True)
+        return query
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
