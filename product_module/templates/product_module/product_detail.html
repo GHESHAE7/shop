@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load humanize %}
+{% load products_tags %}
+{% load static %}
+{% load thumbnail %}
 
 
 
@@ -13,12 +17,7 @@
         <!-- Product Slides-->
         <div class="product-slides owl-carousel">
           <!-- Single Hero Slide-->
-          <div class="single-product-slide" style="background-image: url('img/bg-img/6.jpg')"></div>
-          <!-- Single Hero Slide-->
-          <div class="single-product-slide" style="background-image: url('img/bg-img/10.jpg')"></div>
-          <!-- Single Hero Slide-->
-          <div class="single-product-slide" style="background-image: url('img/bg-img/11.jpg')"></div>
-        </div>
+              <div class="single-product-slide" style="background-image: url('{{ product.image.url }}')"></div>
         <!-- Video Button--><a class="video-btn shadow-sm" id="singleProductVideoBtn" href="https://www.youtube.com/watch?v=lFGvqvPh5jI"><i class="fa-solid fa-play"></i></a>
       </div>
       <div class="product-description pb-3">
@@ -26,8 +25,9 @@
         <div class="product-title-meta-data bg-white mb-3 py-3">
           <div class="container d-flex justify-content-between rtl-flex-d-row-r">
             <div class="p-title-price">
-              <h5 class="mb-1">گلدان های سرامیکی گل</h5>
-              <p class="sale-price mb-0 lh-1">3000 تومان<span>6000 تومان</span></p>
+              <h5 class="mb-1">{{ product.name }}</h5>
+                <p class="sale-price mb-0 lh-1">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma  }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
+              {% comment %} <p class="sale-price mb-0 lh-1">3000 تومان<span>6000 تومان</span></p> {% endcomment %}
             </div>
             <div class="p-wishlist-share"><a href="wishlist-grid.html"><i class="fa-solid fa-heart"></i></a></div>
           </div>
@@ -39,7 +39,8 @@
             </div>
           </div>
         </div>
-        <!-- Flash Sale Panel-->
+
+        {% comment %} <!-- Flash Sale Panel-->
         <div class="flash-sale-panel bg-white mb-3 py-3">
           <div class="container">
             <!-- Sales Offer Content-->
@@ -64,55 +65,39 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> {% endcomment %}
+
         <!-- Selection Panel-->
         <div class="selection-panel bg-white mb-3 py-3">
           <div class="container d-flex align-items-center justify-content-between">
             <!-- Choose Color-->
             <div class="choose-color-wrapper">
-              <p class="mb-1 font-weight-bold">رنگ</p>
+              {% for key, values in colors.items %}
+                  <p class="mb-1 font-weight-bold">رنگ</p>
               <div class="choose-color-radio d-flex align-items-center">
-                <!-- Single Radio Input-->
-                <div class="form-check mb-0">
-                  <input class="form-check-input blue" id="colorRadio1" type="radio" name="colorRadio" checked>
-                  <label class="form-check-label" for="colorRadio1"></label>
-                </div>
-                <!-- Single Radio Input-->
-                <div class="form-check mb-0">
-                  <input class="form-check-input yellow" id="colorRadio2" type="radio" name="colorRadio">
-                  <label class="form-check-label" for="colorRadio2"></label>
-                </div>
-                <!-- Single Radio Input-->
-                <div class="form-check mb-0">
-                  <input class="form-check-input green" id="colorRadio3" type="radio" name="colorRadio">
-                  <label class="form-check-label" for="colorRadio3"></label>
-                </div>
-                <!-- Single Radio Input-->
-                <div class="form-check mb-0">
-                  <input class="form-check-input purple" id="colorRadio4" type="radio" name="colorRadio">
-                  <label class="form-check-label" for="colorRadio4"></label>
-                </div>
+                {% for value in values %}
+                  <!-- Single Radio Input-->
+                  <div class="form-check mb-0 me-2">
+                  <input class="form-check-input" id="colorRadio1" type="radio" name="colorRadio">
+                  <label class="form-check-label" for="colorRadio1">{{ value }}</label>
+                  </div>
+                {% endfor %}
+              {% endfor %}
               </div>
             </div>
             <!-- Choose Size-->
             <div class="choose-size-wrapper text-end">
-              <p class="mb-1 font-weight-bold text-start">اندازه</p>
-              <div class="choose-size-radio d-flex align-items-center">
-                <!-- Single Radio Input-->
-                <div class="form-check mb-0 me-2">
-                  <input class="form-check-input" id="sizeRadio1" type="radio" name="sizeRadio">
-                  <label class="form-check-label" for="sizeRadio1">کوچک</label>
-                </div>
-                <!-- Single Radio Input-->
-                <div class="form-check mb-0 me-2">
-                  <input class="form-check-input" id="sizeRadio2" type="radio" name="sizeRadio" checked>
-                  <label class="form-check-label" for="sizeRadio2">متوسط</label>
-                </div>
-                <!-- Single Radio Input-->
-                <div class="form-check mb-0 me-2">
-                  <input class="form-check-input" id="sizeRadio3" type="radio" name="sizeRadio">
-                  <label class="form-check-label" for="sizeRadio3">بزرگ</label>
-                </div>
+                 {% for key, values in sizes.items %}
+                  <p class="mb-1 font-weight-bold text-start">سایز</p>
+                  <div class="choose-size-radio d-flex align-items-center">
+                    {% for value in values %}
+                      <!-- Single Radio Input-->
+                    <div class="form-check mb-0 me-2">
+                    <input class="form-check-input" id="sizeRadio1" type="radio" name="sizeRadio">
+                    <label class="form-check-label" for="sizeRadio1">{{ value }}</label>
+                    </div>
+                    {% endfor %}
+                 {% endfor %}
               </div>
             </div>
           </div>
@@ -123,28 +108,24 @@
             <form class="cart-form" action="#" method="">
               <div class="order-plus-minus d-flex align-items-center">
                 <div class="quantity-button-handler">-</div>
-                <input class="form-control cart-quantity-input" type="text" step="1" name="quantity" value="3">
+                <input class="form-control cart-quantity-input" type="text" step="1" name="quantity" value="1">
                 <div class="quantity-button-handler">+</div>
               </div>
               <button class="btn btn-danger ms-3" type="submit">به سبد خرید اضافه کنید</button>
             </form>
+            <div class="mt-2 mb-0">
+              <p>موجودی کل: <span>{{ stock }}</span></p>
+            </div>
           </div>
         </div>
         <!-- Product Specification-->
         <div class="p-specification bg-white mb-3 py-3">
           <div class="container">
-            <h6>مشخصات فنی</h6>
-            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. </p>
-            <ul class="mb-3 ps-3">
-              <li><i class="fa-solid fa-check me-1"></i> 100% بررسی های خوب</li>
-              <li><i class="fa-solid fa-check me-1"></i> 7 روزهای بازگشت</li>
-              <li> <i class="fa-solid fa-check me-1"></i> گارانتی قابل قبول نیست</li>
-              <li> <i class="fa-solid fa-check me-1"></i> 100% محصول کاملاً جدید</li>
-            </ul>
-            <p class="mb-0">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. </p>
+            <h6>توضیحات و مشخصات</h6>
+            {{ product.description }}
           </div>
         </div>
-        <!-- Product Video -->
+        {% comment %} <!-- Product Video -->
         <div class="bg-img" style="background-image: url(img/product/18.jpg)">
           <div class="container">
             <div class="video-cta-content d-flex align-items-center justify-content-center">
@@ -153,8 +134,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> {% endcomment %}
         <div class="pb-3"></div>
+
         <!-- Related Products Slides-->
         <div class="related-product-wrapper bg-white py-3 mb-3">
           <div class="container">
@@ -257,6 +239,7 @@
             </div>
           </div>
         </div>
+        
         <!-- Rating & Review Wrapper -->
         <div class="rating-and-review-wrapper bg-white py-3 mb-3 dir-rtl">
           <div class="container">
