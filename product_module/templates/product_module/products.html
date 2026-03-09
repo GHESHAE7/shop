@@ -21,7 +21,7 @@
           {% endif %}
       {% endif %}      
       <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="lni lni-heart"></i></a>
-      <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img class="mb-2" src="{{ product.image.url }}" alt="">
+      <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt="">
       {% comment %} <!-- Offer Countdown Timer: Please use event time this format: YYYY/MM/DD hh:mm:ss -->
       <ul class="offer-countdown-timer d-flex align-items-center shadow-sm" data-countdown="2023/12/31 23:59:59">
       <li><span class="days">0</span>ر</li>
@@ -29,7 +29,7 @@
       <li><span class="minutes">0</span>د</li>
       <li><span class="seconds">0</span>ث</li>
       </ul></a> {% endcomment %}
-      <!-- Product Title --><a class="product-title d-block" href="single-product.html">{{ product.name|truncatechars:20 }}</a>
+      <!-- Product Title --><a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}">{{ product.name|truncatechars:20 }}</a>
       <!-- Product Price -->
       <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma  }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
       <!-- Rating -->
