@@ -29,7 +29,8 @@
                 <p class="sale-price mb-0 lh-1">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma  }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
               {% comment %} <p class="sale-price mb-0 lh-1">3000 تومان<span>6000 تومان</span></p> {% endcomment %}
             </div>
-            <div class="p-wishlist-share"><a href="wishlist-grid.html"><i class="fa-solid fa-heart"></i></a></div>
+              <input type="hidden" id="#csrf_t" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <div class="p-wishlist-share"><a><i class="fa-solid fa-heart" onclick="add_product_to_likes({{ product.id }})"></i></a></div>
           </div>
           <!-- Ratings-->
           <div class="product-ratings">
@@ -186,3 +187,7 @@
       </div>
     </div>
 {% endblock body %}
+
+{% block custom_footer_references %}
+    <script src="{% static 'js/products_like.js' %}"></script>
+{% endblock custom_footer_references %}
