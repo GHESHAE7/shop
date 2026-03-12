@@ -113,7 +113,8 @@
               {% endfor %}
             {% else %}
               <div class="alert alert-warning">
-                شما وارد حساب کاربری خود نشده اید
+                <p>شما وارد حساب کاربری خود نشده اید</p>
+                <a href="{% url 'account_module:login_page' %}" class="">ورود به حساب کاربری</a>
               </div>
             {% endif %}
           </div>
