@@ -1,0 +1,32 @@
+{% load products_tags %}
+{% load humanize %}
+        
+        <!-- Related Products Slides-->
+<div class="related-product-wrapper bg-white py-3 mb-3">
+    <div class="container">
+        <div class="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+            <h6>محصولات مرتبط</h6><a class="btn p-0" href="{% url 'product_module:products_by_brand_page' brand_url=brand %}">مشاهده همه</a>
+        </div>
+        <div class="related-product-slide owl-carousel">
+            {% for product in products %}
+              <div class="card product-card bg-gray shadow-none">
+                <div class="card-body">
+                {% if product.discount %}
+                    <!-- Badge--><span class="badge rounded-pill badge-warning">{{ product.discount }}%</span>
+                {% else %}
+                {% if product.created_at > old_time %}
+                    <!-- Badge--><span class="badge rounded-pill badge-warning"> فروش</span>
+                {% endif %}
+                {% endif %}
+                {% comment %} <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a> {% endcomment %}
+                <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt="">
+                <!-- Product Title --><a class="product-title" href="{% url 'product_module:product_detail_page' slug=product.slug %}">{{ product.name }}</a>
+                <!-- Product Price -->
+                <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
+                  <!-- Add to Cart --><a class="btn btn-success btn-sm" href="#"><i class="fa-solid fa-plus"></i></a>
+                </div>
+              </div>
+              {% endfor %}
+        </div>
+    </div>
+</div>
