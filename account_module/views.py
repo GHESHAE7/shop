@@ -72,10 +72,12 @@ def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
         print('از حساب کاربری خارج شدید')
-        return redirect(reverse('home_module:home_page'))
+        path = request.META.get('HTTP_REFERER')
+        return redirect(path)
     else:
         print('شما لاگین نیستید')
-        return redirect(reverse('home_module:home_page'))
+        path = request.META.get('HTTP_REFERER')
+        return redirect(path)
     
     
     
