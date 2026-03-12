@@ -62,11 +62,7 @@
             </ul>
           </li>
           <li><a href="pages.html"><i class="fa-solid fa-file-code"></i>تمام صفحات</a></li>
-          <li class="suha-dropdown-menu"><a href="wishlist-grid.html"><i class="fa-solid fa-heart"></i>لیست علاقه مندی ها</a>
-            <ul>
-               <li><a href="wishlist-grid.html">شبکه دلخواه</a></li>
-              <li><a href="wishlist-list.html">لیست دلخواه</a></li>
-            </ul>
+          <li><a href="{% url 'products_like_module:like_products_page' %}"><i class="fa-solid fa-heart"></i>لیست علاقه مندی ها</a>
           </li>
           <li><a href="settings.html"><i class="fa-solid fa-sliders"></i>تنظیمات</a></li>
           <li><a href="{% url 'account_module:logout' %}"><i class="fa-solid fa-toggle-off"></i>خروج از سیستم</a></li>
