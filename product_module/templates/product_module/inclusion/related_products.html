@@ -23,8 +23,6 @@
                 <!-- Product Title --><a class="product-title" href="{% url 'product_module:product_detail_page' slug=product.slug %}">{{ product.name }}</a>
                 <!-- Product Price -->
                 <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
-                  <!-- Add to Cart --><a class="btn btn-success btn-sm" href="#"><i class="fa-solid fa-plus"></i></a>
-                </div>
               </div>
               {% endfor %}
         </div>
