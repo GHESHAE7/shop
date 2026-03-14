@@ -134,7 +134,7 @@
           <div class="container">
             <h6>نظرات محصول</h6>
             <div class="rating-review-content">
-              <ul class="ps-0">
+              <ul class="ps-0" id="list_comment">
                 {% render_partial 'comment_module.views.comments_product' product_id=product.id %}
               </ul>
             </div>
@@ -144,7 +144,6 @@
         <div class="ratings-submit-form bg-white py-3 dir-rtl">
           <div class="container">
             <h6>ارسال یک بررسی</h6>
-            <form action="#" method="">
               <div class="stars mb-3">
                 <input class="star-1" type="radio" name="star" id="star1">
                 <label class="star-1" for="star1"></label>
@@ -158,8 +157,8 @@
                 <label class="star-5" for="star5"></label><span></span>
               </div>
               <textarea class="form-control mb-3" id="comments" name="comment" cols="30" rows="10" data-max-length="200" placeholder="بررسی خود را بنویسید..."></textarea>
-              <button class="btn btn-primary" type="submit">ارسال نظر</button>
-            </form>
+              <input type="hidden">
+              <button class="btn btn-primary" type="submit" onclick="send_comment({{ product.id }})">ارسال نظر</button>
           </div>
         </div>
       </div>
@@ -168,4 +167,5 @@
 
 {% block custom_footer_references %}
     <script src="{% static 'js/products_like.js' %}"></script>
+    <script src="{% static 'js/comments.js' %}"></script>
 {% endblock custom_footer_references %}
