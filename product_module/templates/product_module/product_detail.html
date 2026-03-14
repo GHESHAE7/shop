@@ -3,6 +3,7 @@
 {% load products_tags %}
 {% load static %}
 {% load thumbnail %}
+{% load render_partial %}
 
 
 
@@ -134,11 +135,7 @@
             <h6>نظرات محصول</h6>
             <div class="rating-review-content">
               <ul class="ps-0">
-
-
-                {% comment %} comments {% endcomment %}
-
-
+                {% render_partial 'comment_module.views.comments_product' product_id=product.id %}
               </ul>
             </div>
           </div>
