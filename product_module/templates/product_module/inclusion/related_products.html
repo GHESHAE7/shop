@@ -1,7 +1,7 @@
 {% load products_tags %}
 {% load humanize %}
         
-        <!-- Related Products Slides-->
+<!-- Related Products Slides-->
 <div class="related-product-wrapper bg-white py-3 mb-3">
     <div class="container">
         <div class="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">
@@ -25,6 +25,7 @@
                 <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
                 <!-- Add to Cart --><button class="btn btn-success btn-sm" onclick="add_product_to_likes({{ product.id }})"><i class="fa-solid fa-plus"></i></button>
               </div>
+            </div>
               {% endfor %}
         </div>
     </div>
