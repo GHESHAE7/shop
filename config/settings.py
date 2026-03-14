@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "account_module.apps.AccountModuleConfig",
     "product_module.apps.ProductModuleConfig",
     "products_like_module.apps.ProductsLikeModuleConfig",
+    "comment_module.apps.CommentModuleConfig",
 ]
 
 MIDDLEWARE = [
