@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils.crypto import get_random_string
+from account_module.models import User
 # Create your views here.
 
 
@@ -106,7 +107,8 @@ class EditProfileView(View):
             user = request.user
             form = EditProfileFormModel(instance=user)
             context = {
-                'form': form
+                'form': form,
+                'user': User.objects.filter(is_active=True, id=request.user.id).first()
             }
             return render(request, 'account_module/edit_profile.html', context)
         else:

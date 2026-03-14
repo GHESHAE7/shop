@@ -24,8 +24,8 @@
                 </div>
               </div>
               <div class="user-info">
-                <p class="mb-0 text-dark">@designing-world</p>
-                <h5 class="mb-0">سوها جانات</h5>
+                <p class="mb-0 text-dark">{{ user.email }}</p>
+                <h5 class="mb-0">{% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}</h5>
               </div>
             </div>
           </div>
