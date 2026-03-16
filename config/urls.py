@@ -32,6 +32,7 @@ urlpatterns = [
     path('products/', include('product_module.urls')),
     path('likes/', include('products_like_module.urls')),
     path('comment/', include('comment_module.urls')),
+    path('contact/', include('contact_module.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
