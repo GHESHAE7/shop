@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ContactUs
+from .models import ContactUs, SubjectContact
 # Register your models here.
 
 
@@ -11,3 +11,14 @@ class ContactUsAdmin(admin.ModelAdmin):
     list_editable = ('is_active',)
     readonly_fields = ('created_at', 'updated_at',)
     search_fields = ('subject', 'email', 'name',)
+
+    
+    
+@admin.register(SubjectContact)
+class SubjectContactAdmin(admin.ModelAdmin):
+    empty_value_display = '-empty-'
+    list_display = ('name', 'is_active', 'updated_at', 'created_at',)
+    list_filter = ('name', 'is_active', 'created_at',)
+    list_editable = ('is_active',)
+    readonly_fields = ('created_at', 'updated_at',)
+    search_fields = ('name',)
