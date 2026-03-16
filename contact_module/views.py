@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import View
-from .models import SubjectContact
+from .models import SubjectContact, ContactUs
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -14,4 +15,13 @@ class ContactView(View):
     
     
     def post(self, request):
-        pass
+        full_name = request.POST.get('fl_name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        new_contact = ContactUs(name=full_name, email=email, subject=subject, message=message)
+        new_contact.save()
+        return JsonResponse({
+            'status': '200', 
+            'message': 'save to database',
+        })
