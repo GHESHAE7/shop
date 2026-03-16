@@ -5,7 +5,8 @@ from django.views import View
 
 class ContactView(View):
     def get(self, request):
-        pass
+        context = {}
+        return render(request, 'contact_module/contact_us.html', context)
     
     
     def post(self, request):

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    ارتباط با ما
+{% endblock title %}
+
+
+{% block body %}
+    <!-- Header Area-->
+    <div class="header-area" id="headerArea">
+      <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+        <!-- Back Button-->
+        <div class="back-button me-2"><a href="home.html"><i class="fa-solid fa-arrow-right-long"></i></a></div>
+        <!-- Page Title-->
+        <div class="page-heading">
+          <h6 class="mb-0">تماس با ما</h6>
+        </div>
+        <!-- Navbar Toggler-->
+        <div class="suha-navbar-toggler ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaOffcanvas" aria-controls="suhaOffcanvas">
+          <div><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+
+        <div class="page-content-wrapper">
+      <!-- Google Maps-->
+      <div class="google-maps-wrap">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d37902.096510377676!2d101.6393079588335!3d3.103387873464772!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc49c701efeae7%3A0xf4d98e5b2f1c287d!2sKuala%20Lumpur%2C%20Federal%20Territory%20of%20Kuala%20Lumpur%2C%20Malaysia!5e0!3m2!1sen!2sbd!4v1591684973931!5m2!1sen!2sbd" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+      </div>
+      <div class="container">
+        <div class="mt-3 rtl-text-right">
+          <h5 class="mb-1">با ما تماس بگیرید</h5>
+          <p class="mb-4">برای ما بنویسید </p>
+        </div>
+        <!-- Contact Form-->
+        <div class="contact-form mt-3 pb-3">
+          <form action="#" method="">
+            <input class="form-control mb-3" id="username" type="text" placeholder="نام و خانوادگی">
+            <input class="form-control mb-3" id="email" type="email" placeholder="ایمیل">
+            <select class="mb-3 w-100 border-0" id="topicSelect" name="topic">
+              <option value="">خریداری کردن &amp; پشتیبانی</option>
+              <option value="">نویسندگان کمک می کنند</option>
+              <option value="">کمک خریدار</option>
+              <option value="">مجوز</option>
+            </select>
+            <textarea class="form-control mb-3" id="message" name="" cols="30" rows="10" placeholder="پیام خود را در اینجا بنویسید ..."></textarea>
+            <button class="btn btn-success btn-lg w-100">   ارسال</button>
+          </form>
+        </div>
+      </div>
+    </div>
+{% endblock body %}
