@@ -10,10 +10,10 @@
     <div class="header-area" id="headerArea">
       <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
         <!-- Back Button-->
-        <div class="back-button me-2"><a href="home.html"><i class="fa-solid fa-arrow-right-long"></i></a></div>
+        <div class="back-button me-2"><a href="{% url 'home_module:home_page' %}"><i class="fa-solid fa-arrow-right-long"></i></a></div>
         <!-- Page Title-->
         <div class="page-heading">
-          <h6 class="mb-0">تماس با ما</h6>
+          <h6 class="mb-0">ارتباط با ما</h6>
         </div>
         <!-- Navbar Toggler-->
         <div class="suha-navbar-toggler ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaOffcanvas" aria-controls="suhaOffcanvas">
@@ -38,10 +38,9 @@
             <input class="form-control mb-3" id="username" type="text" placeholder="نام و خانوادگی">
             <input class="form-control mb-3" id="email" type="email" placeholder="ایمیل">
             <select class="mb-3 w-100 border-0" id="topicSelect" name="topic">
-              <option value="">خریداری کردن &amp; پشتیبانی</option>
-              <option value="">نویسندگان کمک می کنند</option>
-              <option value="">کمک خریدار</option>
-              <option value="">مجوز</option>
+              {% for subject in subjects %}
+              <option value="">{{ subject.name }}</option>
+              {% endfor %}
             </select>
             <textarea class="form-control mb-3" id="message" name="" cols="30" rows="10" placeholder="پیام خود را در اینجا بنویسید ..."></textarea>
             <button class="btn btn-success btn-lg w-100">   ارسال</button>
