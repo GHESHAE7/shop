@@ -36,17 +36,16 @@
         </div>
         <!-- Contact Form-->
         <div class="contact-form mt-3 pb-3">
-          <form action="#" method="">
-            <input class="form-control mb-3" id="username" type="text" placeholder="نام و خانوادگی">
-            <input class="form-control mb-3" id="email" type="email" placeholder="ایمیل">
-            <select class="mb-3 w-100 border-0" id="topicSelect" name="topic">
+            <input class="form-control mb-3" id="fl_name" type="text" placeholder="نام و خانوادگی" required>
+            <input class="form-control mb-3" id="email" type="email" placeholder="ایمیل" required>
+            <select class="mb-3 w-100 border-0" id="topicSelect" name="topic" required>
               {% for subject in subjects %}
-              <option value="">{{ subject.name }}</option>
+              <option value="{{ subject.name }}">{{ subject.name }}</option>
               {% endfor %}
             </select>
             <textarea class="form-control mb-3" id="message" name="" cols="30" rows="10" placeholder="پیام خود را در اینجا بنویسید ..."></textarea>
-            <button class="btn btn-success btn-lg w-100" id=send_message>   ارسال</button>
-          </form>
+            <input type="hidden" id="#csrf_t" name="csrfmiddlewaretoken" value="{{ csrf_token }}" required>
+            <button class="btn btn-success btn-lg w-100" id="send_message">   ارسال</button>
         </div>
       </div>
     </div>
