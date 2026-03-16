@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block title %}
     ارتباط با ما
@@ -43,9 +45,15 @@
               {% endfor %}
             </select>
             <textarea class="form-control mb-3" id="message" name="" cols="30" rows="10" placeholder="پیام خود را در اینجا بنویسید ..."></textarea>
-            <button class="btn btn-success btn-lg w-100">   ارسال</button>
+            <button class="btn btn-success btn-lg w-100" id=send_message>   ارسال</button>
           </form>
         </div>
       </div>
     </div>
 {% endblock body %}
+
+
+{% block custom_footer_references %}
+    <script src="{% static 'js/contact_us.js' %}"></script>
+{% endblock custom_footer_references %}
+    
