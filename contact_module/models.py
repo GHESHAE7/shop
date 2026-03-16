@@ -17,3 +17,16 @@ class ContactUs(models.Model):
     
     def __str__(self):
         return self.name + '/' + self.email
+    
+    
+    
+class SubjectContact(models.Model):
+    name = models.CharField(max_length=100, null=False, blank=False, verbose_name='نام موضوع')
+    description = models.CharField(max_length=500 ,null=True, blank=True, verbose_name='توصیحاتی در باره موضوع')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
+    
+    
+    def __str__(self):
+        return self.name
