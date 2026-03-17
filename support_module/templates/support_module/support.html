@@ -13,7 +13,7 @@
     <div class="header-area" id="headerArea">
       <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
         <!-- Back Button-->
-        <div class="back-button me-2"><a href="settings.html"><i class="fa-solid fa-arrow-right-long"></i></a></div>
+        <div class="back-button me-2"><a href="{% url 'account_module:settings_page' %}"><i class="fa-solid fa-arrow-right-long"></i></a></div>
         <!-- Page Title-->
         <div class="page-heading">
           <h6 class="mb-0">پشتیبانی</h6>
@@ -40,80 +40,31 @@
             </div>
           </div>
           <!-- Accordian Area Wrapper-->
-          <div class="accordian-area-wrapper mt-3">
+            {% for category in categories_support %}
+            <div class="accordian-area-wrapper mt-3">
             <!-- Accordian Card-->
             <div class="card accordian-card">
               <div class="card-body">
-                <h5 class="accordian-title">برای خریداران</h5>
+                <h5 class="accordian-title">{{ category.name }}</h5>
                 <div class="accordion" id="accordion1">
-                  <!-- Single Accordian-->
-                  <div class="accordian-header" id="headingOne">
-                    <button class="d-flex align-items-center justify-content-between w-100 collapsed btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><span><i class="fa-solid fa-bicycle"></i>چه طور باید شروع کرد؟</span><i class="fa-solid fa-angle-left"></i></button>
-                  </div>
-                  <div class="collapse" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordion1">
-                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
-                  </div>
-                  <!-- Single Accordian-->
-                  <div class="accordian-header" id="headingTwo">
-                    <button class="d-flex align-items-center justify-content-between w-100 collapsed btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><span><i class="fa-solid fa-cart-shopping"></i>چگونه یک محصول بخریم؟</span><i class="fa-solid fa-angle-left"></i></button>
-                  </div>
-                  <div class="collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordion1">
-                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
-                  </div>
+                    {% for support in category.supports.all %}
+                    <!-- Single Accordian-->
+                    <div class="accordian-header" id="headingTwo">
+                        <button class="d-flex align-items-center justify-content-between w-100 collapsed btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo{{ support.id }}" aria-expanded="false" aria-controls="collapseTwo{{ support.id }}"><span><i class="fa-solid fa-cart-shopping"></i>{{ support.name }}</span><i class="fa-solid fa-angle-left"></i></button>
+                    </div>
+                    <div class="collapse" id="collapseTwo{{ support.id }}" aria-labelledby="headingTwo" data-bs-parent="#accordion1">
+                        <p>{{ support.description }}</p>
+                    </div>
+                    {% endfor %}
                 </div>
               </div>
             </div>
           </div>
-          <!-- Accordian Area Wrapper-->
-          <div class="accordian-area-wrapper mt-3">
-            <!-- Accordian Card-->
-            <div class="card accordian-card seller-card">
-              <div class="card-body">
-                <h5 class="accordian-title">برای نویسندگان</h5>
-                <div class="accordion" id="accordion2">
-                  <!-- Single Accordian-->
-                  <div class="accordian-header" id="headingThree">
-                    <button class="d-flex align-items-center justify-content-between w-100 collapsed btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><span><i class="fa-solid fa-cloud-arrow-down"></i>چگونه می توان یک محصول را بارگذاری کرد؟</span><i class="fa-solid fa-angle-left"></i></button>
-                  </div>
-                  <div class="collapse" id="collapseThree" aria-labelledby="headingThree" data-bs-parent="#accordion2">
-                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
-                  </div>
-                  <!-- Single Accordian-->
-                  <div class="accordian-header" id="headingFour">
-                    <button class="d-flex align-items-center justify-content-between w-100 collapsed btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"><span><i class="fa-solid fa-dollar-sign"></i>ساختار کمیسیون</span><i class="fa-solid fa-angle-left"></i></button>
-                  </div>
-                  <div class="collapse" id="collapseFour" aria-labelledby="headingFour" data-bs-parent="#accordion2">
-                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
-                  </div>
-                </div>
-              </div>
+          {% empty %}
+            <div class="alert alert-info mt-3">
+                چیزی وجود ندارد
             </div>
-          </div>
-          <!-- Accordian Area Wrapper-->
-          <div class="accordian-area-wrapper mt-3">
-            <!-- Accordian Card-->
-            <div class="card accordian-card others-card">
-              <div class="card-body">
-                <h5 class="accordian-title">دیگران</h5>
-                <div class="accordion" id="accordion3">
-                  <!-- Single Accordian-->
-                  <div class="accordian-header" id="headingFive">
-                    <button class="d-flex align-items-center justify-content-between w-100 collapsed btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"><span><i class="fa-solid fa-arrow-right-from-bracket"></i>چگونه یک محصول را برگردانیم؟</span><i class="fa-solid fa-angle-left"></i></button>
-                  </div>
-                  <div class="collapse" id="collapseFive" aria-labelledby="headingFive" data-bs-parent="#accordion3">
-                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
-                  </div>
-                  <!-- Single Accordian-->
-                  <div class="accordian-header" id="headingSix">
-                    <button class="d-flex align-items-center justify-content-between w-100 collapsed btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"><span><i class="fa-solid fa-face-frown"></i>محصول من گمراه کننده است؟</span><i class="fa-solid fa-angle-left"></i></button>
-                  </div>
-                  <div class="collapse" id="collapseSix" aria-labelledby="headingSix" data-bs-parent="#accordion3">
-                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            {% endfor %}
         </div>
       </div>
     </div>
