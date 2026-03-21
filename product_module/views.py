@@ -6,6 +6,8 @@ from django.db.models import Max, Min, Sum
 from django.utils import timezone
 from datetime import timedelta
 from collections import defaultdict
+from comment_module.models import Comment
+from django.db.models import Count
 # Create your views here.
 
 
@@ -109,4 +111,5 @@ class ProductDetailView(DetailView):
         context['colors'] = {key: list(values) for key, values in attr_colors.items()}
         context['sizes'] = {key: list(values) for key, values in attr_sizes.items()}
         context['stock'] = Product.objects.filter(id=self.object.id, is_active=True).aggregate(Sum('product_variant__stock'))['product_variant__stock__sum'] or 0
+        context['count_comments'] = Comment.objects.filter(is_active=True, product=self.object).aggregate(Count('id'))['id__count'] or 0
         return context

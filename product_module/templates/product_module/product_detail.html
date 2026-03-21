@@ -147,7 +147,7 @@
         <!-- Rating & Review Wrapper -->
         <div class="rating-and-review-wrapper bg-white py-3 mb-3 dir-rtl">
           <div class="container">
-            <h6>نظرات محصول</h6>
+            <h6>نظرات محصول({{ count_comments }})</h6>
             <div class="rating-review-content">
               <ul class="ps-0" id="list_comment">
                 {% render_partial 'comment_module.views.comments_product' product_id=product.id %}
