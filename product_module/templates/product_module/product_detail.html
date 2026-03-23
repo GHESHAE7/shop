@@ -95,7 +95,7 @@
                 {% for value in values %}
                   <!-- Single Radio Input-->
                   <div class="form-check mb-0 me-2">
-                  <input class="form-check-input" id="colorRadio1" type="radio" name="colorRadio">
+                  <input class="form-check-input" id="colorRadio1" type="radio" name="colorRadio" value="{{ value }}" onclick="get_stock({{ product.id }})">
                   <label class="form-check-label" for="colorRadio1">{{ value }}</label>
                   </div>
                 {% endfor %}
@@ -110,7 +110,7 @@
                     {% for value in values %}
                       <!-- Single Radio Input-->
                     <div class="form-check mb-0 me-2">
-                    <input class="form-check-input" id="sizeRadio1" type="radio" name="sizeRadio">
+                    <input class="form-check-input" id="sizeRadio1" type="radio" name="sizeRadio" value="{{ value }}" onclick="get_stock({{ product.id }})">
                     <label class="form-check-label" for="sizeRadio1">{{ value }}</label>
                     </div>
                     {% endfor %}
@@ -131,7 +131,7 @@
               <button class="btn btn-danger ms-3" type="submit">به سبد خرید اضافه کنید</button>
             </form>
             <div class="mt-2 mb-0">
-              <p>موجودی کل: <span>{{ stock }}</span></p>
+              <p id="stock_product">موجودی کل: <span>{{ stock }}</span></p>
             </div>
           </div>
         </div>
@@ -181,7 +181,7 @@
 {% endblock body %}
 
 {% block custom_footer_references %}
+    <script src="{% static 'js/product_detail.js' %}"></script>
     <script src="{% static 'js/products_like.js' %}"></script>
     <script src="{% static 'js/comments.js' %}"></script>
-    <script src="{% static 'js/product_detail.js' %}"></script>
 {% endblock custom_footer_references %}
