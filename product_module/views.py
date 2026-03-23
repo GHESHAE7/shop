@@ -8,6 +8,7 @@ from datetime import timedelta
 from collections import defaultdict
 from comment_module.models import Comment
 from django.db.models import Count
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -113,3 +114,22 @@ class ProductDetailView(DetailView):
         context['stock'] = Product.objects.filter(id=self.object.id, is_active=True).aggregate(Sum('product_variant__stock'))['product_variant__stock__sum'] or 0
         context['count_comments'] = Comment.objects.filter(is_active=True, product=self.object).aggregate(Count('id'))['id__count'] or 0
         return context
+    
+    
+    
+def stock_color_size(request):
+    color = request.POST.get('color_name')
+    size = request.POST.get('size_name')
+    product_id = request.POST.get('product_id')
+    get_product_variant = ProductVariant.objects.filter(is_active=True, color__exact=color, size__exact=size, product_id=product_id).values('stock').first()
+    print(get_product_variant)
+    if get_product_variant:
+        return JsonResponse({
+        'color': color,
+        'size': size,
+        'stock': get_product_variant['stock'],
+    })
+    else:
+        return JsonResponse({
+            'message': 'چنین محصولی وجود ندارد'
+        })
