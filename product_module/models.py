@@ -21,6 +21,7 @@ class Brand(models.Model):
     name = models.CharField(max_length=90, null=False, blank=False, verbose_name='نام برند', unique=True)
     url = models.CharField(max_length=120, null=False, blank=False, verbose_name='نام برند در url', unique=True)
     description = models.TextField(null=True, blank=True, verbose_name='توضیحات برند')
+    image = models.ImageField(upload_to='brand/image', null=False, blank=False)
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
