@@ -34,33 +34,21 @@
           <div class="pt-3">
             <!-- Hero Slides-->
             <div class="hero-slides owl-carousel">
+              {% for baner in baners %}
               <!-- Single Hero Slide-->
-              <div class="single-hero-slide" style="background-image: url({% static 'img/bg-img/1.jpg' %})">
+              <div class="single-hero-slide" style="background-image: url({{ baner.image.url }})">
                 <div class="slide-content h-100 d-flex align-items-center">
                   <div class="slide-text">
-                    <h4 class="text-white mb-0" data-animation="fadeInUp" data-delay="100ms" data-duration="1000ms">آمازون اکو</h4>
-                    <p class="text-white" data-animation="fadeInUp" data-delay="400ms" data-duration="1000ms">نسل 3 ، ذغال سنگ</p><a class="btn btn-primary" href="#" data-animation="fadeInUp" data-delay="800ms" data-duration="1000ms">هم اکنون خریداری کنید</a>
+                    <h4 class="text-white mb-0" data-animation="fadeInUp" data-delay="100ms" data-duration="1000ms">{{ baner.title }}</h4>
+                    <p class="text-white" data-animation="fadeInUp" data-delay="400ms" data-duration="1000ms">{{ baner.description }}</p><a class="btn btn-primary" href="{{ baner.url_btn }}" data-animation="fadeInUp" data-delay="800ms" data-duration="1000ms">{{ baner.text_in_btn }}</a>
                   </div>
                 </div>
               </div>
-              <!-- Single Hero Slide-->
-              <div class="single-hero-slide" style="background-image: url({% static 'img/bg-img/2.jpg' %})">
-                <div class="slide-content h-100 d-flex align-items-center">
-                  <div class="slide-text">
-                    <h4 class="text-white mb-0" data-animation="fadeInUp" data-delay="100ms" data-duration="1000ms">شمع سبک</h4>
-                    <p class="text-white" data-animation="fadeInUp" data-delay="400ms" data-duration="1000ms">فقط الان 20000 تومان</p><a class="btn btn-success" href="#" data-animation="fadeInUp" data-delay="500ms" data-duration="1000ms">هم اکنون خریداری کنید</a>
-                  </div>
-                </div>
+              {% empty %}
+              <div class="alert alert-info">
+                چیزی برای بنر وجود ندارد
               </div>
-              <!-- Single Hero Slide-->
-              <div class="single-hero-slide" style="background-image: url({% static 'img/bg-img/3.jpg' %})">
-                <div class="slide-content h-100 d-flex align-items-center">
-                  <div class="slide-text">
-                    <h4 class="text-white mb-0" data-animation="fadeInUp" data-delay="100ms" data-duration="1000ms">بهترین مبلمان</h4>
-                    <p class="text-white" data-animation="fadeInUp" data-delay="400ms" data-duration="1000ms">3 سال گارانتی </p><a class="btn btn-danger" href="#" data-animation="fadeInUp" data-delay="800ms" data-duration="1000ms">هم اکنون خریداری کنید</a>
-                  </div>
-                </div>
-              </div>
+              {% endfor %}
             </div>
           </div>
         </div>
