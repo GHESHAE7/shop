@@ -190,17 +190,27 @@
           </div>
         </div>
       </div>
-      <!-- CTA Area -->
-      <div class="container">
-        <div class="cta-text dir-rtl p-4 p-lg-5">
-          <div class="row">
-            <div class="col-9">
-              <h4 class="text-white mb-1">20% تخفیف در مورد مراقبت از زنان</h4>
-              <p class="text-white mb-2 opacity-75">پیشنهاد تا این جمعه ادامه خواهد یافت.</p><a class="btn btn-warning" href="#">این پیشنهاد را بگیرید</a>
+      {% if elan_top %}
+        <div class="container">
+        <div class="{% if not elan_top.image %}discount-coupon-card{% endif %} p-4 p-lg-5 dir-rtl" 
+        {% if elan_top.image %}
+        style="background-image: url('{{ elan_top.image.url }}');"
+        {% endif %}>
+          <div class="d-flex align-items-center">
+            {% if elan_top.image_in_elan %}
+              <div class="discountIcon"><img class="w-100" src="{{ elan_top.image_in_elan.url }}" alt=""></div>
+            {% endif %}
+            <div class="text-content">
+              <h4 class="text-white mb-1">{{ elan_top.title }}</h4>
+              <p class="text-white mb-2">{{ elan_top.description }}</p>
+              {% if elan_top.text_in_btn and elan_top.url_btn %}
+                <a class="btn btn-warning" href="{{ elan_top.url_btn }}">{{ elan_top.text_in_btn }}</a>
+              {% endif %}
             </div>
-          </div><img src="img/bg-img/make-up.png' %}" alt="">
+          </div>
         </div>
       </div>
+      {% endif %}
       <!-- Weekly Best Sellers-->
       <div class="weekly-best-seller-area py-3">
         <div class="container">
@@ -285,17 +295,27 @@
         </div>
       </div>
       <!-- Discount Coupon Card-->
-      <div class="container">
-        <div class="discount-coupon-card p-4 p-lg-5 dir-rtl">
+      {% if elan_buttom %}
+        <div class="container">
+        <div class="{% if not elan_buttom.image %}discount-coupon-card{% endif %} p-4 p-lg-5 dir-rtl" 
+        {% if elan_buttom.image %}
+        style="background-image: url('{{ elan_buttom.image.url }}');"
+        {% endif %}>
           <div class="d-flex align-items-center">
-            <div class="discountIcon"><img class="w-100" src="{% static 'img/core-img/discount.png' %}" alt=""></div>
+            {% if elan_buttom.image_in_elan %}
+              <div class="discountIcon"><img class="w-100" src="{{ elan_buttom.image_in_elan.url }}" alt=""></div>
+            {% endif %}
             <div class="text-content">
-              <h4 class="text-white mb-1">گرفتن 20% تخفیف!</h4>
-              <p class="text-white mb-0">برای دریافت تخفیف ، وارد شوید<span class="px-1 fw-bold">گرفتن20</span> در صفحه پرداخت.</p>
+              <h4 class="text-white mb-1">{{ elan_buttom.title }}</h4>
+              <p class="text-white mb-2">{{ elan_buttom.description }}</p>
+              {% if elan_buttom.text_in_btn and elan_buttom.url_btn %}
+                <a class="btn btn-warning" href="{{ elan_buttom.url_btn }}">{{ elan_buttom.text_in_btn }}</a>
+              {% endif %}
             </div>
           </div>
         </div>
       </div>
+      {% endif %}
       <!-- Featured Products Wrapper-->
       <div class="featured-products-wrapper py-3">
         <div class="container">

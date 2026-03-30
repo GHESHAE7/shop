@@ -5,7 +5,7 @@ from product_module.models import Brand, Category, Product
 from django.db.models import Count, Max
 from django.utils import timezone
 from datetime import timedelta
-from site_setting_module.models import Baner
+from site_setting_module.models import Baner, Elan
 # Create your views here.
 
 
@@ -17,12 +17,16 @@ class HomeView(View):
         old_time = timezone.now() - timedelta(days=7)
         products_new = Product.objects.filter(is_active=True, created_at__gte=old_time).annotate(discount=Max('product_variant__discount'))[:8]
         baners = Baner.objects.filter(is_active=True).order_by('-created_at')[:3]
+        elan_top = Elan.objects.filter(is_active=True, where="top")[0] or 0
+        elan_buttom = Elan.objects.filter(is_active=True, where="buttom")[0] or 0
         context = {
             'brands': brands,
             'categories': categories,
             'products_discount': products_discount,
             'products_new': products_new,
             'baners': baners,
+            'elan_top': elan_top,
+            'elan_buttom': elan_buttom,
         }
         return render(request, 'home_module/home.html', context)
     
