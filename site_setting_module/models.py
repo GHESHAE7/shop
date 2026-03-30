@@ -27,6 +27,8 @@ class Elan(models.Model):
 
     title = models.CharField(max_length=300, null=False, blank=False, verbose_name='عنوان')
     description = models.CharField(max_length=500, null=True, blank=True, verbose_name="توضیحات")
+    image = models.ImageField(max_length=500, null=True, blank=True, verbose_name="بکگراند", upload_to='elan/image')
+    image_in_elan = models.ImageField(max_length=500, null=True, blank=True, verbose_name="عکس داخل متن", upload_to='baner/text/image')
     text_in_btn = models.CharField(max_length=200, null=False, blank=True, verbose_name='متن داخل دکمه')
     url_btn = models.URLField(max_length=600, null=False, blank=False, verbose_name='url دکمه')
     where = models.CharField(choices=ChoicesWhere, null=False, blank=False, max_length=10,)
