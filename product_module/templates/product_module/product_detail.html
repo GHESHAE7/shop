@@ -50,9 +50,13 @@
           </div>
           <!-- Ratings-->
           <div class="product-ratings">
-            <div class="container d-flex align-items-center justify-content-between rtl-flex-d-row-r">
-              <div class="ratings"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><span class="ps-1">3 رتبه بندی</span></div>
-              <div class="total-result-of-ratings"><span>5.0</span><span>خیلی خوب  </span></div>
+            <div class="container d-flex align-items-center justify-content-end rtl-flex-d-row-r">
+
+              {% if count_comments > 0 %}
+                <div class="total-result-of-ratings"><span>امتیاز: </span><span>{{ rating }}</span></div>
+              {% else %}
+                <p><span>امتیازی وجود ندارد</span></p>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -159,18 +163,7 @@
         <div class="ratings-submit-form bg-white py-3 dir-rtl">
           <div class="container">
             <h6>ارسال یک بررسی</h6>
-              <div class="stars mb-3">
-                <input class="star-1" type="radio" name="star" id="star1">
-                <label class="star-1" for="star1"></label>
-                <input class="star-2" type="radio" name="star" id="star2">
-                <label class="star-2" for="star2"></label>
-                <input class="star-3" type="radio" name="star" id="star3">
-                <label class="star-3" for="star3"></label>
-                <input class="star-4" type="radio" name="star" id="star4">
-                <label class="star-4" for="star4"></label>
-                <input class="star-5" type="radio" name="star" id="star5">
-                <label class="star-5" for="star5"></label><span></span>
-              </div>
+              <input class="form-control mb-3 px-3" type="number" id="comment_rating" max="5" min="0" placeholder="امتیاز خود را به این محصول از 1 تا 5 وارد کنید">
               <textarea class="form-control mb-3" id="comments" name="comment" cols="30" rows="10" data-max-length="200" placeholder="بررسی خود را بنویسید..."></textarea>
               <input type="hidden">
               <button class="btn btn-primary" type="submit" onclick="send_comment({{ product.id }})">ارسال نظر</button>

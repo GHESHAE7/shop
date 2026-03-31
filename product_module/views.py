@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import Product, Category, Brand, ProductVariant
-from django.db.models import Max, Min, Sum
+from django.db.models import Max, Min, Sum, Avg
 from django.utils import timezone
 from datetime import timedelta
 from collections import defaultdict
@@ -113,6 +113,7 @@ class ProductDetailView(DetailView):
         context['sizes'] = {key: list(values) for key, values in attr_sizes.items()}
         context['stock'] = Product.objects.filter(id=self.object.id, is_active=True).aggregate(Sum('product_variant__stock'))['product_variant__stock__sum'] or 0
         context['count_comments'] = Comment.objects.filter(is_active=True, product=self.object).aggregate(Count('id'))['id__count'] or 0
+        context['rating'] = Comment.objects.filter(is_active=True, product=self.object).aggregate(Avg('rating'))['rating__avg'] or 0
         return context
     
     
