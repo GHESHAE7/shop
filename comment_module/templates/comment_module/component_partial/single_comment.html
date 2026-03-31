@@ -10,7 +10,7 @@
         {% endif %}
     </div>
     <div class="rating-comment">
-    <div class="rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-sofa-star"></i><i class="fa-solid fa-star"></i></div>
+    <div class="rating">امتیاز {{ comment.rating }}</div>
     <p class="comment mb-0">{{ comment.message }}</p><span class="name-date">{% if comment.user.username %}{{ comment.user }}
         {% else %}{{ comment.user.email }}{% endif %}
     </div>
