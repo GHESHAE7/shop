@@ -47,7 +47,10 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     product_variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
     count = models.IntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2, db_index=True, null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, db_index=True, null=True)   
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
     
     def save(self, *args, **kwargs):
         p_v = ProductVariant.objects.filter(is_active=True, id=self.product_variant_id).first()
