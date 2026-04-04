@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "contact_module.apps.ContactModuleConfig",
     "support_module.apps.SupportModuleConfig",
     "site_setting_module.apps.SiteSettingModuleConfig",
+    "cart_module.apps.CartModuleConfig",
 ]
 
 MIDDLEWARE = [
