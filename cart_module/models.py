@@ -53,9 +53,13 @@ class OrderItem(models.Model):
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
     
     def save(self, *args, **kwargs):
-        p_v = ProductVariant.objects.filter(is_active=True, id=self.product_variant_id).first()
-        self.price = p_v.price
-        # self.product = self.product_variant__product
+        self.product = self.product_variant.product
+        if self.product_variant.discount:
+            discount = self.product_variant.discount
+            self.price = self.product.price - ((self.product.price / 100) * discount)
+        else:
+            self.price = self.product.price
+
         super(OrderItem, self).save(*args, **kwargs)
     
     def __str__(self):
