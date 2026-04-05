@@ -23,7 +23,7 @@ function get_stock(product_id){
     if (color != null && size != null){
         $.post('http://127.0.0.1:8000/products/stock_by_color_size', {color_name:color.value, size_name:size.value, product_id:product_id, csrfmiddlewaretoken:csrf.value}, function(res){
             if(res.message){
-                console.log('چنین محصولی وجود ندارد');
+                document.getElementById('stock_product').innerHTML = 'این رنگ و سایز برای این کفش وجود ندارد'
             }else{
                 document.getElementById('stock_product').innerHTML = 'موجودی رنگ' + ' ' + res.color + ' ' + 'سایز' + ' ' + res.size + ' :' + ' ' + res.stock
             }
