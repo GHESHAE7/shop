@@ -129,10 +129,10 @@
             <form class="cart-form" action="#" method="">
               <div class="order-plus-minus d-flex align-items-center">
                 <div class="quantity-button-handler">-</div>
-                <input class="form-control cart-quantity-input" type="text" step="1" name="quantity" value="1">
+                <input class="form-control cart-quantity-input" id="add_order_stock" type="text" step="1" name="quantity" value="1">
                 <div class="quantity-button-handler">+</div>
               </div>
-              <button class="btn btn-danger ms-3" type="submit">به سبد خرید اضافه کنید</button>
+              <button class="btn btn-danger ms-3" onclick="add_product_in_order({{ product.id }})" type="button">به سبد خرید اضافه کنید</button>
             </form>
             <div class="mt-2 mb-0">
               <p id="stock_product">موجودی کل: <span>{{ stock }}</span></p>
@@ -177,4 +177,5 @@
     <script src="{% static 'js/product_detail.js' %}"></script>
     <script src="{% static 'js/products_like.js' %}"></script>
     <script src="{% static 'js/comments.js' %}"></script>
+    <script src="{% static 'js/order.js' %}"></script>
 {% endblock custom_footer_references %}

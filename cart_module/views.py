@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from cart_module.models import Order, OrderItem
 from django.http import JsonResponse, HttpResponse
+from product_module.models import Product, ProductVariant
 # Create your views here.
 
 
@@ -44,3 +45,76 @@ class OrderView(View):
                         'message': f'Not found order item by id {order_item_id}',
                         'delete': False
                     })
+                    
+
+        product_id = request.POST.get('product_id') or None
+        if product_id is not None:
+            if request.user.is_authenticated:
+                order_user = Order.objects.filter(is_active=True, user_id=request.user.id).first()
+                if order_user is not None:
+                    color = request.POST.get('color_name')
+                    size = request.POST.get('size_name')
+                    current_product_variant = ProductVariant.objects.filter(is_active=True, product_id=product_id, color=color, size=size).first()
+                    if current_product_variant is not None:
+                        current_order_item = OrderItem.objects.filter(is_active=True, order_id=order_user.id, product_variant_id=current_product_variant.id).first()
+                        if current_order_item is not None:
+                            return JsonResponse({
+                                'status': 200,
+                                'message': 'this product is exists',
+                            })
+                        else:
+                            count = request.POST.get('count')
+                            if (int(count) > current_product_variant.stock) or (int(count) <= 0):
+                                return JsonResponse({
+                                    'status': 200,
+                                    'message': 'count gt is stock or count lte 0'
+                                })
+                            else:
+                                new_order_item = OrderItem(order_id=order_user.id, product_id=product_id, product_variant_id=current_product_variant.id, count=count)
+                                new_order_item.save()
+                                return JsonResponse({
+                                    'status': 200,
+                                    'message': 'added product in order',
+                                })
+                    else:
+                        return JsonResponse({
+                            'status': 200,
+                            'message': 'not found product',
+                        })
+                else:
+                    new_order = Order(user_id=request.user.id,)
+                    new_order.save()
+                    color = request.POST.get('color_name')
+                    size = request.POST.get('size_name')
+                    current_product_variant = ProductVariant.objects.filter(is_active=True, product_id=product_id, color=color, size=size).first()
+                    if current_product_variant is not None:
+                        current_order_item = OrderItem.objects.filter(is_active=True, order_id=new_order.id, product_variant_id=current_product_variant.id).first()
+                        if current_order_item is not None:
+                            return JsonResponse({
+                                'status': 200,
+                                'message': 'this product is exists',
+                            })
+                        else:
+                            count = request.POST.get('count')
+                            if (int(count) > current_product_variant.stock) or (int(count) <= 0):
+                                return JsonResponse({
+                                    'status': 200,
+                                    'message': 'count gt is stock or count lte 0'
+                                })
+                            else:
+                                new_order_item = OrderItem(order_id=new_order.id, product_id=product_id, product_variant_id=current_product_variant.id, count=count)
+                                new_order_item.save()
+                                return JsonResponse({
+                                    'status': 200,
+                                    'message': 'first created order for you and added this product in order_item',
+                                })
+                    else:
+                        return JsonResponse({
+                            'status': 200,
+                            'message': 'not found product',
+                        }) 
+            else:
+                return JsonResponse({
+                    'status': 200,
+                    'message': 'user not login',
+                })
