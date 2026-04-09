@@ -9,7 +9,7 @@ from product_module.models import Product, ProductVariant
 
 class OrderView(View):
     def get(self, request):
-        order = Order.objects.filter(is_active=True, user_id=request.user.id).prefetch_related('order_items').first()
+        order = Order.objects.filter(is_active=True, user_id=request.user.id, status__in=['cart', 'paid']).prefetch_related('order_items').first()
         context = {
             'order': order
         }
@@ -118,3 +118,18 @@ class OrderView(View):
                     'status': 200,
                     'message': 'user not login',
                 })
+                
+                
+
+class StatusOrderView(View):
+    def get(self, request):
+        if request.method == 'GET':
+            user_orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_active=True).exclude(status__in=['cart', 'paid'])
+            context = {
+                'orders': user_orders,
+            }
+            return render(request, 'cart_module/status_order.html', context)
+    
+
+    def post(self, request):
+        pass

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+    
+{% endblock title %}
+    
+
+
+{% block body %}
+    <div class="header-area" id="headerArea">
+      <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+        <!-- Back Button-->
+        <div class="back-button me-2"><a href="{% url 'account_module:profile_page' %}"><i class="fa-solid fa-arrow-right-long"></i></a></div>
+        <!-- Page Title-->
+        <div class="page-heading">
+          <h6 class="mb-0">وضعیت سفارش</h6>
+        </div>
+        <!-- Navbar Toggler-->
+        <div class="suha-navbar-toggler ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaOffcanvas" aria-controls="suhaOffcanvas">
+          <div><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="my-order-wrapper">
+      <div class="container">
+        <div class="card">
+          <div class="card-body p-4">
+            <!-- Single Order Status-->
+            {% for order in orders %}
+            <div class="single-order-status active">
+              <div class="order-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+              <div class="order-text">
+                {% if order.status == 'cancelled' %}
+                    <h6>سفارش شما با شماره {{ order.order_number }} توسط شما کنسل شده است</h6>
+                {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
+                {% elif order.status == 'processing' %}
+                    <h6>سفارش شما با شماره {{ order.order_number }} در حال بسته بندی و سپس ارسال می باشد</h6>
+                {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
+                {% elif order.status == 'shipped' %}
+                    <h6>سفارش شما با شماره {{ order.order_number }} به مامور فرستنده بسته داده شده است و به دست شما می رسد</h6>
+                {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
+                {% elif order.status == 'completed' %}
+                    <h6>سفارش شما با شماره {{ order.order_number }} به دست شما رسیده و تکیمل شده است</h6>
+                {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
+                {% elif order.status == 'returned' %}
+                    <h6>سفارش شما با شماره {{ order.order_number }} توسط شما برگشت خورده است</h6>
+                {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
+                {% endif %}
+
+              </div>
+              <div class="order-status"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+            {% empty %}
+                <div class="alert alert-info">
+                    شما هیج سفارسی در این سایت نداشته اید
+                </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock body %}
