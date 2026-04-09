@@ -49,8 +49,8 @@
                 <div class="data-content">{% if user.address %}{{ user.address }}{% else %}خالی{% endif %}</div>
               </div>
               <div class="single-profile-data d-flex align-items-center justify-content-between">
-                <div class="title d-flex align-items-center"><i class="fa-solid fa-star"></i><span>دستورات من</span></div>
-                <div class="data-content"><a class="btn btn-success btn-sm" href="my-order.html">وضعیت مشاهده</a></div>
+                <div class="title d-flex align-items-center"><i class="fa-solid fa-star"></i><span>وضعیت سفارش</span></div>
+                <div class="data-content"><a class="btn btn-success btn-sm" href="{% url 'car_module:status_order_page' %}">مشاهده</a></div>
               </div>
               <!-- Edit Profile-->
               <div class="edit-profile-btn mt-3"><a class="btn btn-primary w-100" href="{% url 'account_module:edit_profile_page' %}"><i class="fa-solid fa-pen me-2"></i>نمایه ویرایش</a></div>
