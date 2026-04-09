@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    
+{% endblock title %}
+
+{% block body %}
+        <div class="header-area" id="headerArea">
+      <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+        <!-- Back Button -->
+        <div class="back-button me-2"><a href="{% url 'home_module:home_page' %}"><i class="fa-solid fa-arrow-right-long"></i></a></div>
+        <!-- Page Title -->
+        <div class="page-heading">
+          <h6 class="mb-0">درباره ما</h6>
+        </div>
+        <!-- Navbar Toggler -->
+        <div class="suha-navbar-toggler ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaOffcanvas" aria-controls="suhaOffcanvas">
+          <div><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-content-wrapper py-3">
+      <div class="container">
+        <div class="card">
+          <div class="card-body">
+                {{ about.description }}
+                <br>
+                <br>
+                <a class="btn btn-primary w-100" href="{% url 'contact_module:contact_page' %}"><i class="lni lni-life-ring mr-2"></i>ارتباط با ما</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock body %}  
