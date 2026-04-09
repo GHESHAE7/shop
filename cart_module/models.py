@@ -27,11 +27,15 @@ class Order(models.Model):
 
     
     def save(self, *args, **kwargs):
-        last_order_number = Order.objects.filter(is_active=True).order_by('order_number').last()
-        if last_order_number:
-            self.order_number = last_order_number.order_number + 1
+        is_update = self.pk is not None
+        if not is_update:
+            last_order_number = Order.objects.filter(is_active=True).order_by('order_number').last()
+            if last_order_number:
+                self.order_number = last_order_number.order_number + 1
+            else:
+                self.order_number = 3355
         else:
-            self.order_number = 3355
+            pass
         super(Order, self).save(*args, **kwargs)
         
     def show_total_price(self):
