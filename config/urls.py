@@ -36,6 +36,7 @@ urlpatterns = [
     path('support/', include('support_module.urls')),
     path('order/', include('cart_module.urls')),
     path('about/', include('about_module.urls')),
+    path('notice/', include('notice_module.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
