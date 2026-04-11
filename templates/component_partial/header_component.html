@@ -54,7 +54,7 @@
         <!-- Sidenav Nav-->
         <ul class="sidenav-nav ps-0">
           <li><a href="{% url 'account_module:profile_page' %}"><i class="fa-solid fa-user"></i>پروفایل من</a></li></li>
-          <li><a href="notifications.html"><i class="fa-solid fa-bell lni-tada-effect"></i>اعلانات<span class="ms-1 badge badge-warning">3</span></a></li>
+          <li><a href="{% url 'notice_module:notice_page' %}"><i class="fa-solid fa-bell lni-tada-effect"></i>اعلانات<span class="ms-1 badge badge-warning"></span></a></li>
           <li class="suha-dropdown-menu"><a href="#"><i class="fa-solid fa-store"></i>صفحات فروشگاه</a>
             <ul>
               <li><a href="{% url 'product_module:products_page' %}">محصولات</a></li>
