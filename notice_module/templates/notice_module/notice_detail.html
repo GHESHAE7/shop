@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+    
+{% endblock title %}
+
+
+
+{% block body %}
+        <!-- Header Area-->
+    <div class="header-area" id="headerArea">
+      <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
+        <!-- Back Button-->
+        <div class="back-button me-2"><a href="{% url 'notice_module:notice_page' %}"><i class="fa-solid fa-arrow-right-long"></i></a></div>
+        <!-- Page Title-->
+        <div class="page-heading">
+          <h6 class="mb-0">جزئیات اعلان ها</h6>
+        </div>
+        <!-- Navbar Toggler-->
+        <div class="suha-navbar-toggler ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaOffcanvas" aria-controls="suhaOffcanvas">
+          <div><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Page Content Wrapper-->
+    <div class="page-content-wrapper">
+      <div class="container">
+        <!-- Notifications Details Area-->
+        <div class="notification-area pt-3 pb-2">
+          <!-- Notification Details-->
+          <div class="list-group-item d-flex py-3"><span class="noti-icon"><i class="fa-solid fa-check"></i></span>
+            <div class="noti-info">
+              {% if notice.title %}
+              <h6>{% if notice.title %}{{ notice.title }}{% else %}{{ notice.message|truncatechars:75 }}{% endif %}</h6>
+            {% endif %}
+              <p>{{ notice.message }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock body %}

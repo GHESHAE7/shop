@@ -15,3 +15,13 @@ class NoticeView(View):
     
     def post(self, request):
         pass
+    
+    
+
+class NoticeDetailView(View):
+    def get(self, request, pk):
+        notice = Notice.objects.filter(is_active=True, pk=pk).first()
+        context = {
+            'notice': notice
+        }
+        return render(request, 'notice_module/notice_detail.html', context)
