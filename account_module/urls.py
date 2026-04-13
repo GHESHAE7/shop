@@ -5,13 +5,13 @@ app_name = 'account_module'
 
 urlpatterns = [
     path('register', RegisterView.as_view(), name='register_page'),
-    path('active/<email_active_code>', active_account, name='active_account'),
+    path('active/<str:email_active_code>', active_account, name='active_account'),
     path('login', LoginView.as_view(), name='login_page'),
-    path( 'logout', logout_view, name='logout'),
-    path( 'profile', ProfileView.as_view(), name='profile_page'),
-    path( 'edit-profile', EditProfileView.as_view(), name='edit_profile_page'),
-    path( 'settings', SettingsView.as_view(), name='settings_page'),
-    path( 'change-password', ChangePasswordView.as_view(), name='change_password_page'),
-    path( 'forget-password', ForgetPasswordView.as_view(), name='forget_password_page'),
-    path( 'reset-password/<email_active_code>', ResetPasswordView.as_view(), name='reset_password_page'),
+    path('logout', logout_view, name='logout'),
+    path('profile', ProfileView.as_view(), name='profile_page'),
+    path('edit-profile', EditProfileView.as_view(), name='edit_profile_page'),
+    path('settings', SettingsView.as_view(), name='settings_page'),
+    path('change-password', ChangePasswordView.as_view(), name='change_password_page'),
+    path('forget-password', ForgetPasswordView.as_view(), name='forget_password_page'),
+    path('reset-password/<str:email_active_code>', ResetPasswordView.as_view(), name='reset_password_page'),
 ]

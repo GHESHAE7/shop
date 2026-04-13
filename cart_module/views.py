@@ -3,20 +3,21 @@ from django.views import View
 from cart_module.models import Order, OrderItem
 from django.http import JsonResponse, HttpResponse
 from product_module.models import Product, ProductVariant
+from django.http import HttpRequest, HttpResponse
 # Create your views here.
 
 
 
 class OrderView(View):
-    def get(self, request):
-        order = Order.objects.filter(is_active=True, user_id=request.user.id, status__in=['cart', 'paid']).prefetch_related('order_items').first()
+    def get(self, request: HttpRequest) -> HttpResponse:
+        order: Order = Order.objects.filter(is_active=True, user_id=request.user.id, status__in=['cart', 'paid']).prefetch_related('order_items').first()
         context = {
             'order': order
         }
         return render(request, 'cart_module/order.html', context)
     
     
-    def post(self, request):
+    def post(self, request: HttpRequest):
         order_item_id = request.POST.get('order_item_id') or None
         if order_item_id is not None:                
             current_order_item = OrderItem.objects.filter(is_active=True, pk=order_item_id).first() or None
@@ -122,14 +123,10 @@ class OrderView(View):
                 
 
 class StatusOrderView(View):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         if request.method == 'GET':
-            user_orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_active=True).exclude(status__in=['cart', 'paid'])
+            user_orders: Order = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_active=True).exclude(status__in=['cart', 'paid'])
             context = {
                 'orders': user_orders,
             }
             return render(request, 'cart_module/status_order.html', context)
-    
-
-    def post(self, request):
-        pass

@@ -8,7 +8,7 @@ from datetime import timedelta
 from collections import defaultdict
 from comment_module.models import Comment
 from django.db.models import Count
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest
 # Create your views here.
 
 
@@ -101,6 +101,7 @@ class ProductDetailView(DetailView):
         query = query.filter(is_active=True).annotate(discount=Max('product_variant__discount'))
         return query
     
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         attributes = ProductVariant.objects.filter(is_active=True, product=self.object).order_by('size')
@@ -118,11 +119,11 @@ class ProductDetailView(DetailView):
     
     
     
-def stock_color_size(request):
+def stock_color_size(request: HttpRequest) -> JsonResponse:
     color = request.POST.get('color_name')
     size = request.POST.get('size_name')
     product_id = request.POST.get('product_id')
-    get_product_variant = ProductVariant.objects.filter(is_active=True, color__exact=color, size__exact=size, product_id=product_id).values('stock').first()
+    get_product_variant: ProductVariant = ProductVariant.objects.filter(is_active=True, color__exact=color, size__exact=size, product_id=product_id).values('stock').first()
     print(get_product_variant)
     if get_product_variant:
         return JsonResponse({

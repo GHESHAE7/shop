@@ -8,17 +8,19 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils.crypto import get_random_string
 from account_module.models import User
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 # Create your views here.
 
 
 
 class RegisterView(View):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         context = {}
         return render(request, 'account_module/register.html', context)
     
-    def post(self, request):
-        form = RegisterFormModel(request.POST)
+    
+    def post(self, request: HttpRequest) -> HttpResponseRedirect:
+        form: RegisterFormModel = RegisterFormModel(request.POST)
         if form.is_valid():
             new_user = form.save(commit=False)
             n_password = form.cleaned_data['password']
@@ -34,8 +36,8 @@ class RegisterView(View):
     
     
     
-def active_account(request, email_active_code):
-    current_user = User.objects.filter(email_active_code__exact=email_active_code, is_active=False).first()
+def active_account(request: HttpRequest, email_active_code: str) -> HttpResponseRedirect:
+    current_user: User = User.objects.filter(email_active_code__exact=email_active_code, is_active=False).first()
     if current_user is not None:
         current_user.is_active = True
         current_user.email_active_code = get_random_string(126)
@@ -49,15 +51,16 @@ def active_account(request, email_active_code):
     
 
 class LoginView(View):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         context = {}
         return render(request, 'account_module/login.html', context)  
+   
     
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponseRedirect:
         if not request.user.is_authenticated:
             username = request.POST['username']
             password = request.POST['password']     
-            user = authenticate(request, username=username, password=password)
+            user: User = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
                 return redirect(reverse('home_module:home_page'))
@@ -69,7 +72,7 @@ class LoginView(View):
     
     
     
-def logout_view(request):
+def logout_view(request: HttpRequest) -> HttpResponseRedirect:
     if request.user.is_authenticated:
         logout(request)
         print('از حساب کاربری خارج شدید')
@@ -83,10 +86,10 @@ def logout_view(request):
     
     
 class ProfileView(View):
-    def get(self, request):
+    def get(self, request: HttpResponse) -> HttpResponse | HttpResponseRedirect:
         if request.user.is_authenticated:
             user_id = request.user.id
-            current_user = User.objects.filter(id=user_id, is_active=True).first()
+            current_user: User = User.objects.filter(id=user_id, is_active=True).first()
             context = {
                 'user': current_user
             }
@@ -94,18 +97,14 @@ class ProfileView(View):
         else:
             print('شما لاگین نیستید')
             return redirect(reverse('account_module:login_page'))
-            
-    
-    def post(self, request):
-        pass
     
     
     
 class EditProfileView(View):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
         if request.user.is_authenticated:
-            user = request.user
-            form = EditProfileFormModel(instance=user)
+            user: User = request.user
+            form: EditProfileFormModel = EditProfileFormModel(instance=user)
             context = {
                 'form': form,
                 'user': User.objects.filter(is_active=True, id=request.user.id).first()
@@ -115,19 +114,20 @@ class EditProfileView(View):
             print('شما لاگین نیستید')
             return redirect(reverse('account_module:login_page'))
             
-    def post(self, request):
-        user = request.user
-        form = EditProfileFormModel(request.POST, request.FILES ,instance=user)
+            
+    def post(self, request: HttpRequest) -> HttpResponseRedirect:
+        user: User = request.user
+        form: EditProfileFormModel = EditProfileFormModel(request.POST, request.FILES ,instance=user)
         if form.is_valid():
             email = form.cleaned_data.get('email')
-            current_user = User.objects.filter(pk=user.id).first()
+            current_user: User = User.objects.filter(pk=user.id).first()
             print(f'current user: {current_user}')
             if current_user.email == email:
                 form.save()
                 print('تغییرات ذخیره شد')
                 return redirect(reverse('account_module:profile_page'))
             else:
-                dip_user = User.objects.filter(email__exact=email).first()
+                dip_user: User = User.objects.filter(email__exact=email).first()
                 print(f'dip user: {dip_user}')
                 if dip_user is not None:
                     print('ایمیل وجود دارد ایمیل دیگری انتخاب کنید')
@@ -143,20 +143,17 @@ class EditProfileView(View):
         
 
 class SettingsView(View):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         context = {}
         return render(request, 'account_module/settings.html', context)
-    
-    def post(self, request):
-        pass
     
     
     
 class ChangePasswordView(View):
-    def get(self, request):
+    def get(self, request) -> HttpResponse | HttpResponseRedirect:
         if request.user.is_authenticated:
-            user = request.user
-            current_user = User.objects.filter(pk=user.id, is_active=True).first()
+            user: User = request.user
+            current_user: User = User.objects.filter(pk=user.id, is_active=True).first()
             context = {
                 'user': current_user,
             }
@@ -165,9 +162,10 @@ class ChangePasswordView(View):
             print('برای تغییر رمز باید ابتدا لاگین فرمایید')
             return redirect(reverse('account_module:login_page'))
     
-    def post(self, request):
-        user = request.user
-        current_user = User.objects.filter(pk=user.id, is_active=True).first()
+    
+    def post(self, request: HttpRequest) -> HttpResponseRedirect:
+        user: User = request.user
+        current_user: User = User.objects.filter(pk=user.id, is_active=True).first()
         current_password = request.POST.get('current_password')
         if current_user.check_password(current_password):
             print('پسوورد شما درست می باشذ')
@@ -189,13 +187,14 @@ class ChangePasswordView(View):
         
 
 class ForgetPasswordView(View):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         context = {}
         return render(request, 'account_module/forget_password.html', context)
     
-    def post(self, request):
+    
+    def post(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
         email = request.POST.get('email')
-        current_user = User.objects.filter(email__exact=email, is_active=True).first()
+        current_user: User = User.objects.filter(email__exact=email, is_active=True).first()
         if current_user is not None:
             print('کاربر یافت شد')
             # ارسال ایمیل
@@ -207,8 +206,8 @@ class ForgetPasswordView(View):
         
         
 class ResetPasswordView(View):
-    def get(self, request, email_active_code):
-        current_user = User.objects.filter(email_active_code__exact=email_active_code, is_active=True).first()
+    def get(self, request: HttpRequest, email_active_code: str) -> HttpResponse | HttpResponseRedirect:
+        current_user:User = User.objects.filter(email_active_code__exact=email_active_code, is_active=True).first()
         if current_user is not None:
             context = {
                 'user_email_active_code': current_user.email_active_code
@@ -219,8 +218,8 @@ class ResetPasswordView(View):
             return redirect(reverse('home_module:home_page'))
             
     
-    def post(self, request, email_active_code):
-        current_user = User.objects.filter(email_active_code__exact=email_active_code, is_active=True).first()
+    def post(self, request: HttpRequest, email_active_code: str) -> HttpResponseRedirect:
+        current_user: User = User.objects.filter(email_active_code__exact=email_active_code, is_active=True).first()
         if current_user is not None:
             password = request.POST.get('password')
             confirm_password = request.POST.get('confirm_password')

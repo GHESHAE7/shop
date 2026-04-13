@@ -4,16 +4,16 @@ from .models import LikesProduct
 from django.db.models import Count, Max
 from datetime import timedelta
 from django.utils import timezone
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest, HttpResponse
 from product_module.models import Product
 # Create your views here.
 
 
 
 class LikeProductsView(View):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         # if request.user.is_authenticated:
-        likes_products = LikesProduct.objects.filter(user_id=request.user.id, is_active=True).annotate(discount=Max('product__product_variant__discount')).order_by('-created_at')
+        likes_products: LikesProduct = LikesProduct.objects.filter(user_id=request.user.id, is_active=True).annotate(discount=Max('product__product_variant__discount')).order_by('-created_at')
         old_time = timezone.now() - timedelta(7)
         context = {
             'likes_products': likes_products,
@@ -25,12 +25,12 @@ class LikeProductsView(View):
         # else:
     
 
-    def post(self, request):
+    def post(self, request: HttpRequest) -> JsonResponse:
         if request.user.is_authenticated:
             product_id = request.POST['product_id']
-            current_product = Product.objects.filter(pk=product_id, is_active=True).first()
+            current_product: Product = Product.objects.filter(pk=product_id, is_active=True).first()
             if current_product is not None:
-                current_product_like = LikesProduct.objects.filter(product_id=current_product.id, is_active=True).first()
+                current_product_like: LikesProduct = LikesProduct.objects.filter(product_id=current_product.id, is_active=True).first()
                 if current_product_like is not None:
                     return JsonResponse({
                         'status': '200',
