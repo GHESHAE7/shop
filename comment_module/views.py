@@ -24,24 +24,23 @@ def add_commnet(request: HttpRequest) -> JsonResponse | HttpResponse:
             current_product: Product = Product.objects.filter(is_active=True, id=product_id).first()
             if current_product:
                 rating = request.POST.get('rating')
-                if int(rating) < 0 or int(rating) > 5:
+                if rating.isalpha() or int(rating) < 0 or int(rating) > 5:
                     return JsonResponse({
-                        'status': 200,
+                        'status': 400,
                         'message': 'rating gt 5 or rating lt 0'
                     })
                 else:
                     message = request.POST.get('message')
-                    new_comment: Comment = Comment(is_active=True, user_id=request.user.id, product_id=current_product.id, message=message, rating=int(rating))
-                    new_comment.save()
+                    Comment.objects.create(is_active=True, user_id=request.user.id, product_id=current_product.id, message=message, rating=int(rating))
                     get_rating: int = Comment.objects.filter(is_active=True, product_id=current_product.id).aggregate(Avg('rating'))['rating__avg'] or 0
                     return comments_product(request=request, product_id=product_id)
             else:
                 return JsonResponse({
-                    'status': 200,
+                    'status': 404,
                     'message': 'not found product'
                 })
         else:
             return JsonResponse({
-                'status': 200,
+                'status': 401,
                 'message': 'not login'
             })
