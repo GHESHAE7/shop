@@ -19,8 +19,7 @@ class ContactView(View):
         email = request.POST.get('email')
         subject = request.POST.get('subject')
         message = request.POST.get('message')
-        new_contact: ContactUs = ContactUs(name=full_name, email=email, subject=subject, message=message)
-        new_contact.save()
+        ContactUs.objects.create(name=full_name, email=email, subject=subject, message=message)
         return JsonResponse({
             'status': '200', 
             'message': 'save to database',
