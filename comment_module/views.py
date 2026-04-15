@@ -26,8 +26,8 @@ def add_commnet(request: HttpRequest) -> JsonResponse | HttpResponse:
                 rating = request.POST.get('rating')
                 if rating.isalpha() or int(rating) < 0 or int(rating) > 5:
                     return JsonResponse({
-                        'status': 400,
-                        'message': 'rating gt 5 or rating lt 0'
+                        'icon': 'warning',
+                        'message': 'امتیاز محصول باید بین 1 تا 5 باشد'
                     })
                 else:
                     message = request.POST.get('message')
@@ -36,11 +36,11 @@ def add_commnet(request: HttpRequest) -> JsonResponse | HttpResponse:
                     return comments_product(request=request, product_id=product_id)
             else:
                 return JsonResponse({
-                    'status': 404,
-                    'message': 'not found product'
+                    'icon': 'error',
+                    'message': 'محصول مورد نظر پیدا نشد'
                 })
         else:
             return JsonResponse({
-                'status': 401,
-                'message': 'not login'
+                'icon': 'info',
+                'message': 'برای کامنت گذاشتن ابتدا باید وارد حساب کاربر خود شوید'
             })

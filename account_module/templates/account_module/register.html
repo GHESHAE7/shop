@@ -5,22 +5,23 @@
     ساخت حساب کاربری
 {% endblock title %}
 
-{% comment %} {% if messages %}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-    {% for message in meesages %}
-            Swal.fire({
-            position: "top-end",
-            icon: "{{ message.tags }}",
-            title: "{{ message }}",
-            showConfirmButton: false,
-            timer: 1500
-            });
-    {% endfor %}
-    </script>
-{% endif %} {% endcomment %}
-
 {% block body %}
+
+{% if messages %}
+  <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+  <script>
+    {% for message in messages %}
+      Swal.fire({
+        icon: "{{ message.tags }}",
+        title: "{{ message }}",
+        timer: 3500,
+        timerProgressBar: true,
+        //position:'top-left'
+      });
+    {% endfor %}
+  </script>
+{% endif %}
+
         <!-- Login Wrapper Area-->
     <div class="login-wrapper d-flex align-items-center justify-content-center text-center">
       <!-- Background Shape-->

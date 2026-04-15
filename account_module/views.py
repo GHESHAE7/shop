@@ -27,12 +27,11 @@ class RegisterView(View):
             new_user.set_password(n_password)
             new_user.is_active = False
             new_user.save()
-            # messages.success(request, 'حساب کاربری شما با موفقیت ساخته شد')
-            print('new_user save')
+            messages.success(request, 'حساب کاربری شما با موفقیت ساخته شد و ایمیلی جهت فعال شدن اکانت شما ارسال گردید')
             return redirect(reverse('account_module:login_page'))
-        # messages.error(request, 'کاربری با این مشخصات وجود دارد')
-        print(form.errors)
-        return redirect(reverse('account_module:register_page'))
+        else:
+            messages.error(request, 'کاربری با این مشخصات وجود دارد')
+            return redirect(reverse('account_module:register_page'))
     
     
     
@@ -63,11 +62,12 @@ class LoginView(View):
             user: User = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                messages.success(request, 'ورود شما موفقیت آمیز بود')
                 return redirect(reverse('home_module:home_page'))
             else:
-                print('مشخصات وارد شده اشتباه می باشد یا حساب کاربری شما فعال نیست')
+                messages.error(request, 'مشخصات وارد شده اشتباه یا اکانت شما فعال نمی باشد')
                 return redirect(reverse('account_module:login_page'))
-        print('حساب کاربری شما لاگین است')
+        messages.info(request, 'شما در حال حاظر درون اکانت خود هستید')
         return redirect(reverse('home_module:home_page'))
     
     
@@ -75,11 +75,11 @@ class LoginView(View):
 def logout_view(request: HttpRequest) -> HttpResponseRedirect:
     if request.user.is_authenticated:
         logout(request)
-        print('از حساب کاربری خارج شدید')
+        messages.success(request, 'شما از حساب کاربری خود خارج شده اید')
         path = request.META.get('HTTP_REFERER')
         return redirect(path)
     else:
-        print('شما لاگین نیستید')
+        messages.error(request, 'شما لاگین نیستید اصلا')
         path = request.META.get('HTTP_REFERER')
         return redirect(path)
     
@@ -95,7 +95,7 @@ class ProfileView(View):
             }
             return render(request , 'account_module/profile.html', context)
         else:
-            print('شما لاگین نیستید')
+            messages.error(request, 'شما وارد حساب کاربری خود نیستید ابتدا لاگین کنید')
             return redirect(reverse('account_module:login_page'))
     
     
@@ -111,7 +111,7 @@ class EditProfileView(View):
             }
             return render(request, 'account_module/edit_profile.html', context)
         else:
-            print('شما لاگین نیستید')
+            messages.error(request, 'شما وارد حساب کاربری خود نیستید ابتدا لاگین کنید')
             return redirect(reverse('account_module:login_page'))
             
             
@@ -121,23 +121,20 @@ class EditProfileView(View):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             current_user: User = User.objects.filter(pk=user.id).first()
-            print(f'current user: {current_user}')
             if current_user.email == email:
                 form.save()
-                print('تغییرات ذخیره شد')
+                messages.success(request, 'تغییرات شما با موفقیت ذخیره شد')
                 return redirect(reverse('account_module:profile_page'))
             else:
                 dip_user: User = User.objects.filter(email__exact=email).first()
-                print(f'dip user: {dip_user}')
                 if dip_user is not None:
-                    print('ایمیل وجود دارد ایمیل دیگری انتخاب کنید')
+                    messages.error(request, 'کاربری با این ایمیل وجود دارد ایمیل دیگری را انتخاب فرمایید')
                     return redirect(reverse('account_module:edit_profile_page'))
                 else:
                     form.save()
-                    print('تغییرات ذخیره شد')
+                    messages.success(request, 'تغییرات شما با موفقیت ذخیره شد')
                     return redirect(reverse('account_module:profile_page'))
         else:
-            print(form.errors)
             return redirect(reverse('account_module:edit_profile_page'))
         
         
@@ -159,7 +156,7 @@ class ChangePasswordView(View):
             }
             return render(request, 'account_module/change_password.html', context)
         else:
-            print('برای تغییر رمز باید ابتدا لاگین فرمایید')
+            messages.error(request, 'برای تغییر پسوورد خود ابتدا باید وارد حساب کاربری خود شوید')
             return redirect(reverse('account_module:login_page'))
     
     
@@ -168,20 +165,19 @@ class ChangePasswordView(View):
         current_user: User = User.objects.filter(pk=user.id, is_active=True).first()
         current_password = request.POST.get('current_password')
         if current_user.check_password(current_password):
-            print('پسوورد شما درست می باشذ')
             new_password = request.POST.get('new_password')
             confirm_new_password = request.POST.get('confirm_new_password')
             if new_password == confirm_new_password:
                 current_user.set_password(confirm_new_password)
                 current_user.save()
-                print('پسوورد کاربر تغییر  کرد')
+                messages.success(request, 'رمز عبور شما با موفقیت تغییر کرد')
                 logout(request)
                 return redirect(reverse('account_module:login_page'))
             else:
-                print('پسوورد و تکرار پسوورد یکی نیستند')
+                messages.error(request, 'رمز عبور با تکرار رمز عبور یکی نیستند')
                 return redirect(reverse('account_module:change_password_page'))
         else:
-            print('پسوورد فعلی شما درست نمی باشد')
+            messages.error(request, 'رمز عبور فعلی شما درست نمی باشد')
             return redirect(reverse('account_module:change_password_page'))
         
         
@@ -196,11 +192,10 @@ class ForgetPasswordView(View):
         email = request.POST.get('email')
         current_user: User = User.objects.filter(email__exact=email, is_active=True).first()
         if current_user is not None:
-            print('کاربر یافت شد')
             # ارسال ایمیل
             return render(request, 'account_module/forget_password_success.html')
         else:
-            print('کاربری با این مشخصات یاقت نشد')
+            messages.error(request, 'کاربری با این مشخصات وجود ندارد')
             return redirect(reverse('account_module:forget_password_page'))
         
         
@@ -214,7 +209,7 @@ class ResetPasswordView(View):
             }
             return render(request, 'account_module/reset_password.html', context)
         else:
-            print('چنین کاربری وجود ندارد')
+            messages.error(request, 'کاربری با این مشخصات وجود ندارد که رمزش عوض بشه')
             return redirect(reverse('home_module:home_page'))
             
     
@@ -227,14 +222,14 @@ class ResetPasswordView(View):
                 current_user.set_password(confirm_password)
                 current_user.email_active_code = get_random_string(126)
                 current_user.save()
-                print('پسوورد کاربر تغییر کرد')
+                messages.success(request, 'رمز عبور شما با موفقیت بازیابی شد')
                 if request.user.is_authenticated:
                     logout(request)
                     return redirect(reverse('account_module:login_page'))
                 return redirect(reverse('account_module:login_page'))
             else:
-                print('پسوورد و تکرار پسوورد یکی نیستند')
+                messages.warning(request, 'رمز عبور و تکرار رمز عبور یکی نیستند')
                 return redirect(reverse('account_module:reset_password_page', kwargs={"email_active_code": current_user.email_active_code}))
         else:
-            print('چنین کاربری وجود ندارد که ما رمزش را عوض کنیم')
+            messages.error(request, 'کاربری با این مشخصات وجود ندارد که رمزش عوض بشه')
             return redirect(reverse('home_module:home_page'))

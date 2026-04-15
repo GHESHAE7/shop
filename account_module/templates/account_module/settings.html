@@ -7,6 +7,20 @@
     
 
 {% block body %}
+{% if messages %}
+  <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+  <script>
+    {% for message in messages %}
+      Swal.fire({
+        icon: "{{ message.tags }}",
+        title: "{{ message }}",
+        timer: 3500,
+        timerProgressBar: true,
+        //position:'top-left'
+      });
+    {% endfor %}
+  </script>
+{% endif %}
         <div class="page-content-wrapper">
       <div class="container">
         <div class="settings-wrapper py-3">

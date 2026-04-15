@@ -114,7 +114,7 @@ class ProductDetailView(DetailView):
         context['sizes'] = {key: list(values) for key, values in attr_sizes.items()}
         context['stock'] = Product.objects.filter(id=self.object.id, is_active=True).aggregate(Sum('product_variant__stock'))['product_variant__stock__sum'] or 0
         context['count_comments'] = Comment.objects.filter(is_active=True, product=self.object).aggregate(Count('id'))['id__count'] or 0
-        context['rating'] = Comment.objects.filter(is_active=True, product=self.object).aggregate(Avg('rating'))['rating__avg'] or 0
+        context['rating'] = f"{Comment.objects.filter(is_active=True, product=self.object).aggregate(Avg('rating'))['rating__avg'] or 0:.2f}"
         return context
     
     

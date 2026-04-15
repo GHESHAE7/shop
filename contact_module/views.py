@@ -21,6 +21,6 @@ class ContactView(View):
         message = request.POST.get('message')
         ContactUs.objects.create(name=full_name, email=email, subject=subject, message=message)
         return JsonResponse({
-            'status': '200', 
-            'message': 'save to database',
+            'icon': 'success', 
+            'message': 'پیام شما ثبت شد و در اسرع وقت از طریق ایمیل به شما پاسخ داده خواهد شد',
         })

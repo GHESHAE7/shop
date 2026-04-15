@@ -4,19 +4,43 @@ function send_comment(){
     let rating = document.getElementById('comment_rating');
     let product_id = document.getElementById('product_id_send_comment');
     if(parseInt(rating.value) < 0 || parseInt(rating.value) > 5 || parseInt(rating.value) == '' || isNaN((rating.value))){
-        console.log('نمیتونی بزرگ تر از 5 یا کوچک تر از 0 انتخاب کنی یا خالی وارد کنی');
+        Swal.fire({
+        icon: 'warning',
+        title: 'امتیاز محصول باید بین 1 تا 5 باشد',
+        timer: 3500,
+        timerProgressBar: true,
+        //position:'top-left'
+        });
     }else{
         if (comment == ""){
-            console.log('باید متن کامنت پر شود');
+            Swal.fire({
+            icon: 'warning',
+            title: 'متن کامنت باید حتما پر شود',
+            timer: 3500,
+            timerProgressBar: true,
+            //position:'top-left'
+            });
         }else{
             $.post('http://127.0.0.1:8000/comment/add', {product_id:parseInt(product_id.value), csrfmiddlewaretoken:csrf.value, message:comment, rating:rating.value}, function(res){
-                if(res.status == 400 || res.status == 401 || res.status == 404){
-                    console.log(res);
+                if(res.icon == 'warning' || res.icon == 'error' || res.icon == 'info'){
+                        Swal.fire({
+                            icon: res.icon,
+                            title: res.message,
+                            timer: 3500,
+                            timerProgressBar: true,
+                            //position:'top-left'
+                        });
                 }else{
                     document.getElementById('list_comment').innerHTML = res;
                     document.getElementById('comments').value = null;
                     document.getElementById('comment_rating').value = null;
-                    // add alert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'کامنت شما با موفقیت ثبت شد و پس از بررسی نمایش داده می شود',
+                        timer: 3500,
+                        timerProgressBar: true,
+                        //position:'top-left'
+                    });
                 }
             });
         }

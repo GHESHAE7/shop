@@ -33,28 +33,28 @@ class LikeProductsView(View):
                 current_product_like: LikesProduct = LikesProduct.objects.filter(product_id=current_product.id, is_active=True).first()
                 if current_product_like is not None:
                     return JsonResponse({
-                        'status': '200',
-                        'message': 'this product avablail'
+                        'icon': 'info',
+                        'message': 'این محصول از قبل در علاقه مندی های شما وجود دارد'
                     })
                     
                 else:
                     new_product_like = LikesProduct(user_id=request.user.id, product_id=current_product.id)
                     new_product_like.save()
                     return JsonResponse({
-                        'status': '200', 
-                        'message': 'ok'
+                        'icon': 'success', 
+                        'message': 'این محصول به علاقه مندی های شما اضافه شد'
                     })
                     
             else:
                 return JsonResponse({
-                    'status': '404', 
-                    'message': 'product not found'
+                    'icon': 'error', 
+                    'message': 'چنین محصولی وجود ندارد که به علاقه مندی های شما اضافه شود'
                 })
                 
         else:
             return JsonResponse({
-                'status': '200', 
-                'message': 'user not login'
+                'icon': 'error', 
+                'message': 'برای افزودن به علاقه مندی ها ابتدا باید وارد حساب کاربری خود شوید'
             })
             
             
@@ -68,16 +68,16 @@ def delete_product_likes(request):
             if current_like_products is not None:
                 current_like_products.delete()
                 return JsonResponse({
-                    'status': '200',
-                    'message': 'deleted'
+                    'icon': 'success',
+                    'message': 'محصول مورد نظر با موفقیت از علاقه مندی ها پاک شد'
                 })
             else:
                 return JsonResponse({
-                    'status': '200',
-                    'message': 'not found product'
+                    'icon': '200',
+                    'message': 'چنین محصولی وجود ندارد که از علاقه مندی ها پاک شود'
                 })
         else:
             return JsonResponse({
-                'status': '200',
-                'message': 'user not login'
+                'icon': '200',
+                'message': 'ابتدا باید وارد حساب کاربری خود شوید'
             })

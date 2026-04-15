@@ -8,6 +8,20 @@
 
 
 {% block body %}
+{% if messages %}
+  <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+  <script>
+    {% for message in messages %}
+      Swal.fire({
+        icon: "{{ message.tags }}",
+        title: "{{ message }}",
+        timer: 3500,
+        timerProgressBar: true,
+        //position:'top-left'
+      });
+    {% endfor %}
+  </script>
+{% endif %}
 <input type="hidden" id="#csrf_t" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 <div class="header-area" id="headerArea">
       <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
@@ -35,13 +49,14 @@
                         {% if order.order_items.all %}
                             {% for order_item in order.order_items.all %}
                                 <tr>
-                                <th scope="row"><a class="remove-product" onclick="remove_order_item({{order_item.id}})"><i class="fa-solid fa-xmark"></i></a></th>
+                                <input type="hidden" value="{{ order_item.id }}" id="order_item_id">
+                                <th scope="row"><a class="remove-product" onclick="remove_order_item()"><i class="fa-solid fa-xmark"></i></a></th>
                                 <td><img src="{{ order_item.product.image.url }}" alt=""></td>
                                 <td><a href="single-product.html">{{ order_item.product.name }}
                                     <span>{{ order_item.price }} تومان ×  {{ order_item.count }} </span> </a> </td>
                                 <td>
                                     <div class="quantity">
-                                    <input class="qty-text" type="number" value="{{ order_item.count }}" onclick="change_count_order_item({{order_item.id}}, this)">
+                                    <input class="qty-text" type="number" value="{{ order_item.count }}" onclick="change_count_order_item(this)">
                                     </div>
                                 </td>
                                 </tr>
