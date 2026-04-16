@@ -10,7 +10,7 @@ from django.http import HttpRequest, HttpResponse
 
 class OrderView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        order: Order = Order.objects.filter(is_active=True, user_id=request.user.id, status__in=['cart', 'paid']).prefetch_related('order_items').first()
+        order: Order = Order.objects.filter(is_active=True, user_id=request.user.id, status__in=['cart']).prefetch_related('order_items').first()
         context = {
             'order': order
         }
@@ -21,7 +21,7 @@ class OrderView(View):
 class StatusOrderView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         if request.method == 'GET':
-            user_orders: Order = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_active=True).exclude(status__in=['cart', 'paid'])
+            user_orders: Order = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_active=True).exclude(status__in=['cart'])
             context = {
                 'orders': user_orders,
             }
@@ -33,7 +33,7 @@ def remove_order_item(request: HttpRequest) -> JsonResponse:
     if request.user.is_authenticated:
         if request.method == 'POST':
             order_item_id = request.POST.get('order_item_id') or None
-            current_order_item = OrderItem.objects.filter(is_active=True, pk=order_item_id, order__user_id=request.user.id).first() or None
+            current_order_item = OrderItem.objects.filter(is_active=True, pk=order_item_id, order__user_id=request.user.id, order__status__in=['cart']).first() or None
             if current_order_item is not None:   
                 current_order_item.delete()
                 return JsonResponse({
@@ -57,7 +57,7 @@ def change_count_order_item(request: HttpRequest) -> JsonResponse:
     if request.user.is_authenticated:
         if request.method == 'POST':
             order_item_id = request.POST.get('order_item_id') or None
-            current_order_item = OrderItem.objects.filter(is_active=True, pk=order_item_id, order__user_id=request.user.id).first() or None
+            current_order_item = OrderItem.objects.filter(is_active=True, pk=order_item_id, order__user_id=request.user.id, order__status__in=['cart']).first() or None
             if current_order_item is not None:                
                 new_number_count = request.POST.get('change_count') or None
                 if (int(new_number_count) > current_order_item.product_variant.stock) or (int(new_number_count) <= 0):
@@ -90,7 +90,7 @@ def add_product_to_order(request: HttpRequest) -> JsonResponse:
     if request.user.is_authenticated:
         if request.method == 'POST':
             product_id = request.POST.get('product_id') or None
-            order_user: Order = Order.objects.filter(is_active=True, user_id=request.user.id).first()
+            order_user: Order = Order.objects.filter(is_active=True, user_id=request.user.id, status='cart').first()
             if order_user is not None:
                 color = request.POST.get('color_name')
                 size = request.POST.get('size_name')
@@ -123,7 +123,7 @@ def add_product_to_order(request: HttpRequest) -> JsonResponse:
                         'message': 'محصول مورد نظر یافت نشد',
                     })
             else:
-                new_order = Order(user_id=request.user.id,)
+                new_order = Order(user_id=request.user.id, status='cart')
                 new_order.save()
                 color = request.POST.get('color_name')
                 size = request.POST.get('size_name')
