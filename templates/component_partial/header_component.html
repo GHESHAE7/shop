@@ -12,7 +12,11 @@
         <div class="logo-wrapper"><a href="{% url 'home_module:home_page' %}"><img src="{% static 'img/core-img/logo-small.png' %}" alt=""></a></div>
         <div class="navbar-logo-container d-flex align-items-center">
           <!-- Cart Icon -->
-          <div class="cart-icon-wrap"><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i><span>2</span></a></div>
+          <div class="cart-icon-wrap"><a href="{% url 'cart_module:order_page' %}"><i class="fa-solid fa-bag-shopping"></i>
+            {% if count_order_item %}
+              <span>{{ count_order_item }}</span>
+            {% endif %}
+          </a></div>
           <!-- User Profile Icon -->
           {% if request.user.is_authenticated %}
             <div class="user-profile-icon ms-2"><a href="{% url 'account_module:profile_page' %}"><img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt=""></a></div>
