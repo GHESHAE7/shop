@@ -46,7 +46,9 @@
             <div class="single-order-status active">
               <div class="order-icon"><i class="fa-solid fa-bag-shopping"></i></div>
               <div class="order-text">
-                {% if order.status == 'cancelled' %}
+                {% if order.status == 'paid' %}
+                    <h6>سفارش شما با شماره {{ order.order_number }} پرداخت شده است و سفارش شما ثبت شده است</h6>
+                {% elif order.status == 'cancelled' %}
                     <h6>سفارش شما با شماره {{ order.order_number }} توسط شما کنسل شده است</h6>
                 {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
                 {% elif order.status == 'processing' %}
