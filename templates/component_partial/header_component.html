@@ -65,11 +65,13 @@
               <li><a href="{% url 'product_module:products_discount_page' %}">محصولات تخفیف  دار</a></li>
             </ul>
           </li>
-          <li><a href="pages.html"><i class="fa-solid fa-file-code"></i>تمام صفحات</a></li>
+          <li><a href="{% url 'about_module:about_page' %}"><i class="fa-solid fa-file-code"></i>درباره ما</a></li>
           <li><a href="{% url 'products_like_module:like_products_page' %}"><i class="fa-solid fa-heart"></i>لیست علاقه مندی ها</a>
           </li>
           <li><a href="{% url 'account_module:settings_page' %}"><i class="fa-solid fa-sliders"></i>تنظیمات</a></li>
-          <li><a href="{% url 'account_module:logout' %}"><i class="fa-solid fa-toggle-off"></i>خروج از سیستم</a></li>
+          {% if request.user.is_authenticated %}
+            <li><a href="{% url 'account_module:logout' %}"><i class="fa-solid fa-toggle-off"></i>خروج از سیستم</a></li>
+          {% endif %}
         </ul>
       </div>
     </div>
