@@ -9,8 +9,9 @@ function remove_order_item(){
             timer: 3500,
             timerProgressBar: true,
             //position:'top-left'
+            }).then(() => {
+                location.reload();
             });
-            location.reload();
         }else{
             Swal.fire({
             icon: res.icon,
@@ -37,8 +38,9 @@ function change_count_order_item(input){
             timer: 3500,
             timerProgressBar: true,
             //position:'top-left'
+            }).then(() => {
+                location.reload();
             });
-            location.reload();
         }else{
             Swal.fire({
             icon: res.icon,

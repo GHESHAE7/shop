@@ -36,7 +36,7 @@
       <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
       <!-- Add to Cart -->
       <input type="hidden" id="#csrf_t" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-      <button class="btn btn-success btn-sm" onclick="delete_product_to_likes({{ product.id }})"><i class="fa-solid fa-plus"></i></button>
+      <button class="btn btn-success btn-sm" type="button" onclick="delete_product_to_likes({{ product.id }})"><i class="fa-solid fa-plus"></i></button>
     </div>
               </div>
             </div>

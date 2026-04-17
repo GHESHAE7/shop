@@ -7,8 +7,9 @@ function delete_product_to_likes(id_like_product){
         timer: 3500,
         timerProgressBar: true,
         //position:'top-left'
+        }).then(() => {
+            location.reload();
         });
-        window.location.reload();
     });
 }
 
