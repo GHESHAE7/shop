@@ -1,0 +1,8 @@
+/*!
+ * Toastify js 1.9.3
+ * https://github.com/apvarun/toastify-js
+ * @license MIT licensed
+ *
+ * Copyright (C) 2018 Varun A P
+ */
+.toastify{color:#fff;opacity:0;cursor:pointer;z-index:2147483647;background:-webkit-linear-gradient(315deg,#73a5ff,#5477f5);background:linear-gradient(135deg,#73a5ff,#5477f5);border-radius:2px;max-width:calc(50% - 20px);padding:12px 20px;text-decoration:none;transition:all .4s cubic-bezier(.215,.61,.355,1);display:inline-block;position:fixed;box-shadow:0 3px 6px -1px #0000001f,0 10px 36px -4px #4d60e84d}.toastify.on{opacity:1}.toast-close{opacity:.4;padding:0 5px}.toastify-right{right:15px}.toastify-left{left:15px}.toastify-top{top:-150px}.toastify-bottom{bottom:-150px}.toastify-rounded{border-radius:25px}.toastify-avatar{border-radius:2px;width:1.5em;height:1.5em;margin:-7px 5px}.toastify-center{max-width:-moz-fit-content;margin-left:auto;margin-right:auto;left:0;right:0}@media only screen and (width<=360px){.toastify-left,.toastify-right{max-width:fit-content;margin-left:auto;margin-right:auto;left:0;right:0}}

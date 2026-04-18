@@ -29,6 +29,12 @@ function get_stock(product_id){
             }
         });
     }else{
-        console.log('NONOONONNONO');
+        Toastify({
+            text: 'سایز و رنگ کفش انتخاب باید کنید تا موجودی نمایش داده شود',
+            duration: 3500,
+            gravity: "top",
+            position: "right",
+            backgroundColor: '#0081cc',
+        }).showToast();   
     };
 }

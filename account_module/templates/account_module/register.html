@@ -7,20 +7,24 @@
 
 {% block body %}
 
-{% if messages %}
-  <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
-  <script>
-    {% for message in messages %}
-      Swal.fire({
-        icon: "{{ message.tags }}",
-        title: "{{ message }}",
-        timer: 3500,
-        timerProgressBar: true,
-        //position:'top-left'
-      });
-    {% endfor %}
-  </script>
-{% endif %}
+    {% if messages %}
+    <script src="{% static 'js/toastify.min.js' %}"></script>
+      <script>
+        {% for message in messages %}
+            Toastify({
+              text: "{{ message }}",
+              duration: 3500,
+              gravity: "top",
+              position: "right",
+              backgroundColor: {% if message.tags == 'success' %}"#00920c"
+              {% elif message.tags == 'info' %}"#0081cc"
+              {% elif message.tags == 'warning' %}"#ce7e15"
+              {% elif message.tags == 'error' %}"#c50000"
+              {% endif %},
+          }).showToast();
+        {% endfor %}
+      </script>
+    {% endif %}
 
         <!-- Login Wrapper Area-->
     <div class="login-wrapper d-flex align-items-center justify-content-center text-center">

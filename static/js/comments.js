@@ -4,43 +4,61 @@ function send_comment(){
     let rating = document.getElementById('comment_rating');
     let product_id = document.getElementById('product_id_send_comment');
     if(parseInt(rating.value) < 0 || parseInt(rating.value) > 5 || parseInt(rating.value) == '' || isNaN((rating.value))){
-        Swal.fire({
-        icon: 'warning',
-        title: 'امتیاز محصول باید بین 1 تا 5 باشد',
-        timer: 3500,
-        timerProgressBar: true,
-        //position:'top-left'
-        });
+            Toastify({
+              text: 'امتیاز محصول باید بین 1 تا 5 باشد',
+              duration: 3500,
+              gravity: "top",
+              position: "right",
+              backgroundColor: '#ce7e15',
+          }).showToast();
     }else{
         if (comment == ""){
-            Swal.fire({
-            icon: 'warning',
-            title: 'متن کامنت باید حتما پر شود',
-            timer: 3500,
-            timerProgressBar: true,
-            //position:'top-left'
-            });
+            Toastify({
+              text: 'متن کامنت باید حتما پر شود',
+              duration: 3500,
+              gravity: "top",
+              position: "right",
+              backgroundColor: '#ce7e15',
+          }).showToast();
         }else{
             $.post('http://127.0.0.1:8000/comment/add', {product_id:parseInt(product_id.value), csrfmiddlewaretoken:csrf.value, message:comment, rating:rating.value}, function(res){
                 if(res.icon == 'warning' || res.icon == 'error' || res.icon == 'info'){
-                        Swal.fire({
-                            icon: res.icon,
-                            title: res.message,
-                            timer: 3500,
-                            timerProgressBar: true,
-                            //position:'top-left'
-                        });
+                    if (res.icon == 'info'){
+                        Toastify({
+                            text: res.message,
+                            duration: 3500,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: '#0081cc',
+                        }).showToast();               
+                    }else if (res.icon == 'warning'){
+                        Toastify({
+                            text: res.message,
+                            duration: 3500,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: '#ce7e15',
+                        }).showToast();  
+                    }else if (res.icon == 'error'){
+                        Toastify({
+                            text: res.message,
+                            duration: 3500,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: '#c50000',
+                        }).showToast();                 
+                    }
                 }else{
                     document.getElementById('list_comment').innerHTML = res;
                     document.getElementById('comments').value = null;
                     document.getElementById('comment_rating').value = null;
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'کامنت شما با موفقیت ثبت شد و پس از بررسی نمایش داده می شود',
-                        timer: 3500,
-                        timerProgressBar: true,
-                        //position:'top-left'
-                    });
+                    Toastify({
+                            text: 'کامنت شما با موفقیت ثبت شد و پس از بررسی نمایش داده می شود',
+                            duration: 3500,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: '#00920c',
+                    }).showToast();
                 }
             });
         }

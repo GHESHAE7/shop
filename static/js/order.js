@@ -3,23 +3,74 @@ function remove_order_item(){
     let order_item_id = document.getElementById('order_item_id');
     $.post('http://127.0.0.1:8000/order/remove-order-item', {order_item_id: order_item_id.value, csrfmiddlewaretoken: csrf_token.value}, function(res){
         if(res.icon == 'success'){
-            Swal.fire({
-            icon: res.icon,
-            title: res.message,
-            timer: 3500,
-            timerProgressBar: true,
-            //position:'top-left'
-            }).then(() => {
-                location.reload();
-            });
+            
+            if (res.icon == 'success'){
+                Toastify({
+                    text: res.message,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#00920c',
+                }).showToast(); 
+            }else if (res.icon == 'info'){
+                Toastify({
+                    text: res.message,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#0081cc',
+                }).showToast();               
+            }else if (res.icon == 'warning'){
+                Toastify({
+                    text: res.message,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#ce7e15',
+                }).showToast();  
+            }else if (res.icon == 'error'){
+                Toastify({
+                    text: res.message,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#c50000',
+                }).showToast();                 
+            }
+            setTimeout(function() {
+            window.location.reload();
+            }, 1000);
+
         }else{
-            Swal.fire({
-            icon: res.icon,
-            title: res.message,
-            timer: 3500,
-            timerProgressBar: true,
-            //position:'top-left'
-            }); 
+            if (res.icon == 'success'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#00920c',
+                }).showToast(); 
+            }else if (res.icon == 'info'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#0081cc',
+                }).showToast();               
+            }else if (res.icon == 'warning'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#ce7e15',
+                }).showToast();  
+            }else if (res.icon == 'error'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#c50000',
+                }).showToast();                 
+            }
         }
     })
 }
@@ -32,23 +83,73 @@ function change_count_order_item(input){
     let csrf_token = document.getElementById('#csrf_t');
     $.post('http://127.0.0.1:8000/order/change-count', {change_count: count_order_item.value, order_item_id: order_item_id.value, csrfmiddlewaretoken: csrf_token.value}, function(res){
         if(res.icon == 'info'){
-            Swal.fire({
-            icon: res.icon,
-            title: res.message,
-            timer: 3500,
-            timerProgressBar: true,
-            //position:'top-left'
-            }).then(() => {
-                location.reload();
-            });
+                        if (res.icon == 'success'){
+                Toastify({
+                    text: res.message,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#00920c',
+                }).showToast(); 
+            }else if (res.icon == 'info'){
+                Toastify({
+                    text: res.message,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#0081cc',
+                }).showToast();               
+            }else if (res.icon == 'warning'){
+                Toastify({
+                    text: res.message,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#ce7e15',
+                }).showToast();  
+            }else if (res.icon == 'error'){
+                Toastify({
+                    text: res.message,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#c50000',
+                }).showToast();   
+
+            }
+                        setTimeout(function() {
+            window.location.reload();
+            }, 1000);
         }else{
-            Swal.fire({
-            icon: res.icon,
-            title: res.message,
-            timer: 3500,
-            timerProgressBar: true,
-            //position:'top-left'
-            }); 
+                        if (res.icon == 'success'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#00920c',
+                }).showToast(); 
+            }else if (res.icon == 'info'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#0081cc',
+                }).showToast();               
+            }else if (res.icon == 'warning'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#ce7e15',
+                }).showToast();  
+            }else if (res.icon == 'error'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#c50000',
+                }).showToast();                 
+            }
         }
     })
 }
@@ -63,32 +164,58 @@ function add_product_in_order(){
     let product_id = document.getElementById('product_id_for_add_in_order');
     
     if(number_count.value <= 0){
-            Swal.fire({
-            icon: 'info',
-            title: 'تعداد باید بزرگ تر از 0 باشد',
-            timer: 3500,
-            timerProgressBar: true,
-            //position:'top-left'
-            });
+                            Toastify({
+                    text: 'تعداد باید بزرگ تر از 0 باشد',
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#0081cc',
+                }).showToast();  
     }else{
         if (color != null && size != null){
         $.post('http://127.0.0.1:8000/order/add-product-to-order', {color_name:color.value, size_name:size.value, count: number_count.value, product_id:product_id.value, csrfmiddlewaretoken:csrf.value}, function(res){
-            Swal.fire({
-            icon: res.icon,
-            title: res.message,
-            timer: 3500,
-            timerProgressBar: true,
-            //position:'top-left'
-            });
+                                    if (res.icon == 'success'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#00920c',
+                }).showToast(); 
+            }else if (res.icon == 'info'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#0081cc',
+                }).showToast();               
+            }else if (res.icon == 'warning'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#ce7e15',
+                }).showToast();  
+            }else if (res.icon == 'error'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#c50000',
+                }).showToast();                 
+            }
         });
         }else{
-            Swal.fire({
-            icon: 'warning',
-            title: 'حتما باید سایز و رنگ خود را مشخص کنید',
-            timer: 3500,
-            timerProgressBar: true,
-            //position:'top-left'
-            });
+                            Toastify({
+                    text: 'حتما باید سایز و رنگ خود را مشخص کنید',
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#ce7e15',
+                }).showToast();  
         };
     }
 }
