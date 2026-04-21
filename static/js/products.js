@@ -79,3 +79,25 @@ function filter_discount(){
         window.location.href = '?' + search_params.toString();
     }
 };
+
+
+
+let list_li = document.querySelectorAll("li.option");
+
+for (let i = 0; i < list_li.length; i++) {
+    list_li[i].addEventListener('click', function(){
+        let ul = document.querySelector('ul.list');
+        setTimeout(() => {
+            const order_by = ul.querySelector("li.selected").innerHTML;
+            const search_params = new URLSearchParams(window.location.search);
+            if (order_by != 'براساس'){
+                search_params.delete('order_by');
+                search_params.append('order_by', order_by);
+                window.location.href = '?' + search_params.toString();
+            }else{
+                search_params.delete('order_by');
+                window.location.href = '?' + search_params.toString();
+            }
+        }, 300);
+    })   
+}

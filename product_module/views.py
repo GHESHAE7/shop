@@ -29,6 +29,7 @@ class ProductsListView(ListView):
         discounted = self.request.GET.get('discounted')
         max_price = self.request.GET.get('max_price') or 0
         min_price = self.request.GET.get('min_price') or 0
+        order_by = self.request.GET.get('order_by') or None
         if category_url is not None:
             query = query.filter(category__url__exact=category_url)
         if brand_url is not None:
@@ -45,6 +46,17 @@ class ProductsListView(ListView):
             query = query.filter(price__lte=max_price)
         if self.request.path.endswith('/discount'):
             query = query.filter(product_variant__discount__gt=0)
+        if order_by:
+            if order_by == 'جدیدترین':
+                query = query.order_by('-created_at')
+            elif order_by == 'قدیمی ترین':
+                query = query.order_by('created_at') 
+            elif order_by == 'بیشترین قیمت':
+                query = query.order_by('-price')          
+            elif order_by == 'کمترین قیمت':
+                query = query.order_by('price')       
+            elif order_by == 'تخفیف دار':
+                query = query.filter(product_variant__discount__isnull=False)
         return query
     
     
@@ -59,6 +71,7 @@ class ProductsListView(ListView):
         context['checked_brands'] = self.request.GET.getlist('brand')
         context['checked_categories'] = self.request.GET.getlist('category')
         context['checked_discounted'] = self.request.GET.get('discounted')
+        context['order_by'] = self.request.GET.get('order_by') or None
         context['max_price'] = Product.objects.filter(is_active=True).aggregate(Max('price'))['price__max'] or 0
         context['min_price'] = Product.objects.filter(is_active=True).aggregate(Min('price'))['price__min'] or 0
         
@@ -124,7 +137,6 @@ def stock_color_size(request: HttpRequest) -> JsonResponse:
     size = request.POST.get('size_name')
     product_id = request.POST.get('product_id')
     get_product_variant: ProductVariant = ProductVariant.objects.filter(is_active=True, color__exact=color, size__exact=size, product_id=product_id).values('stock').first()
-    print(get_product_variant)
     if get_product_variant:
         return JsonResponse({
         'color': color,
