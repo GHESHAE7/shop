@@ -43,13 +43,9 @@
             {% else %}
               <div class="user-profile"><img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt=""></div>
             {% endif %}
-          {% comment %} {% else %}
-            <div class="user-profile"><img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt=""></div> {% endcomment %}
-
-
           <div class="user-info">
              <h5 class="user-name mb-1 text-white">{% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.email }}{% endif %}</h5>
-            <p class="available-balance text-white"> موجودی <span class="counter">5000</span> <span>تومان</span> </p>
+            {% comment %} <p class="available-balance text-white"> موجودی <span class="counter">5000</span> <span>تومان</span> </p> {% endcomment %}
           </div>
         </div>
         {% else %}
