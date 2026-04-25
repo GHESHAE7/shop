@@ -7,7 +7,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Comment(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=False, blank=False, verbose_name='محصول')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=False, blank=False, verbose_name='محصول', related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False, verbose_name='کاربر')
     message = models.TextField(null=False, blank=False, verbose_name='متن کامنت')
     rating = models.IntegerField(null=False, blank=False, validators=[MaxValueValidator(5), MinValueValidator(1)], default=0)
