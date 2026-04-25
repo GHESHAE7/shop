@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', filtering)
 function filtering(){
     const checkbox_brand = document.querySelectorAll("input[name='check_brand']");
     const checkbox_category = document.querySelectorAll("input[name='check_category']");
+    const checkbox_rating = document.querySelectorAll("input[name='check_rating']");
     // console.log(checkbox_category);
     
     // console.log(checkbox_brand);
@@ -12,7 +13,11 @@ function filtering(){
     for(var i =0; i < checkbox_category.length; i++){
         checkbox_category[i].addEventListener('change', filter_category);
     };
+    for(var i =0; i < checkbox_rating.length; i++){
+        checkbox_rating[i].addEventListener('change', filter_rating);
+    };
 };
+
 
 function filter_brand(){
     const checked_brands = document.querySelectorAll('input[name="check_brand"]:checked');
@@ -36,6 +41,15 @@ function filter_category(){
     };
     window.location.href = '?' + search_params.toString();
 };
+
+
+function filter_rating(){
+    const checked_rating = document.querySelector('input[name="check_rating"]:checked');
+    const search_params = new URLSearchParams(window.location.search);
+    search_params.delete('rating');
+        search_params.append('rating', checked_rating.value)
+    window.location.href = '?' + search_params.toString();
+}
 
 
 const submit_price_filter = document.getElementById('submit_price_filter');
@@ -79,6 +93,9 @@ function filter_discount(){
         window.location.href = '?' + search_params.toString();
     }
 };
+
+
+
 
 
 
