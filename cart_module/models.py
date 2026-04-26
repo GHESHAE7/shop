@@ -21,6 +21,7 @@ class Order(models.Model):
     order_number = models.IntegerField()
     status = models.CharField(max_length=150, choices=status_choices, default=status_choices.CART)
     total_price = models.DecimalField(max_digits=20, decimal_places=2, null=True)
+    rahgiri_code = models.CharField(max_length=200, null=True, blank=True, verbose_name='کد رهگیری پرداخت سفارش')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
