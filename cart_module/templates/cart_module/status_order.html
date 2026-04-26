@@ -51,21 +51,21 @@
               <div class="order-icon"><i class="fa-solid fa-bag-shopping"></i></div>
               <div class="order-text">
                 {% if order.status == 'paid' %}
-                    <h6>سفارش شما با شماره {{ order.order_number }} پرداخت شده است و سفارش شما ثبت شده است</h6>
+                    <h6>سفارش شما با شماره {{ order.id }} پرداخت شده است و سفارش شما ثبت شده است</h6>
                 {% elif order.status == 'cancelled' %}
-                    <h6>سفارش شما با شماره {{ order.order_number }} توسط شما کنسل شده است</h6>
+                    <h6>سفارش شما با شماره {{ order.id }} توسط شما کنسل شده است</h6>
                 {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
                 {% elif order.status == 'processing' %}
-                    <h6>سفارش شما با شماره {{ order.order_number }} در حال بسته بندی و سپس ارسال می باشد</h6>
+                    <h6>سفارش شما با شماره {{ order.id }} در حال بسته بندی و سپس ارسال می باشد</h6>
                 {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
                 {% elif order.status == 'shipped' %}
-                    <h6>سفارش شما با شماره {{ order.order_number }} به مامور فرستنده بسته داده شده است و به دست شما می رسد</h6>
+                    <h6>سفارش شما با شماره {{ order.id }} به مامور فرستنده بسته داده شده است و به دست شما می رسد</h6>
                 {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
                 {% elif order.status == 'completed' %}
-                    <h6>سفارش شما با شماره {{ order.order_number }} به دست شما رسیده و تکیمل شده است</h6>
+                    <h6>سفارش شما با شماره {{ order.id }} به دست شما رسیده و تکیمل شده است</h6>
                 {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
                 {% elif order.status == 'returned' %}
-                    <h6>سفارش شما با شماره {{ order.order_number }} توسط شما برگشت خورده است</h6>
+                    <h6>سفارش شما با شماره {{ order.id }} توسط شما برگشت خورده است</h6>
                 {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
                 {% endif %}
 

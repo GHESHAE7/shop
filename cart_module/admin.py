@@ -6,15 +6,15 @@ from cart_module.models import Order, OrderItem
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('order_number','user', 'status', 'is_active', 'total_price', 'updated_at', 'created_at',)
-    list_filter = ('order_number', 'status', 'is_active', 'updated_at', 'created_at',)
-    search_fields = ('user','order_number', 'status', 'rahgiri_code')
-    readonly_fields = ('created_at', 'updated_at', 'total_price', 'order_number',)
+    list_display = ('id','user', 'status', 'is_active', 'total_price', 'updated_at', 'created_at',)
+    list_filter = ('status', 'is_active', 'updated_at', 'created_at',)
+    search_fields = ('user', 'status', 'rahgiri_code')
+    readonly_fields = ('created_at', 'updated_at', 'total_price',)
 
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ('order', 'product', 'product_variant', 'count', 'is_active', 'updated_at', 'created_at',)
     list_filter = ('order', 'product', 'count', 'product_variant', 'is_active', 'updated_at', 'created_at',)
-    search_fields = ('product__product_name', 'order__order_number',)
+    search_fields = ('product__product_name', 'order__id',)
     readonly_fields = ('created_at', 'updated_at', 'price', 'product',)

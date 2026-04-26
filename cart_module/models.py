@@ -18,7 +18,6 @@ class Order(models.Model):
         RETURNED = "returned", _("returned")
         
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    order_number = models.IntegerField()
     status = models.CharField(max_length=150, choices=status_choices, default=status_choices.CART)
     total_price = models.DecimalField(max_digits=20, decimal_places=2, null=True)
     rahgiri_code = models.CharField(max_length=200, null=True, blank=True, verbose_name='کد رهگیری پرداخت سفارش')
@@ -26,26 +25,13 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
-
-    
-    def save(self, *args, **kwargs):
-        is_update = self.pk is not None
-        if not is_update:
-            last_order_number = Order.objects.filter(is_active=True).order_by('order_number').last()
-            if last_order_number:
-                self.order_number = last_order_number.order_number + 1
-            else:
-                self.order_number = 3355
-        else:
-            pass
-        super(Order, self).save(*args, **kwargs)
         
     def show_total_price(self):
         total = self.order_items.aggregate(total = Sum(F('price') * F('count')))['total'] or 0
         return total
     
     def __str__(self):
-        return str(self.order_number)
+        return str(self.id)
     
     
 class OrderItem(models.Model):
