@@ -4,6 +4,9 @@ from cart_module.models import Order, OrderItem
 from django.http import JsonResponse, HttpResponse
 from product_module.models import Product, ProductVariant
 from django.http import HttpRequest, HttpResponse
+from django.utils.crypto import get_random_string
+from account_module.models import User
+from django.db.models import F
 # Create your views here.
 
 
@@ -159,3 +162,29 @@ def add_product_to_order(request: HttpRequest) -> JsonResponse:
             'icon': 'error',
             'message': 'ابتدل باید وارد حساب کاربری خود شوید'
         })
+
+
+
+class PaymentView(View):
+    def get(self, request: HttpRequest, order_id: str) -> HttpResponse:
+        if request.user.is_authenticated:
+            order: Order = Order.objects.filter(is_active=True, status='cart', pk=order_id).first()
+            if order is not None:
+                current_user: User = User.objects.filter(is_active=True, pk=request.user.id).first()
+                if current_user.address == None or current_user.address == '':
+                    return HttpResponse('plese address')
+                else:
+                    order_items: OrderItem = OrderItem.objects.filter(is_active=True, order_id=order.id).values_list('product_variant_id', 'count')
+                    for pro_var_id, count in order_items:
+                        print(f'product_variant_id: {pro_var_id} | count: {count}')
+                        ProductVariant.objects.filter(is_active=True, id=pro_var_id).update(stock=F('stock') - count)
+                    order.address = current_user.address
+                    order.total_price = order.show_total_price()
+                    order.status = 'processing'
+                    order.rahgiri_code = get_random_string(75)
+                    order.save()
+                    return HttpResponse('sefaresh shoma sabt shod')
+            else:
+                return HttpResponse('order not exists')
+        else:
+            return HttpResponse('you not login')

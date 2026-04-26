@@ -91,7 +91,8 @@
                 <!-- Cart Amount Area-->
                 <div class="card cart-amount-area">
                     <div class="card-body d-flex align-items-center justify-content-between">
-                    <h5 class="total-price mb-0"><span class="counter">{{ order.show_total_price }}</span> تومان</h5><a class="btn btn-warning" href="checkout.html">پرداخت </a>
+                    <h5 class="total-price mb-0"><span class="counter">{{ order.show_total_price }}</span> تومان</h5>
+                    <a class="btn btn-warning" href="{% url 'cart_module:payment_order' order_id=order.id %}">پرداخت </a>
                     </div>
                 </div>
                 </div>
