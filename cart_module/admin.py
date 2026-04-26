@@ -8,7 +8,7 @@ from cart_module.models import Order, OrderItem
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('order_number','user', 'status', 'is_active', 'total_price', 'updated_at', 'created_at',)
     list_filter = ('order_number', 'status', 'is_active', 'updated_at', 'created_at',)
-    search_fields = ('user','order_number', 'status',)
+    search_fields = ('user','order_number', 'status', 'rahgiri_code')
     readonly_fields = ('created_at', 'updated_at', 'total_price', 'order_number',)
 
 
