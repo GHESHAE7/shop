@@ -1,4 +1,5 @@
 {% load static %}
+{% load jformat %}
 
 {% for comment in comments %}
 <!-- Single User Review -->
@@ -11,8 +12,9 @@
     </div>
     <div class="rating-comment">
     <div class="rating">امتیاز {{ comment.rating }}</div>
-    <p class="comment mb-0">{{ comment.message }}</p><span class="name-date">{% if comment.user.username %}{{ comment.user }}
-        {% else %}{{ comment.user.email }}{% endif %}
+    <p class="comment mb-0">{{ comment.message }}</p><span class="name-date">{{ comment.created_at|jformat:"%H:%M %Y/%m/%d"}}
+        {% if comment.user.username %}{{ comment.user }}
+        {% else %}{{ comment.user.email }}{% endif %}</span>
     </div>
 </li>
 {% empty %}
