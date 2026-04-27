@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "django_summernote",
     "django_extensions",
     "debug_toolbar",
+    "django_jalali",
     # app
     "home_module.apps.HomeModuleConfig",
     "account_module.apps.AccountModuleConfig",
