@@ -32,7 +32,6 @@ def add_commnet(request: HttpRequest) -> JsonResponse | HttpResponse:
                 else:
                     message = request.POST.get('message')
                     Comment.objects.create(is_active=True, user_id=request.user.id, product_id=current_product.id, message=message, rating=int(rating))
-                    get_rating: int = Comment.objects.filter(is_active=True, product_id=current_product.id).aggregate(Avg('rating'))['rating__avg'] or 0
                     return comments_product(request=request, product_id=product_id)
             else:
                 return JsonResponse({
