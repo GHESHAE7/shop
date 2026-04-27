@@ -61,6 +61,7 @@ class ProductVariant(models.Model):
     size = models.CharField(max_length=20, null=False, blank=False, verbose_name='سایز')
     stock = models.IntegerField(default=0, null=False, blank=False)
     discount = models.PositiveSmallIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(100)])
+    sales_count = models.IntegerField(null=True, blank=True, verbose_name='تعداد به فروش رفته')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
