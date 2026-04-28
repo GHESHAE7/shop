@@ -176,8 +176,7 @@ class PaymentView(View):
                 else:
                     order_items: OrderItem = OrderItem.objects.filter(is_active=True, order_id=order.id).values_list('product_variant_id', 'count')
                     for pro_var_id, count in order_items:
-                        print(f'product_variant_id: {pro_var_id} | count: {count}')
-                        ProductVariant.objects.filter(is_active=True, id=pro_var_id).update(stock=F('stock') - count)
+                        ProductVariant.objects.filter(is_active=True, id=pro_var_id).update(stock=F('stock') - count, sales_count=F('sales_count') + count)
                     order.address = current_user.address
                     order.total_price = order.show_total_price()
                     order.status = 'processing'
