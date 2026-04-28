@@ -236,82 +236,41 @@
       <div class="weekly-best-seller-area py-3">
         <div class="container">
           <div class="section-heading d-flex align-items-center justify-content-between dir-rtl">
-            <h6>پرفروش ترین هفتگی</h6><a class="btn p-0" href="shop-list.html">
+            <h6>پرفروش ترین ها</h6><a class="btn p-0" href="{% url 'product_module:products_page' %}">
                مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
           </div>
           <div class="row g-2">
-            <!-- Weekly Product Card -->
-            <div class="col-12">
-              <div class="horizontal-product-card">
-                <div class="d-flex align-items-center">
-                  <div class="product-thumbnail-side">
-                    <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="single-product.html"><img src="{% static 'img/product/18.png' %}" alt=""></a>
-                  </div>
-                  <div class="product-description">
-                    <!-- Wishlist  --><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a>
-                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">شیشه قهوه نسف</a>
-                    <!-- Price -->
-                    <p class="sale-price"><i class="fa-solid fa-dollar-sign"></i>6000 تومان<span>8000 تومان</span></p>
-                    <!-- Rating -->
-                    <div class="product-rating"><i class="fa-solid fa-star"></i>4.88 <span class="ms-1">(39 مرور)</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Weekly Product Card -->
-            <div class="col-12">
-              <div class="horizontal-product-card">
-                <div class="d-flex align-items-center">
-                  <div class="product-thumbnail-side">
-                    <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="single-product.html"><img src="{% static 'img/product/7.png' %}" alt=""></a>
-                  </div>
-                  <div class="product-description">
-                    <!-- Wishlist  --><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a>
-                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">صندلی دفتر مدرن</a>
-                    <!-- Price -->
-                    <p class="sale-price"><i class="fa-solid fa-dollar-sign"></i>6000 تومان<span>8000 تومان</span></p>
-                    <!-- Rating -->
-                    <div class="product-rating"><i class="fa-solid fa-star"></i>4.82 <span class="ms-1">(125 مرور)</span></div>
+
+
+
+
+            
+            {% for product in products_sales_week %}
+              <div class="col-12">
+                <div class="horizontal-product-card">
+                  <div class="d-flex align-items-center">
+                    <div class="product-thumbnail-side">
+                      <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img src="{{ product.image.url }}" alt=""></a>
+                    </div>
+                    <div class="product-description">
+                      <!-- Wishlist  --><a class="wishlist-btn" type="button" onclick="add_product_to_likes({{ product.id }})"><i class="fa-solid fa-heart"></i></a>
+                      <!-- Product Title --><a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}">{{ product.name }}</a>
+                      <!-- Price -->
+                      <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma  }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
+                      <!-- Rating -->
+                      <div class="product-rating"><i class="fa-solid fa-star"></i>{{ product.rating|floatformat:2 }} <span class="ms-1">({{ product.sales_count }} فروش)</span></div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- Weekly Product Card -->
-            <div class="col-12">
-              <div class="horizontal-product-card">
-                <div class="d-flex align-items-center">
-                  <div class="product-thumbnail-side">
-                    <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="single-product.html"><img src="{% static 'img/product/12.png' %}" alt=""></a>
-                  </div>
-                  <div class="product-description">
-                    <!-- Wishlist  --><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a>
-                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">عینک آفتابی ساحل</a>
-                    <!-- Price -->
-                    <p class="sale-price"><i class="fa-solid fa-dollar-sign"></i>4000 تومان<span>8000 تومان</span></p>
-                    <!-- Rating -->
-                    <div class="product-rating"><i class="fa-solid fa-star"></i>4.79 <span class="ms-1">(63 مرور)</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Weekly Product Card -->
-            <div class="col-12">
-              <div class="horizontal-product-card">
-                <div class="d-flex align-items-center">
-                  <div class="product-thumbnail-side">
-                    <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="single-product.html"><img src="{% static 'img/product/17.png' %}" alt=""></a>
-                  </div>
-                  <div class="product-description">
-                    <!-- Wishlist  --><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a>
-                    <!-- Product Title --><a class="product-title d-block" href="single-product.html">غذای گربه مخلوط میو</a>
-                    <!-- Price -->
-                    <p class="sale-price"><i class="fa-solid fa-dollar-sign"></i>6000 تومان<span>8000 تومان</span></p>
-                    <!-- Rating -->
-                    <div class="product-rating"><i class="fa-solid fa-star"></i>4.78 <span class="ms-1">(7 مرور)</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {% endfor %}
+
+
+
+
+
+
+
           </div>
         </div>
       </div>
