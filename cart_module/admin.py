@@ -26,6 +26,7 @@ class OrderItemAdmin(admin.ModelAdmin):
 class DiscountCodeAdmin(admin.ModelAdmin):
     list_display = ('code', 'percent', 'amount', 'expires_at', 'max_uses', 'is_active','updated_at', 'created_at')
     list_filter = ('percent', 'amount', 'expires_at', 'max_uses', 'is_active', 'updated_at', 'created_at',)
+    list_editable = ('is_active',)
     search_fields = ('code', 'percent', 'amount')
     readonly_fields = ('created_at', 'updated_at',)
 
@@ -34,6 +35,7 @@ class DiscountCodeAdmin(admin.ModelAdmin):
 @admin.register(UserDiscountUsage)
 class UserDiscountUsageAdmin(admin.ModelAdmin):
     list_display = ('user__username', 'discount_code', 'status_usage', 'discount_amount_applied', 'is_active', 'updated_at', 'created_at',)
-    list_filter = ('user__username', 'discount_code', 'status_usage', 'is_active', 'updated_at', 'created_at',)
+    list_filter = ('user__username', 'discount_code', 'status_usage', 'is_active', 'updated_at', 'created_at',)    
+    list_editable = ('is_active',)
     search_fields = ('user__username', 'discount_code', 'discount_amount_applied')
     readonly_fields = ('created_at', 'updated_at', 'discount_amount_applied',)

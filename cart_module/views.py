@@ -1,19 +1,19 @@
 from django.shortcuts import render
 from django.views import View
-from cart_module.models import Order, OrderItem
+from cart_module.models import Order, OrderItem, DiscountCode, UserDiscountUsage
 from django.http import JsonResponse, HttpResponse
 from product_module.models import Product, ProductVariant
 from django.http import HttpRequest, HttpResponse
 from django.utils.crypto import get_random_string
 from account_module.models import User
 from django.db.models import F
-# Create your views here.
+from django.utils import timezone
 
 
 
 class OrderView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        order: Order = Order.objects.filter(is_active=True, user_id=request.user.id, status__in=['cart']).prefetch_related('order_items').first()
+        order: Order = Order.objects.filter(is_active=True, user_id=request.user.id, status__in=['cart']).prefetch_related('order_items').prefetch_related('discounts_applied').first()
         context = {
             'order': order
         }
@@ -187,3 +187,64 @@ class PaymentView(View):
                 return HttpResponse('order not exists')
         else:
             return HttpResponse('you not login')
+        
+        
+
+class DiscountCodeView(View):
+    def post(self, request: HttpRequest) -> JsonResponse:
+        if request.user.is_authenticated:
+            discount_code = request.POST.get('discount_code')
+            current_discount_code: DiscountCode = DiscountCode.objects.filter(is_active=True, code__exact=discount_code, expires_at__gte=timezone.now()).first()
+            if current_discount_code is not None:
+                order_id = request.POST.get('order_id')
+                current_user_discount_usage = UserDiscountUsage.objects.filter(is_active=True, order_id=order_id, user_id=request.user.id, discount_code_id=current_discount_code.id)
+                if current_user_discount_usage is not None:
+                    return JsonResponse({
+                    'icon': 'info',
+                    'message': 'کد تخفیف قبلا توسط شما استفاده یا در حال حاظر اعمال گردیده است',
+                })
+                else:
+                    UserDiscountUsage.objects.create(is_active=True, order_id=order_id, user_id=request.user.id, discount_code_id=current_discount_code.id)
+                    return JsonResponse({
+                    'icon': 'success',
+                    'message': 'کد تخفیف اعمال شد',
+                })
+            else:
+                return JsonResponse({
+                    'icon': 'error',
+                    'message': 'کد تخفیف وارد شده وجود ندارد یا تاریخ آن تمام شده است',
+                })
+
+        else:
+            return JsonResponse({
+                'icon': 'error',
+                'message': 'ابتدا وارد حساب کاربری خود شوید',
+            })
+
+
+
+class DiscountCodeDeleteView(View):
+    def post(self, request: HttpRequest) -> JsonResponse:
+        if request.user.is_authenticated:
+            discount_code = request.POST.get('discount_code')
+            current_discount_code: DiscountCode = DiscountCode.objects.filter(is_active=True, code__exact=discount_code, expires_at__gte=timezone.now()).first()
+            if current_discount_code is not None:
+                order_id = request.POST.get('order_id')
+                UserDiscountUsage.objects.filter(is_active=True, order_id=order_id, user_id=request.user.id, status_usage='not_used', discount_code_id=current_discount_code.id).first().delete()
+                return JsonResponse({
+                    'icon': 'success',
+                    'message': 'کد تخفیف حذف شد',
+                })
+            else:
+                return JsonResponse({
+                    'icon': 'error',
+                    'message': 'کد تخفیف وارد شده وجود ندارد',
+                })
+        else:
+            return JsonResponse({
+                'icon': 'error',
+                'message': 'ابتدا وارد حساب کاربری خود شوید',
+            })
+            
+            
+            

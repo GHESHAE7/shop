@@ -5,6 +5,8 @@ from product_module.models import Product
 from django.utils.translation import gettext_lazy as _
 from django.db.models import F, Sum
 from django.utils import timezone
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 
 
@@ -29,7 +31,16 @@ class Order(models.Model):
         
     def show_total_price(self):
         total = self.order_items.aggregate(total = Sum(F('price') * F('count')))['total'] or 0
-        return total
+        current_user_discount_usage = UserDiscountUsage.objects.filter(order_id=self.id, status_usage='not_used', is_active=True).first()
+        if current_user_discount_usage:
+            current_discount_code = DiscountCode.objects.filter(code=current_user_discount_usage.discount_code).first()
+            if current_discount_code.percent and current_discount_code.amount == None:
+                total -= (total / 100) * current_discount_code.percent
+            else:
+                total -= current_discount_code.amount
+            return total
+        else:
+            return total
     
     def __str__(self):
         return str(self.id)
@@ -63,7 +74,7 @@ class OrderItem(models.Model):
 
 class DiscountCode(models.Model):
     code = models.CharField(max_length=15, unique=True, verbose_name="کد تخفیف")
-    percent = models.PositiveIntegerField(null=True, blank=True, verbose_name="درصد تخفیف")
+    percent = models.PositiveIntegerField(null=True, blank=True, verbose_name="درصد تخفیف", validators=[MinValueValidator(1), MaxValueValidator(100)])
     amount = models.PositiveIntegerField(null=True, blank=True, verbose_name="مبلغ تخفیف (تومان)")
     expires_at = models.DateTimeField(null=True,blank=True,verbose_name="تاریخ انقضا")
     max_uses = models.PositiveIntegerField(null=True, blank=True, verbose_name="حداکثر تعداد کل استفاده")
@@ -74,9 +85,14 @@ class DiscountCode(models.Model):
     def __str__(self):
         return self.code
 
-    def is_expired(self):
-        if self.expires_at:
-            self.is_active = False if timezone.now() > self.expires_at else True
+    # def is_expired(self):
+    #     if self.expires_at:
+    #         self.is_active = False if timezone.now() > self.expires_at else True
+            
+    # def save(self, *args, **kwargs):
+    #     if self.id:
+    #         self.is_active = False if timezone.now() > self.expires_at else True
+    #     super(DiscountCode, self).save(*args, **kwargs)
             
             
 

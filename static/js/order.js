@@ -219,3 +219,113 @@ function add_product_in_order(){
         };
     }
 }
+
+
+
+function discount_code_send(order_id){
+    let csrf = document.getElementById('#csrf_t').value;
+    let discount_code = document.getElementById('discount_code').value.trim();
+    if (discount_code == ""){
+        Toastify({
+            text: 'کد تخفیف را وارد کنید',
+            duration: 3500,
+            gravity: "top",
+            position: "right",
+            backgroundColor: '#0081cc',
+        }).showToast();  
+    }else {
+        $.post('http://127.0.0.1:8000/order/discount_code', {csrfmiddlewaretoken: csrf, discount_code: discount_code, order_id: order_id}, function(res){
+            if (res.icon == 'success'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#00920c',
+                }).showToast();  
+                setTimeout(function() {
+                window.location.reload();
+                }, 2000); 
+            }else if (res.icon == 'info'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#0081cc',
+                }).showToast();            
+            }else if (res.icon == 'warning'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#ce7e15',
+                }).showToast();  
+            }else if (res.icon == 'error'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#c50000',
+                }).showToast();                 
+            }
+        })
+    }
+    
+}
+
+
+
+function discount_code_delete(order_id, discount_code){
+    let csrf = document.getElementById('#csrf_t').value;
+    $.post('http://127.0.0.1:8000/order/discount_code_delete', {csrfmiddlewaretoken: csrf, discount_code: discount_code, order_id: order_id}, function(res){
+            if (res.icon == 'success'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#00920c',
+                }).showToast(); 
+                setTimeout(function() {
+                window.location.reload();
+                }, 2000);
+            }else if (res.icon == 'info'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#0081cc',
+                }).showToast();  
+                setTimeout(function() {
+                window.location.reload();
+                }, 2000);             
+            }else if (res.icon == 'warning'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#ce7e15',
+                }).showToast();  
+                setTimeout(function() {
+                window.location.reload();
+                }, 2000);
+            }else if (res.icon == 'error'){
+                Toastify({
+                    text: res.message,
+                    duration: 3500,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: '#c50000',
+                }).showToast();  
+                setTimeout(function() {
+                window.location.reload();
+                }, 2000);                 
+            }
+        })
+    
+}
