@@ -4,6 +4,7 @@ from product_module.models import ProductVariant
 from product_module.models import Product
 from django.utils.translation import gettext_lazy as _
 from django.db.models import F, Sum
+from django.utils import timezone
 
 
 
@@ -34,6 +35,7 @@ class Order(models.Model):
         return str(self.id)
     
     
+    
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -57,3 +59,44 @@ class OrderItem(models.Model):
     def __str__(self):
         return str(self.pk)
     
+    
+
+class DiscountCode(models.Model):
+    code = models.CharField(max_length=15, unique=True, verbose_name="کد تخفیف")
+    percent = models.PositiveIntegerField(null=True, blank=True, verbose_name="درصد تخفیف")
+    amount = models.PositiveIntegerField(null=True, blank=True, verbose_name="مبلغ تخفیف (تومان)")
+    expires_at = models.DateTimeField(null=True,blank=True,verbose_name="تاریخ انقضا")
+    max_uses = models.PositiveIntegerField(null=True, blank=True, verbose_name="حداکثر تعداد کل استفاده")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
+    
+    def __str__(self):
+        return self.code
+
+    def is_expired(self):
+        if self.expires_at:
+            self.is_active = False if timezone.now() > self.expires_at else True
+            
+            
+
+class UserDiscountUsage(models.Model):
+    class status_choices(models.TextChoices):
+        NOT_USED = "not_used", _("not_used")
+        USED = "used", _("used")
+        
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="discount_usages", verbose_name="کاربر")
+    discount_code = models.ForeignKey(DiscountCode, on_delete=models.CASCADE, related_name="usages", verbose_name="کد تخفیف")
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True, related_name="discounts_applied", verbose_name="سفارش مربوط")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
+    status_usage = models.CharField(max_length=150, choices=status_choices, default=status_choices.NOT_USED)
+    discount_amount_applied = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="مبلغ تخفیف اعمال شده")
+
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        unique_together = ['user', 'discount_code']
