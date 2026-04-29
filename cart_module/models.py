@@ -92,7 +92,7 @@ class UserDiscountUsage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
     status_usage = models.CharField(max_length=150, choices=status_choices, default=status_choices.NOT_USED)
-    discount_amount_applied = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="مبلغ تخفیف اعمال شده")
+    discount_amount_applied = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True, verbose_name="مبلغ تخفیف اعمال شده")
 
 
     def __str__(self):
