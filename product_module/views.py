@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import Product, Category, Brand, ProductVariant
-from django.db.models import Max, Min, Sum, Avg
+from django.db.models import Max, Min, Sum, Avg, Q
 from django.utils import timezone
 from datetime import timedelta
 from collections import defaultdict
@@ -31,6 +31,7 @@ class ProductsListView(ListView):
         max_price = self.request.GET.get('max_price') or 0
         min_price = self.request.GET.get('min_price') or 0
         order_by = self.request.GET.get('order_by') or None
+        search_products = self.request.GET.get('search') or None
         if category_url is not None:
             query = query.filter(category__url__exact=category_url)
         if brand_url is not None:
@@ -47,8 +48,11 @@ class ProductsListView(ListView):
             query = query.filter(price__lte=max_price)
         if rating:
             query = query.filter(rating__lte=rating)
-        
-        
+        if search_products:
+            print(f'search param: {search_products}')
+            query = query.filter(Q(name__icontains=search_products) | Q(category__name__icontains=search_products) | Q(brand__name__icontains=search_products) |
+                Q(slug__icontains=search_products) | Q(product_variant__color__icontains=search_products)
+            )
         if self.request.path.endswith('/discount'):
             query = query.filter(product_variant__discount__gt=0)
         if order_by:

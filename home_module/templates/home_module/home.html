@@ -33,8 +33,8 @@
       <!-- Search Form-->
       <div class="container">
         <div class="search-form pt-3 rtl-flex-d-row-r">
-          <form action="#" method="" class="ms-3">
-            <input class="form-control" type="search" placeholder="جستجو کردن">
+          <form action="{% url 'product_module:products_page' %}" method="get" class="ms-3">
+            <input class="form-control" type="search" name="search" placeholder="جستجو کردن">
             <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
           </form>
         </div>
