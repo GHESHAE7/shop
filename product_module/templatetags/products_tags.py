@@ -1,6 +1,6 @@
 from django import template
 from product_module.models import Product
-from django.db.models import Max, Q
+from django.db.models import Max, Q, Avg
 from django.utils import timezone
 from datetime import timedelta
 
@@ -18,7 +18,7 @@ def res_discount(value, price):
 
 @register.inclusion_tag('product_module/inclusion/related_products.html')
 def related_products_for_detail_page(brand):
-    products = Product.objects.filter(is_active=True, brand__url=brand).annotate(discount=Max('product_variant__discount')).order_by('-created_at')
+    products = Product.objects.filter(is_active=True, brand__url=brand).annotate(discount=Max('product_variant__discount'), rating=Avg('comments__rating')).order_by('-created_at')[:8]
     old_time = timezone.now() - timedelta(7)
 
     return {

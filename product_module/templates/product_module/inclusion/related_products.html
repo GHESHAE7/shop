@@ -18,11 +18,33 @@
                     <!-- Badge--><span class="badge rounded-pill badge-warning"> فروش</span>
                 {% endif %}
                 {% endif %}
-                {% comment %} <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="fa-solid fa-heart"></i></a> {% endcomment %}
+                <!-- Wishlist Button--><a class="wishlist-btn" href="{% url 'products_like_module:like_products_page' %}"><i class="fa-solid fa-heart"></i></a>
                 <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt="">
                 <!-- Product Title --><a class="product-title" href="{% url 'product_module:product_detail_page' slug=product.slug %}">{{ product.name }}</a>
                 <!-- Product Price -->
                 <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
+                      <!-- Rating -->
+                    <div class="product-rating">
+                        {% if product.rating > 0 and product.rating <= 1 %}
+                        <i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 1 and product.rating <= 1.50 %}
+                        <i class="fa-solid fa-star">
+                        {% elif product.rating > 1.50 and product.rating <= 2 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 2 and product.rating <= 2.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 2.50 and product.rating <= 3 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 3 and product.rating <= 3.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 3.50 and product.rating <= 4 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 4 and product.rating <= 4.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 4.50 and product.rating <= 5 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% endif %}
+                    </div>
                 <!-- Add to Cart --><button class="btn btn-success btn-sm" onclick="add_product_to_likes({{ product.id }})"><i class="fa-solid fa-plus"></i></button>
               </div>
             </div>
