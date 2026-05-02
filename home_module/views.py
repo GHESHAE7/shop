@@ -19,8 +19,9 @@ class HomeView(View):
         # old_time = timezone.now() - timedelta(days=7)
         # products_new: Product = Product.objects.filter(is_active=True, created_at__gte=old_time).annotate(discount=Max('product_variant__discount'))[:8]
         products_new: Product = Product.objects.filter(is_active=True,).annotate(discount=Max('product_variant__discount')).order_by('-created_at')[:8]
-        variant_sales = (ProductVariant.objects.filter(product=OuterRef('pk')).values('product').annotate(total_sales=Sum('sales_count')).values('total_sales'))
-        products_sales_week = (Product.objects.filter(is_active=True).annotate(sales_count=Subquery(variant_sales[:1]),discount=Max('product_variant__discount'),rating=Avg('comments__rating')).order_by('-sales_count'))[:4]
+        variant_sales = ProductVariant.objects.filter(product=OuterRef('pk')).values('product').annotate(total_sales=Sum('sales_count')).values('total_sales')
+        products_sales_week = Product.objects.filter(is_active=True).annotate(sales_count=Subquery(variant_sales[:1]),discount=Max('product_variant__discount'),rating=Avg('comments__rating')).order_by('-sales_count')[:4]
+        high_rating_products = Product.objects.filter(is_active=True).annotate(discount=Max('product_variant__discount'), rating=Avg('comments__rating')).filter(rating__isnull=False).order_by('-comments__rating')[:8]
         baners: Baner = Baner.objects.filter(is_active=True).order_by('-created_at')[:3]
         elan_top: Elan = Elan.objects.filter(is_active=True, where="top")[0] or 0
         elan_buttom: Elan = Elan.objects.filter(is_active=True, where="buttom")[0] or 0
@@ -33,6 +34,7 @@ class HomeView(View):
             'elan_top': elan_top,
             'elan_buttom': elan_buttom,
             'products_sales_week': products_sales_week,
+            'high_rating_products': high_rating_products,
         }
         return render(request, 'home_module/home.html', context)
     

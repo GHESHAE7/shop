@@ -85,75 +85,55 @@
           </div>
         </div>
       </div>
-      <!-- Flash Sale Slide -->
-      <div class="flash-sale-wrapper">
+      <!-- Featured Products Wrapper-->
+      <div class="featured-products-wrapper py-3">
         <div class="container">
-          <div class="section-heading d-flex align-items-center justify-content-between rtl-flex-d-row-r">
-            <h6 class="d-flex align-items-center rtl-flex-d-row-r"><i class="fa-solid fa-bolt-lightning me-1 text-danger lni-flashing-effect"></i>سیکلون پیشنهاد</h6>
-            <!-- Please use event time this format: YYYY/MM/DD hh:mm:ss -->
-            <ul class="sales-end-timer ps-0 d-flex align-items-center rtl-flex-d-row-r" data-countdown="2022/12/31 14:21:59">
-              <li><span class="days">0</span>ر</li>
-              <li><span class="hours">0</span>س</li>
-              <li><span class="minutes">0</span>د</li>
-              <li><span class="seconds">0</span>ث</li>
-            </ul>
+          <div class="section-heading d-flex align-items-center justify-content-between dir-rtl">
+            <h6>بالاترین امتیاز</h6><a class="btn p-0" href="{% url 'product_module:products_page' %}">مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
           </div>
-          <!-- Flash Sale Slide-->
-          <div class="flash-sale-slide owl-carousel">
-            <!-- Flash Sale Card -->
-            <div class="card flash-sale-card">
-              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/1.png' %}" alt=""><span class="product-title">لامپ میز سیاه</span>
-                  <p class="sale-price">7000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">33% فروخته شده</span>
-                  <!-- Progress Bar-->
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div></a></div>
+          <div class="row g-2">
+            {% for product in high_rating_products %}
+            <!-- Product Card -->
+            <div class="col-6 col-md-4">
+            <div class="card product-card">
+              <div class="card-body">
+                  <!-- Badge--><span class="badge rounded-pill badge-warning">جدید</span>  
+                <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="lni lni-heart"></i></a>
+                <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt=""><a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}">{{ product.name|truncatechars:20 }}</a>
+                <!-- Product Price -->
+                <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma  }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
+                <!-- Rating -->
+                      <!-- Rating -->
+                    <div class="product-rating">
+                        {% if product.rating > 0 and product.rating <= 1 %}
+                        <i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 1 and product.rating <= 1.50 %}
+                        <i class="fa-solid fa-star">
+                        {% elif product.rating > 1.50 and product.rating <= 2 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 2 and product.rating <= 2.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 2.50 and product.rating <= 3 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 3 and product.rating <= 3.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 3.50 and product.rating <= 4 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 4 and product.rating <= 4.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 4.50 and product.rating <= 5 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% endif %}
+                    </div>
+                <!-- Add to Cart -->
+                <input type="hidden" id="#csrf_t" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <button class="btn btn-success btn-sm" onclick="add_product_to_likes({{ product.id }})"><i class="fa-solid fa-plus"></i></button>
+              </div>
             </div>
-            <!-- Flash Sale Card -->
-            <div class="card flash-sale-card">
-              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/2.png' %}" alt=""><span class="product-title">مبل مدرن</span>
-                <p class="sale-price">7000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">33% فروخته شده</span>
-                  <!-- Progress Bar-->
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 57%" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div></a></div>
             </div>
-            <!-- Flash Sale Card -->
-            <div class="card flash-sale-card">
-              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/3.png' %}" alt=""><span class="product-title">صندلی باغ کلاسیک</span>
-                <p class="sale-price">7000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">93% فروخته شده</span>
-                  <!-- Progress Bar-->
-                  <div class="progress">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div></a></div>
-            </div>
-            <!-- Flash Sale Card -->
-            <div class="card flash-sale-card">
-              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/1.png' %}" alt=""><span class="product-title">لامپ میز سیاه</span>
-                <p class="sale-price">8000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">63% فروخته شده</span>
-                  <!-- Progress Bar-->
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div></a></div>
-            </div>
-            <!-- Flash Sale Card -->
-            <div class="card flash-sale-card">
-              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/2.png' %}" alt=""><span class="product-title">مبل مدرن</span>
-                <p class="sale-price">7000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">33% فروخته شده</span>
-                  <!-- Progress Bar-->
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 57%" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div></a></div>
-            </div>
-            <!-- Flash Sale Card -->
-            <div class="card flash-sale-card">
-              <div class="card-body"><a href="single-product.html"><img src="{% static 'img/product/3.png' %}" alt=""><span class="product-title">صندلی باغ کلاسیک</span>
-                <p class="sale-price">7000 ت<span class="real-price">4000 ت</span></p><span class="progress-title">23% فروخته شده</span>
-                  <!-- Progress Bar-->
-                  <div class="progress">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div></a></div>
-            </div>
+            {% empty %}
+            <div class="alert alert-warning">محصولی وجود ندارد که امتیازی داشته باشد</div>
+            {% endfor %}
           </div>
         </div>
       </div>
