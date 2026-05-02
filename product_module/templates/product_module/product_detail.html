@@ -54,6 +54,9 @@
         <div class="product-slides owl-carousel">
           <!-- Single Hero Slide-->
               <div class="single-product-slide" style="background-image: url('{{ product.image.url }}')"></div>
+              {% for item in product.product_images.all %}
+                <div class="single-product-slide" style="background-image: url('{{ item.image.url }}')"></div>
+              {% endfor %}
         {% comment %} <!-- Video Button--><a class="video-btn shadow-sm" id="singleProductVideoBtn" href="https://www.youtube.com/watch?v=lFGvqvPh5jI"><i class="fa-solid fa-play"></i></a> {% endcomment %}
       </div>
       <div class="product-description pb-3">

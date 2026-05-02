@@ -117,7 +117,7 @@ class ProductDetailView(DetailView):
     
     def get_queryset(self, *args, **kwargs):
         query = super().get_queryset(*args, **kwargs)
-        query = query.filter(is_active=True).annotate(discount=Max('product_variant__discount'))
+        query = query.filter(is_active=True).prefetch_related('product_images').annotate(discount=Max('product_variant__discount'))
         return query
     
     
