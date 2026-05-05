@@ -42,10 +42,10 @@ def active_account(request: HttpRequest, email_active_code: str) -> HttpResponse
         current_user.is_active = True
         current_user.email_active_code = get_random_string(126)
         current_user.save()
-        print('حساب کاربر فعال شد')
+        messages.success(request, 'حساب کاربری شما فعال شد')
         return redirect('account_module:login_page')
     else:
-        print('کاربری پیدا نشد که حساب آن را فعال کنیم')
+        messages.error(request ,'کاربری پیدا نشد که حساب آن را فعال کنیم')
         return redirect(reverse('home_module:home_page'))
     
     
