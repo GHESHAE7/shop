@@ -23,16 +23,24 @@ class HomeView(View):
         products_sales_week = Product.objects.filter(is_active=True).annotate(sales_count=Subquery(variant_sales[:1]),discount=Max('product_variant__discount'),rating=Avg('comments__rating')).order_by('-sales_count')[:4]
         high_rating_products = Product.objects.filter(is_active=True).annotate(discount=Max('product_variant__discount'), rating=Avg('comments__rating')).filter(rating__isnull=False).order_by('-comments__rating')[:8]
         baners: Baner = Baner.objects.filter(is_active=True).order_by('-created_at')[:3]
-        elan_top: Elan = Elan.objects.filter(is_active=True, where="top")[0] or 0
-        elan_buttom: Elan = Elan.objects.filter(is_active=True, where="buttom")[0] or 0
+        try:
+            elan_top: Elan = Elan.objects.get(is_active=True, where="top")
+            context['elan_top'] = elan_top
+        except Elan.DoesNotExist:
+            pass
+        
+        try:
+            elan_buttom: Elan = Elan.objects.get(is_active=True, where="buttom")
+            context['elan_buttom'] = elan_buttom
+        except Elan.DoesNotExist:
+            pass
+        
         context = {
             'brands': brands,
             'categories': categories,
             'products_discount': products_discount,
             'products_new': products_new,
             'baners': baners,
-            'elan_top': elan_top,
-            'elan_buttom': elan_buttom,
             'products_sales_week': products_sales_week,
             'high_rating_products': high_rating_products,
         }
