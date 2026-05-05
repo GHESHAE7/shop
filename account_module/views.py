@@ -25,6 +25,7 @@ class RegisterView(View):
             new_user = form.save(commit=False)
             n_password = form.cleaned_data['password']
             new_user.set_password(n_password)
+            new_user.email_active_code = get_random_string(126)
             new_user.is_active = False
             new_user.save()
             messages.success(request, 'حساب کاربری شما با موفقیت ساخته شد و ایمیلی جهت فعال شدن اکانت شما ارسال گردید')
