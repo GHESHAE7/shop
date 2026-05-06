@@ -50,7 +50,7 @@ class ProductsListView(ListView):
             query = query.filter(rating__lte=rating)
         if search_products:
             print(f'search param: {search_products}')
-            query = query.filter(Q(name__icontains=search_products) | Q(category__name__icontains=search_products) | Q(brand__name__icontains=search_products) |
+            query = query.filter(Q(name__icontains=search_products) | Q(category__name__icontains=search_products) | Q(category__url__icontains=search_products) | Q(brand__name__icontains=search_products) |  Q(brand__url__icontains=search_products) | 
                 Q(slug__icontains=search_products) | Q(product_variant__color__icontains=search_products)
             )
         if self.request.path.endswith('/discount'):
@@ -112,7 +112,14 @@ class ProductsListView(ListView):
             brnad_url = self.kwargs.get('brand_url')
             context['title_heading'] = f'برند {brnad_url}'
             context['title'] = f'تمام محصولات در برند {brnad_url}'
-            context['show_discount'] = True            
+            context['show_discount'] = True   
+            
+            
+        if self.request.GET.get('search'):
+            search = self.request.GET.get('search')
+            context['title_heading'] = f'جستجو برای {search}'
+            context['title'] = f'{search}'
+            context['show_discount'] = True           
 
         return context
     
