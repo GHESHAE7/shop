@@ -43,7 +43,6 @@
       <div class="hero-wrapper">
         <div class="container">
           <div class="pt-3">
-            <!-- Hero Slides-->
             <div class="hero-slides owl-carousel">
               {% for baner in baners %}
               <!-- Single Hero Slide-->
@@ -56,7 +55,7 @@
                 </div>
               </div>
               {% empty %}
-              <div class="alert alert-info">
+              <div class="alert alert-warning">
                 چیزی برای بنر وجود ندارد
               </div>
               {% endfor %}
@@ -67,19 +66,16 @@
       <!-- Product Brnad -->
       <div class="product-catagories-wrapper py-3">
         <div class="container">
-          <div class="row g-2 rtl-flex-d-row-r">
+            <div class="collection-slide owl-carousel">
             {% for brand in brands %}
-            <!-- Brnad Card -->
-            <div class="col-3">
-              <div class="card catagory-card">
-                <div class="card-body px-2">
-                  <a href="{% url 'product_module:products_by_brand_page' brand_url=brand.url %}">
-                    {% thumbnail brand.image "36x36" crop="center" quality=85 as im %}
-                      <img src="{{ im.url }}" alt="{{ brand.name }}">
-                    {% endthumbnail %}<span>{{ brand.name }}</span>
-                  </a>
-                </div>
-              </div>
+            <!-- Collection Card-->
+            <div class="card collection-card">
+              <a href="{% url 'product_module:products_by_brand_page' brand_url=brand.url %}">
+                {% thumbnail brand.image "138x172" crop="center" quality=85 as im %}
+                <img src="{{ im.url }}" alt="{{ brnad.name }}">
+                {% endthumbnail %}
+              </a>
+              <div class="collection-title"><span>{{ brand.name }}</span></div>
             </div>
             {% endfor %}
           </div>
@@ -210,11 +206,6 @@
                مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
           </div>
           <div class="row g-2">
-
-
-
-
-            
             {% for product in products_sales_week %}
               <div class="col-12">
                 <div class="horizontal-product-card">
@@ -232,6 +223,10 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              {% empty %}
+              <div class="alert alert-warning">
+                محصولی وجود ندارد
               </div>
             {% endfor %}
 
@@ -270,7 +265,7 @@
       <div class="featured-products-wrapper py-3">
         <div class="container">
           <div class="section-heading d-flex align-items-center justify-content-between dir-rtl">
-            <h6>محصولات جدید</h6><a class="btn p-0" href="{% url 'product_module:products_page' %}">مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
+            <h6>محصولات جدید</h6><a class="btn p-0" href="{% url 'product_module:products_page' %}?order_by=جدیدترین">مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
           </div>
           <div class="row g-2">
             {% for product in products_new %}
