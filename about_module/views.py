@@ -6,8 +6,11 @@ from .models import About
 
 class AboutView(View):
     def get(self, request):
-        about = About.objects.filter(is_active=True).first()
-        context = {
-            'about': about,
-        }
+        context = {}
+        try: 
+            about = About.objects.get(is_active=True)
+            context['about'] = about
+        except About.DoesNotExist:
+            pass
+        
         return render(request, 'about_module/about.html', context)

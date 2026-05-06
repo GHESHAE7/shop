@@ -49,17 +49,19 @@ class HomeView(View):
     
     
 def header_component(request: HttpRequest) -> HttpResponse:
+    context = {}
     if request.user.is_authenticated:
-        user_id = request.user.id
-        current_user: User = User.objects.filter(id=user_id, is_active=True).first()
-        count_order_item = Order.objects.filter(user_id=user_id, status='cart', is_active=True).aggregate(Count('order_items'))['order_items__count']
-        context = {
-            'user': current_user,
-            'count_order_item': count_order_item,
-        }
-        return render(request, "component_partial/header_component.html", context)
+        try:
+            user_id = request.user.id
+            current_user: User = User.objects.get(id=user_id, is_active=True)
+            count_order_item = Order.objects.filter(user_id=user_id, status='cart', is_active=True).aggregate(Count('order_items'))['order_items__count']
+            context['user'] = current_user
+            context['count_order_item'] = count_order_item
+            return render(request, "component_partial/header_component.html", context)
+        except [User.DoesNotExist, Order.DoesNotExist]:
+            return render(request, "component_partial/header_component.html", context)
+
     else:
-        context = {}
         return render(request, "component_partial/header_component.html", context)
 
 

@@ -19,7 +19,6 @@ class LikeProductsView(View):
             'likes_products': likes_products,
             'count_likes': LikesProduct.objects.filter(user_id=request.user.id, is_active=True).aggregate(Count('user'))['user__count'] or 0,
             'old_time': old_time,
-
         }
         return render(request, 'products_like_module/products_like.html', context)
         # else:
@@ -27,28 +26,26 @@ class LikeProductsView(View):
 
     def post(self, request: HttpRequest) -> JsonResponse:
         if request.user.is_authenticated:
-            product_id = request.POST['product_id']
-            current_product: Product = Product.objects.filter(pk=product_id, is_active=True).first()
-            if current_product is not None:
-                current_product_like: LikesProduct = LikesProduct.objects.filter(product_id=current_product.id, is_active=True).first()
+            try:
+                product_id = request.POST['product_id']
+                current_product: Product = Product.objects.get(pk=product_id, is_active=True)
+                current_product_like: LikesProduct = LikesProduct.objects.get(product_id=current_product.id, is_active=True)
                 if current_product_like is not None:
                     return JsonResponse({
-                        'icon': 'info',
-                        'message': 'این محصول از قبل در علاقه مندی های شما وجود دارد'
-                    })
-                    
-                else:
-                    new_product_like = LikesProduct(user_id=request.user.id, product_id=current_product.id)
-                    new_product_like.save()
-                    return JsonResponse({
-                        'icon': 'success', 
-                        'message': 'این محصول به علاقه مندی های شما اضافه شد'
-                    })
-                    
-            else:
+                    'icon': 'info',
+                    'message': 'این محصول از قبل در علاقه مندی های شما وجود دارد'
+                    })   
+            except Product.DoesNotExist:
                 return JsonResponse({
                     'icon': 'error', 
                     'message': 'چنین محصولی وجود ندارد که به علاقه مندی های شما اضافه شود'
+                })
+            except LikesProduct.DoesNotExist:
+                new_product_like = LikesProduct(user_id=request.user.id, product_id=current_product.id)
+                new_product_like.save()
+                return JsonResponse({
+                    'icon': 'success', 
+                    'message': 'این محصول به علاقه مندی های شما اضافه شد'
                 })
                 
         else:
@@ -63,15 +60,15 @@ class LikeProductsView(View):
 def delete_product_likes(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
-            like_product_id = request.POST['like_product_id']
-            current_like_products = LikesProduct.objects.filter(id=like_product_id, is_active=True).first()
-            if current_like_products is not None:
+            try:
+                like_product_id = request.POST['like_product_id']
+                current_like_products = LikesProduct.objects.get(id=like_product_id, is_active=True)
                 current_like_products.delete()
                 return JsonResponse({
                     'icon': 'success',
                     'message': 'محصول مورد نظر با موفقیت از علاقه مندی ها پاک شد'
                 })
-            else:
+            except LikesProduct.DoesNotExist:
                 return JsonResponse({
                     'icon': '200',
                     'message': 'چنین محصولی وجود ندارد که از علاقه مندی ها پاک شود'
@@ -81,3 +78,4 @@ def delete_product_likes(request):
                 'icon': '200',
                 'message': 'ابتدا باید وارد حساب کاربری خود شوید'
             })
+            

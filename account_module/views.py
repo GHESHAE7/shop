@@ -37,14 +37,14 @@ class RegisterView(View):
     
     
 def active_account(request: HttpRequest, email_active_code: str) -> HttpResponseRedirect:
-    current_user: User = User.objects.filter(email_active_code__exact=email_active_code, is_active=False).first()
-    if current_user is not None:
+    try:
+        current_user: User = User.objects.get(email_active_code__exact=email_active_code, is_active=False)
         current_user.is_active = True
         current_user.email_active_code = get_random_string(126)
         current_user.save()
         messages.success(request, 'حساب کاربری شما فعال شد')
         return redirect('account_module:login_page')
-    else:
+    except User.DoesNotExist:
         messages.error(request ,'کاربری پیدا نشد که حساب آن را فعال کنیم')
         return redirect(reverse('home_module:home_page'))
     
@@ -58,18 +58,19 @@ class LoginView(View):
     
     def post(self, request: HttpRequest) -> HttpResponseRedirect:
         if not request.user.is_authenticated:
-            username = request.POST['username']
-            password = request.POST['password']     
-            user: User = authenticate(request, username=username, password=password)
-            if user is not None:
+            try:
+                username = request.POST['username']
+                password = request.POST['password']     
+                user: User = authenticate(request, username=username, password=password)
                 login(request, user)
                 messages.success(request, 'ورود شما موفقیت آمیز بود')
                 return redirect(reverse('home_module:home_page'))
-            else:
+            except:
                 messages.error(request, 'مشخصات وارد شده اشتباه یا اکانت شما فعال نمی باشد')
                 return redirect(reverse('account_module:login_page'))
         messages.info(request, 'شما در حال حاظر درون اکانت خود هستید')
         return redirect(reverse('home_module:home_page'))
+            
     
     
     
@@ -89,12 +90,16 @@ def logout_view(request: HttpRequest) -> HttpResponseRedirect:
 class ProfileView(View):
     def get(self, request: HttpResponse) -> HttpResponse | HttpResponseRedirect:
         if request.user.is_authenticated:
-            user_id = request.user.id
-            current_user: User = User.objects.filter(id=user_id, is_active=True).first()
-            context = {
-                'user': current_user
-            }
-            return render(request , 'account_module/profile.html', context)
+            try:
+                user_id = request.user.id
+                current_user: User = User.objects.get(id=user_id, is_active=True)
+                context = {
+                    'user': current_user
+                }
+                return render(request , 'account_module/profile.html', context)
+            except User.DoesNotExist:
+                messages.error(request, 'چنین کاربری وجود ندارد')
+                return redirect(reverse('home_module:home_page'))
         else:
             messages.error(request, 'شما وارد حساب کاربری خود نیستید ابتدا لاگین کنید')
             return redirect(reverse('account_module:login_page'))
@@ -104,13 +109,17 @@ class ProfileView(View):
 class EditProfileView(View):
     def get(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
         if request.user.is_authenticated:
-            user: User = request.user
-            form: EditProfileFormModel = EditProfileFormModel(instance=user)
-            context = {
-                'form': form,
-                'user': User.objects.filter(is_active=True, id=request.user.id).first()
-            }
-            return render(request, 'account_module/edit_profile.html', context)
+            try:
+                user: User = request.user
+                form: EditProfileFormModel = EditProfileFormModel(instance=user)
+                context = {
+                    'form': form,
+                    'user': User.objects.get(is_active=True, id=request.user.id)
+                }
+                return render(request, 'account_module/edit_profile.html', context)
+            except User.DoesNotExist:
+                messages.error(request, 'چنین کاربری وجود ندارد')
+                return redirect(reverse('home_module:home_page'))
         else:
             messages.error(request, 'شما وارد حساب کاربری خود نیستید ابتدا لاگین کنید')
             return redirect(reverse('account_module:login_page'))
@@ -150,35 +159,43 @@ class SettingsView(View):
 class ChangePasswordView(View):
     def get(self, request) -> HttpResponse | HttpResponseRedirect:
         if request.user.is_authenticated:
-            user: User = request.user
-            current_user: User = User.objects.filter(pk=user.id, is_active=True).first()
-            context = {
-                'user': current_user,
-            }
-            return render(request, 'account_module/change_password.html', context)
+            try:
+                user: User = request.user
+                current_user: User = User.objects.get(pk=user.id, is_active=True)
+                context = {
+                    'user': current_user,
+                }
+                return render(request, 'account_module/change_password.html', context)
+            except User.DoesNotExist:
+                messages.error(request, 'چنین کاربری پیدا نشد که ادامه کار را انجام دهیم')
+                return redirect(reverse('account_module:login_page'))
         else:
             messages.error(request, 'برای تغییر پسوورد خود ابتدا باید وارد حساب کاربری خود شوید')
             return redirect(reverse('account_module:login_page'))
     
     
     def post(self, request: HttpRequest) -> HttpResponseRedirect:
-        user: User = request.user
-        current_user: User = User.objects.filter(pk=user.id, is_active=True).first()
-        current_password = request.POST.get('current_password')
-        if current_user.check_password(current_password):
-            new_password = request.POST.get('new_password')
-            confirm_new_password = request.POST.get('confirm_new_password')
-            if new_password == confirm_new_password:
-                current_user.set_password(confirm_new_password)
-                current_user.save()
-                messages.success(request, 'رمز عبور شما با موفقیت تغییر کرد')
-                logout(request)
-                return redirect(reverse('account_module:login_page'))
+        try:
+            user: User = request.user
+            current_user: User = User.objects.get(pk=user.id, is_active=True)
+            current_password = request.POST.get('current_password')
+            if current_user.check_password(current_password):
+                new_password = request.POST.get('new_password')
+                confirm_new_password = request.POST.get('confirm_new_password')
+                if new_password == confirm_new_password:
+                    current_user.set_password(confirm_new_password)
+                    current_user.save()
+                    messages.success(request, 'رمز عبور شما با موفقیت تغییر کرد')
+                    logout(request)
+                    return redirect(reverse('account_module:login_page'))
+                else:
+                    messages.error(request, 'رمز عبور با تکرار رمز عبور یکی نیستند')
+                    return redirect(reverse('account_module:change_password_page'))
             else:
-                messages.error(request, 'رمز عبور با تکرار رمز عبور یکی نیستند')
+                messages.error(request, 'رمز عبور فعلی شما درست نمی باشد')
                 return redirect(reverse('account_module:change_password_page'))
-        else:
-            messages.error(request, 'رمز عبور فعلی شما درست نمی باشد')
+        except User.DoesNotExist:
+            messages.error(request, 'چنین کاربری وجود ندارد که رمزش تغییر داده بشه')
             return redirect(reverse('account_module:change_password_page'))
         
         
@@ -190,33 +207,34 @@ class ForgetPasswordView(View):
     
     
     def post(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
-        email = request.POST.get('email')
-        current_user: User = User.objects.filter(email__exact=email, is_active=True).first()
-        if current_user is not None:
-            # ارسال ایمیل
-            return render(request, 'account_module/forget_password_success.html')
-        else:
-            messages.error(request, 'کاربری با این مشخصات وجود ندارد')
+        try:
+            email = request.POST.get('email')
+            current_user: User = User.objects.get(email__exact=email, is_active=True)
+            if current_user is not None:
+                # ارسال ایمیل
+                return render(request, 'account_module/forget_password_success.html')
+        except User.DoesNotExist:
+            messages.error(request, 'کاربری با این مشخصات وجود ندارد یا حساب کاربری فعال نیست')
             return redirect(reverse('account_module:forget_password_page'))
         
         
         
 class ResetPasswordView(View):
     def get(self, request: HttpRequest, email_active_code: str) -> HttpResponse | HttpResponseRedirect:
-        current_user:User = User.objects.filter(email_active_code__exact=email_active_code, is_active=True).first()
-        if current_user is not None:
+        try:
+            current_user:User = User.objects.get(email_active_code__exact=email_active_code, is_active=True)
             context = {
-                'user_email_active_code': current_user.email_active_code
+                'user_email_active_code': current_user.email_active_code,
             }
             return render(request, 'account_module/reset_password.html', context)
-        else:
+        except User.DoesNotExist:
             messages.error(request, 'کاربری با این مشخصات وجود ندارد که رمزش عوض بشه')
             return redirect(reverse('home_module:home_page'))
             
     
     def post(self, request: HttpRequest, email_active_code: str) -> HttpResponseRedirect:
-        current_user: User = User.objects.filter(email_active_code__exact=email_active_code, is_active=True).first()
-        if current_user is not None:
+        try:
+            current_user: User = User.objects.get(email_active_code__exact=email_active_code, is_active=True)
             password = request.POST.get('password')
             confirm_password = request.POST.get('confirm_password')
             if password == confirm_password:
@@ -231,6 +249,6 @@ class ResetPasswordView(View):
             else:
                 messages.warning(request, 'رمز عبور و تکرار رمز عبور یکی نیستند')
                 return redirect(reverse('account_module:reset_password_page', kwargs={"email_active_code": current_user.email_active_code}))
-        else:
+        except User.DoesNotExist:
             messages.error(request, 'کاربری با این مشخصات وجود ندارد که رمزش عوض بشه')
             return redirect(reverse('home_module:home_page'))

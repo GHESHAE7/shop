@@ -158,17 +158,17 @@ class ProductDetailView(DetailView):
     
     
 def stock_color_size(request: HttpRequest) -> JsonResponse:
-    color = request.POST.get('color_name')
-    size = request.POST.get('size_name')
-    product_id = request.POST.get('product_id')
-    get_product_variant: ProductVariant = ProductVariant.objects.filter(is_active=True, color__exact=color, size__exact=size, product_id=product_id).values('stock').first()
-    if get_product_variant:
+    try:
+        color = request.POST.get('color_name')
+        size = request.POST.get('size_name')
+        product_id = request.POST.get('product_id')
+        get_product_variant: ProductVariant = ProductVariant.objects.get(is_active=True, color__exact=color, size__exact=size, product_id=product_id).values('stock')
         return JsonResponse({
-        'color': color,
-        'size': size,
-        'stock': get_product_variant['stock'],
-    })
-    else:
+            'color': color,
+            'size': size,
+            'stock': get_product_variant['stock'],
+        })
+    except ProductVariant.DoesNotExist:
         return JsonResponse({
             'message': 'چنین محصولی وجود ندارد'
         })

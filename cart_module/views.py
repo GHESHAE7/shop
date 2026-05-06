@@ -13,41 +13,43 @@ from django.utils import timezone
 
 class OrderView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        order: Order = Order.objects.filter(is_active=True, user_id=request.user.id, status__in=['cart']).prefetch_related('order_items').prefetch_related('discounts_applied').first()
-        context = {
-            'order': order
-        }
-        return render(request, 'cart_module/order.html', context)
+        context = {}
+        try:
+            order: Order = Order.objects.get(is_active=True, user_id=request.user.id, status__in=['cart']).prefetch_related('order_items').prefetch_related('discounts_applied')
+            context['order'] = order
+            return render(request, 'cart_module/order.html', context)
+        except Order.DoesNotExist:
+            return render(request, 'cart_module/order.html', context)
+
                 
                 
 
 class StatusOrderView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        if request.method == 'GET':
-            user_orders: Order = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_active=True).exclude(status__in=['cart'])
-            context = {
-                'orders': user_orders,
-            }
-            return render(request, 'cart_module/status_order.html', context)
+        user_orders: Order = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_active=True).exclude(status__in=['cart'])
+        context = {
+            'orders': user_orders,
+        }
+        return render(request, 'cart_module/status_order.html', context)
         
         
         
 def remove_order_item(request: HttpRequest) -> JsonResponse:
     if request.user.is_authenticated:
         if request.method == 'POST':
-            order_item_id = request.POST.get('order_item_id') or None
-            current_order_item = OrderItem.objects.filter(is_active=True, pk=order_item_id, order__user_id=request.user.id, order__status__in=['cart']).first() or None
-            if current_order_item is not None:   
+            try:
+                order_item_id = request.POST.get('order_item_id') or None
+                current_order_item = OrderItem.objects.get(is_active=True, pk=order_item_id, order__user_id=request.user.id, order__status__in=['cart'])  
                 current_order_item.delete()
                 return JsonResponse({
                     'icon': 'success',
                     'message': 'محصول مورد نظر با موفقیت از سبد خرید شما پاک شد'
                 })
-            else:
+            except OrderItem.DoesNotExist:
                 return JsonResponse({
                     'icon': 'error',
                     'message': 'محصول مورد نظر پیدا نشد که بخوام پاکش کنم'
-                })   
+                }) 
     else:
         return JsonResponse({
             'icon': 'error',
@@ -59,9 +61,9 @@ def remove_order_item(request: HttpRequest) -> JsonResponse:
 def change_count_order_item(request: HttpRequest) -> JsonResponse:
     if request.user.is_authenticated:
         if request.method == 'POST':
-            order_item_id = request.POST.get('order_item_id') or None
-            current_order_item = OrderItem.objects.filter(is_active=True, pk=order_item_id, order__user_id=request.user.id, order__status__in=['cart']).first() or None
-            if current_order_item is not None:                
+            try:
+                order_item_id = request.POST.get('order_item_id') or None
+                current_order_item = OrderItem.objects.get(is_active=True, pk=order_item_id, order__user_id=request.user.id, order__status__in=['cart'])              
                 new_number_count = request.POST.get('change_count') or None
                 if (int(new_number_count) > current_order_item.product_variant.stock) or (int(new_number_count) <= 0):
                     return JsonResponse({
@@ -75,12 +77,11 @@ def change_count_order_item(request: HttpRequest) -> JsonResponse:
                         'icon': 'success',
                         'message': 'مقدار تغییر کرد'
                     })
-            else:
+            except OrderItem.DoesNotExist:
                 return JsonResponse({
                     'icon': 'error',
                     'message': 'محصول مورد نظر پیدا نشد که مقدار آن را داخل سبد خرید شما تغیر بدم'
                 })
-                    
     else:
         return JsonResponse({
             'icon': 'error',
@@ -193,11 +194,11 @@ class PaymentView(View):
 class DiscountCodeView(View):
     def post(self, request: HttpRequest) -> JsonResponse:
         if request.user.is_authenticated:
-            discount_code = request.POST.get('discount_code')
-            current_discount_code: DiscountCode = DiscountCode.objects.filter(is_active=True, code__exact=discount_code, expires_at__gte=timezone.now()).first()
-            if current_discount_code is not None:
+            try:
+                discount_code = request.POST.get('discount_code')
+                current_discount_code: DiscountCode = DiscountCode.objects.get(is_active=True, code__exact=discount_code, expires_at__gte=timezone.now())
                 order_id = request.POST.get('order_id')
-                current_user_discount_usage = UserDiscountUsage.objects.filter(is_active=True, order_id=order_id, user_id=request.user.id, discount_code_id=current_discount_code.id)
+                current_user_discount_usage = UserDiscountUsage.objects.filter(is_active=True, order_id=order_id, user_id=request.user.id,discount_code_id=current_discount_code.id)
                 if current_user_discount_usage is not None:
                     return JsonResponse({
                     'icon': 'info',
@@ -209,12 +210,11 @@ class DiscountCodeView(View):
                     'icon': 'success',
                     'message': 'کد تخفیف اعمال شد',
                 })
-            else:
+            except DiscountCode.DoesNotExist:
                 return JsonResponse({
                     'icon': 'error',
                     'message': 'کد تخفیف وارد شده وجود ندارد یا تاریخ آن تمام شده است',
                 })
-
         else:
             return JsonResponse({
                 'icon': 'error',
@@ -226,16 +226,16 @@ class DiscountCodeView(View):
 class DiscountCodeDeleteView(View):
     def post(self, request: HttpRequest) -> JsonResponse:
         if request.user.is_authenticated:
-            discount_code = request.POST.get('discount_code')
-            current_discount_code: DiscountCode = DiscountCode.objects.filter(is_active=True, code__exact=discount_code, expires_at__gte=timezone.now()).first()
-            if current_discount_code is not None:
+            try:
+                discount_code = request.POST.get('discount_code')
+                current_discount_code: DiscountCode = DiscountCode.objects.get(is_active=True, code__exact=discount_code, expires_at__gte=timezone.now()).value('id')
                 order_id = request.POST.get('order_id')
-                UserDiscountUsage.objects.filter(is_active=True, order_id=order_id, user_id=request.user.id, status_usage='not_used', discount_code_id=current_discount_code.id).first().delete()
+                UserDiscountUsage.objects.get(is_active=True, order_id=order_id, user_id=request.user.id, status_usage='not_used', discount_code_id=current_discount_code.id).delete()
                 return JsonResponse({
                     'icon': 'success',
                     'message': 'کد تخفیف حذف شد',
                 })
-            else:
+            except DiscountCode.DoesNotExist:
                 return JsonResponse({
                     'icon': 'error',
                     'message': 'کد تخفیف وارد شده وجود ندارد',

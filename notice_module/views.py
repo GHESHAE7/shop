@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 from .models import Notice
 from django.http import HttpRequest, HttpResponse
+from django.contrib import messages
 # Create your views here.
 
 
@@ -18,8 +20,12 @@ class NoticeView(View):
 
 class NoticeDetailView(View):
     def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        notice = Notice.objects.filter(is_active=True, pk=pk).first()
-        context = {
-            'notice': notice
-        }
-        return render(request, 'notice_module/notice_detail.html', context)
+        try:
+            notice = Notice.objects.get(is_active=True, pk=pk)
+            context = {
+                'notice': notice
+            }
+            return render(request, 'notice_module/notice_detail.html', context)
+        except Notice.DoesNotExist:
+            messages.error(request, 'نوتیف مورد نظر وجود ندارد')
+            return redirect(reverse('notice_module:notice_page'))

@@ -20,9 +20,9 @@ def comments_product(request: HttpRequest, product_id: int) -> HttpResponse:
 def add_commnet(request: HttpRequest) -> JsonResponse | HttpResponse:
     if request.method == 'POST':
         if request.user.is_authenticated:
-            product_id = request.POST.get('product_id')
-            current_product: Product = Product.objects.filter(is_active=True, id=product_id).first()
-            if current_product:
+            try:
+                product_id = request.POST.get('product_id')
+                current_product: Product = Product.objects.get(is_active=True, id=product_id)
                 rating = request.POST.get('rating')
                 if rating.isalpha() or int(rating) < 0 or int(rating) > 5:
                     return JsonResponse({
@@ -33,7 +33,7 @@ def add_commnet(request: HttpRequest) -> JsonResponse | HttpResponse:
                     message = request.POST.get('message')
                     Comment.objects.create(is_active=True, user_id=request.user.id, product_id=current_product.id, message=message, rating=int(rating))
                     return comments_product(request=request, product_id=product_id)
-            else:
+            except Product.DoesNotExist:
                 return JsonResponse({
                     'icon': 'error',
                     'message': 'محصول مورد نظر پیدا نشد'
