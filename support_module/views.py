@@ -12,5 +12,5 @@ class SupportView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories_support'] = SupportCategory.objects.filter(is_active=True).prefetch_related('supports')
+        context['categories_support'] = SupportCategory.objects.filter(is_active=True, supports__isnull=False).prefetch_related('supports').distinct()
         return context
