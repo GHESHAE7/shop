@@ -21,7 +21,7 @@ class ProductsListView(ListView):
     
     def get_queryset(self, *args, **kwargs):
         query = super().get_queryset(*args, **kwargs)
-        query = query.filter(is_active=True).annotate(discount=Max('product_variant__discount'), rating=Avg('comments__rating')).order_by('-created_at')
+        query = query.filter(is_active=True).annotate(discount=Max('product_variant__discount'), rating=Avg('comments__rating'), sales_count=Sum('product_variant__sales_count')).order_by('-created_at')
         category_url = self.kwargs.get('category_url') or None
         brand_url = self.kwargs.get('brand_url') or None
         brnads = self.request.GET.getlist('brand')
@@ -69,7 +69,11 @@ class ProductsListView(ListView):
             elif order_by == 'بالاترین امتیاز':
                 query = query.order_by('-rating') 
             elif order_by == 'کم ترین امتیاز':
-                query = query.order_by('rating') 
+                query = query.order_by('rating')
+            elif order_by == 'پرفروش ترین':
+                query = query.order_by('-sales_count')
+            elif order_by == 'کم فروش ترین':
+                query = query.order_by('sales_count')
         return query
     
     
