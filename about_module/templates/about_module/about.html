@@ -21,16 +21,22 @@
     </div>
     <div class="page-content-wrapper py-3">
       <div class="container">
-        <div class="card">
-          <div class="card-body">
+        {% if about %}
+          <div class="card">
+            <div class="card-body">
                 {{ about.description }}
                 <br>
                 <br>
                 <a class="btn btn-primary w-100" href="{% url 'contact_module:contact_page' %}"><i class="lni lni-life-ring mr-2"></i>ارتباط با ما</a>
+            </div>
               </div>
             </div>
           </div>
+        {% else %}
+        <div class="alert alert-info">
+          چیزی وجود ندارد
         </div>
+        {% endif %}
       </div>
     </div>
 {% endblock body %}  
