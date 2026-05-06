@@ -54,7 +54,7 @@ class ProductVariantAdmin(admin.ModelAdmin):
     list_display = ('product__name', 'product__price', 'stock', 'discount', 'is_active', 'updated_at', 'created_at',)
     list_filter = ('stock', 'discount', 'is_active', 'created_at',)
     list_editable = ('is_active', 'stock', 'discount', 'is_active')
-    readonly_fields = ('created_at', 'updated_at',)
+    readonly_fields = ('created_at', 'updated_at', 'sales_count')
     search_fields = ('product__name',)
     
     
