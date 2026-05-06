@@ -15,7 +15,7 @@ class HomeView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         brands: Brand = Brand.objects.filter(is_active=True).values('name', 'url', 'image').order_by('?')
         categories: Category = Category.objects.filter(is_active=True).annotate(count_products=Count('products_category')).values('name', 'url', 'image', 'count_products')
-        products_discount: Product = Product.objects.filter(is_active=True, product_variant__discount__isnull=False).annotate(discount=Max('product_variant__discount'))[:8]
+        products_discount: Product = Product.objects.filter(is_active=True, product_variant__discount__isnull=False).annotate(discount=Max('product_variant__discount'))[:6]
         old_time = timezone.now() - timedelta(days=30)
         # products_new: Product = Product.objects.filter(is_active=True, created_at__gte=old_time).annotate(discount=Max('product_variant__discount'))[:8]
         products_new: Product = Product.objects.filter(is_active=True, created_at__gte=old_time).annotate(discount=Max('product_variant__discount')).order_by('?')[:6]
