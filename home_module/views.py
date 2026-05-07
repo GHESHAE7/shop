@@ -15,13 +15,13 @@ class HomeView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         brands: Brand = Brand.objects.filter(is_active=True).values('name', 'url', 'image').order_by('?')
         categories: Category = Category.objects.filter(is_active=True).annotate(count_products=Count('products_category')).values('name', 'url', 'image', 'count_products')
-        products_discount: Product = Product.objects.filter(is_active=True, product_variant__discount__isnull=False).annotate(discount=Max('product_variant__discount'))[:6]
+        products_discount: Product = Product.objects.filter(is_active=True, product_variant__discount__isnull=False).annotate(discount=Max('product_variant__discount'), rating=Avg('comments__rating'))[:6]
         old_time = timezone.now() - timedelta(days=30)
-        # products_new: Product = Product.objects.filter(is_active=True, created_at__gte=old_time).annotate(discount=Max('product_variant__discount'))[:8]
-        products_new: Product = Product.objects.filter(is_active=True, created_at__gte=old_time).annotate(discount=Max('product_variant__discount')).order_by('?')[:6]
+        products_new: Product = Product.objects.filter(is_active=True, created_at__gte=old_time).annotate(discount=Max('product_variant__discount'), rating=Avg('comments__rating')).order_by('?')[:6]
         variant_sales = ProductVariant.objects.filter(product=OuterRef('pk')).values('product').annotate(total_sales=Sum('sales_count')).values('total_sales')
         products_sales_week = Product.objects.filter(is_active=True).annotate(sales_count=Subquery(variant_sales[:1]),discount=Max('product_variant__discount'),rating=Avg('comments__rating')).order_by('-sales_count')[:4]
-        high_rating_products = Product.objects.filter(is_active=True).annotate(discount=Max('product_variant__discount'), rating=Avg('comments__rating')).filter(rating__isnull=False).order_by('-comments__rating')[:8]
+        base_qs = Product.objects.filter(is_active=True)
+        high_rating_products = (base_qs.annotate(rating=Avg('comments__rating'), max_discount=Max('product_variant__discount')).filter(rating__isnull=False).order_by('-rating').distinct()[:8])
         baners: Baner = Baner.objects.filter(is_active=True).order_by('-created_at')[:3]
         try:
             elan_top: Elan = Elan.objects.get(is_active=True, where="top")
