@@ -67,9 +67,9 @@ class ProductsListView(ListView):
             elif order_by == 'تخفیف دار':
                 query = query.filter(product_variant__discount__isnull=False)
             elif order_by == 'بالاترین امتیاز':
-                query = query.order_by('-rating') 
+                query = query.filter(rating__isnull=False).order_by('-rating')
             elif order_by == 'کم ترین امتیاز':
-                query = query.order_by('rating')
+                query = query.filter(rating__isnull=False).order_by('rating')
             elif order_by == 'پرفروش ترین':
                 query = query.order_by('-sales_count')
             elif order_by == 'کم فروش ترین':
