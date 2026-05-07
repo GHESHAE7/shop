@@ -4353,7 +4353,7 @@ li.suha-dropdown-menu .dropdown-trigger-btn.active i {
 .notification-area .list-group-item .noti-icon i {
   line-height: 30px;
 }
-.notification-area .list-group-item .noti-icon::before {
+/* .notification-area .list-group-item .noti-icon::before {
   position: absolute;
   width: 10px;
   height: 10px;
@@ -4363,7 +4363,7 @@ li.suha-dropdown-menu .dropdown-trigger-btn.active i {
   left: -2px;
   border-radius: 50%;
   z-index: 1;
-}
+} */
 .notification-area .list-group-item p {
   margin-bottom: 0.5rem;
 }
