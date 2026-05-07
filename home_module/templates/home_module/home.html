@@ -85,7 +85,7 @@
       <div class="featured-products-wrapper py-3">
         <div class="container">
           <div class="section-heading d-flex align-items-center justify-content-between dir-rtl">
-            <h6>بالاترین امتیاز</h6><a class="btn p-0" href="{% url 'product_module:products_page' %}">مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
+            <h6>بالاترین امتیاز</h6><a class="btn p-0" href="{% url 'product_module:products_page' %}?order_by=بالاترین+امتیاز">مشاهده همه<i class="ms-1 fa-solid fa-arrow-left-long"></i></a>
           </div>
           <div class="row g-2">
             {% for product in high_rating_products %}
@@ -95,12 +95,12 @@
               <div class="card-body">
                   <!-- Badge--><span class="badge rounded-pill badge-warning">جدید</span>  
                 <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="lni lni-heart"></i></a>
-                <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt=""><a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}">{{ product.name|truncatechars:20 }}</a>
+                <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt="{{ product.name }}" title="{{ product.name }}"><a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}" alt="{{ product.name }}" title="{{ product.name }}">{{ product.name|truncatechars:17 }}</a>
                 <!-- Product Price -->
                 <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma  }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
                 <!-- Rating -->
                       <!-- Rating -->
-                    <div class="product-rating">
+                    <div class="product-rating" alt="{{ product.rating|floatformat:2 }}" title="{{ product.rating|floatformat:2 }}">
                         {% if product.rating > 0 and product.rating <= 1 %}
                         <i class="fa-solid fa-star"></i>
                         {% elif product.rating > 1 and product.rating <= 1.50 %}
@@ -118,7 +118,7 @@
                         {% elif product.rating > 4 and product.rating <= 4.50 %}
                         <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                         {% elif product.rating > 4.50 and product.rating <= 5 %}
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                         {% endif %}
                     </div>
                 <!-- Add to Cart -->
@@ -159,12 +159,32 @@
                   <!-- Badge--><span class="badge rounded-pill badge-warning">{{ product.discount }}%</span>
                 {% endif %}      
                 <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="lni lni-heart"></i></a>
-                <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt="">
-                  <a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}">{{ product.name|truncatechars:20 }}</a>
+                <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt="{{ product.name }}" title="{{ product.name }}">
+                  <a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}" alt="{{ product.name }}" title="{{ product.name }}">{{ product.name|truncatechars:17 }}</a>
                 <!-- Product Price -->
                 <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma  }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
                 <!-- Rating -->
-                <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <div class="product-rating" alt="{{ product.rating|floatformat:2 }}" title="{{ product.rating|floatformat:2 }}">
+                        {% if product.rating > 0 and product.rating <= 1 %}
+                        <i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 1 and product.rating <= 1.50 %}
+                        <i class="fa-solid fa-star">
+                        {% elif product.rating > 1.50 and product.rating <= 2 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 2 and product.rating <= 2.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 2.50 and product.rating <= 3 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 3 and product.rating <= 3.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 3.50 and product.rating <= 4 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 4 and product.rating <= 4.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 4.50 and product.rating <= 5 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% endif %}
+                    </div>
                 <!-- Add to Cart -->
                 <input type="hidden" id="#csrf_t" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <button class="btn btn-success btn-sm" onclick="add_product_to_likes({{ product.id }})"><i class="fa-solid fa-plus"></i></button>
@@ -211,15 +231,20 @@
                 <div class="horizontal-product-card">
                   <div class="d-flex align-items-center">
                     <div class="product-thumbnail-side">
-                      <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img src="{{ product.image.url }}" alt=""></a>
+                      <!-- Thumbnail --><a class="product-thumbnail shadow-sm d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img src="{{ product.image.url }}" alt="{{ product.name }}" title="{{ product.name }}"></a>
                     </div>
                     <div class="product-description">
                       <!-- Wishlist  --><a class="wishlist-btn" type="button" onclick="add_product_to_likes({{ product.id }})"><i class="fa-solid fa-heart"></i></a>
-                      <!-- Product Title --><a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}">{{ product.name }}</a>
+                      <!-- Product Title --><a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}" alt="{{ product.name }}" title="{{ product.name }}">{{ product.name|truncatechars:50 }}</a>
                       <!-- Price -->
                       <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma  }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
                       <!-- Rating -->
-                      <div class="product-rating"><i class="fa-solid fa-star"></i>{{ product.rating|floatformat:2 }} <span class="ms-1">({{ product.sales_count }} فروش)</span></div>
+                      <div class="product-rating" alt="{{ product.rating|floatformat:2 }}" title="{{ product.rating|floatformat:2 }}">
+                        {% if product.rating %}
+                          امتیاز: {{ product.rating|floatformat:2 }}
+                        {% endif %} 
+                        <span class="ms-1">({{ product.sales_count }} فروش)</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -229,13 +254,6 @@
                 محصولی وجود ندارد
               </div>
             {% endfor %}
-
-
-
-
-
-
-
           </div>
         </div>
       </div>
@@ -275,11 +293,31 @@
               <div class="card-body">
                   <!-- Badge--><span class="badge rounded-pill badge-warning">جدید</span>  
                 <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="lni lni-heart"></i></a>
-                <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt=""><a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}">{{ product.name|truncatechars:20 }}</a>
+                <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt="{{ product.name }}" title="{{ product.name }}"><a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}" alt="{{ product.name }}" title="{{ product.name }}">{{ product.name|truncatechars:17 }}</a>
                 <!-- Product Price -->
                 <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma  }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
-                <!-- Rating -->
-                <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                      <!-- Rating -->
+                    <div class="product-rating" alt="{{ product.rating|floatformat:2 }}" title="{{ product.rating|floatformat:2 }}">
+                        {% if product.rating > 0 and product.rating <= 1 %}
+                        <i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 1 and product.rating <= 1.50 %}
+                        <i class="fa-solid fa-star">
+                        {% elif product.rating > 1.50 and product.rating <= 2 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 2 and product.rating <= 2.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 2.50 and product.rating <= 3 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 3 and product.rating <= 3.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 3.50 and product.rating <= 4 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 4 and product.rating <= 4.50 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% elif product.rating > 4.50 and product.rating <= 5 %}
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        {% endif %}
+                    </div>
                 <!-- Add to Cart -->
                 <input type="hidden" id="#csrf_t" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <button class="btn btn-success btn-sm" onclick="add_product_to_likes({{ product.id }})"><i class="fa-solid fa-plus"></i></button>
