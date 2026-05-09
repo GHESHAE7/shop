@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
+import os
 
 
 class Category(models.Model):
@@ -11,6 +12,24 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
+    
+    
+    def save(self, *args, **kwargs):
+        old_image_path = None
+
+        if self.pk:
+            try:
+                old = Category.objects.get(pk=self.pk)
+                if old.image and old.image != self.image:
+                    old_image_path = old.image.path
+            except Category.DoesNotExist:
+                pass
+
+        super().save(*args, **kwargs)
+
+        if old_image_path and os.path.isfile(old_image_path):
+            os.remove(old_image_path)
+    
     
     def __str__(self):
         return self.name
@@ -25,6 +44,25 @@ class Brand(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
+    
+    
+    
+    def save(self, *args, **kwargs):
+        old_image_path = None
+        
+        if self.pk:
+            try:
+                old = Brand.objects.get(pk=self.pk)
+                if old.image and old.image != self.image:
+                    old_image_path = old.image.path
+                
+            except Brand.DoesNotExist:
+                pass
+        super(Brand, self).save(*args, **kwargs)
+        
+        if old_image_path and os.path.isfile(old_image_path):
+            os.remove(old_image_path)
+    
     
     def __str__(self):
         return self.name
@@ -48,6 +86,24 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
+        
+    
+    
+    def save(self, *args, **kwargs):
+        old_image_path = None
+        
+        if self.pk:
+            try:
+                old = Product.objects.get(pk=self.pk)
+                if old.image and old.image != self.image:
+                    old_image_path = old.image.path
+                
+            except Product.DoesNotExist:
+                pass
+        super(Product, self).save(*args, **kwargs)
+        
+        if old_image_path and os.path.isfile(old_image_path):
+            os.remove(old_image_path)
     
     
     def __str__(self):
@@ -73,10 +129,29 @@ class ProductVariant(models.Model):
     
 class ManyImages(models.Model):
     image = models.ImageField(upload_to='product/image', null=True, blank=True)
-    product = models.ForeignKey(Product, models.SET_NULL, null=True, blank=True, related_name='product_images')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True, related_name='product_images')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
+        
+    
+    
+    def save(self, *args, **kwargs):
+        old_image_path = None
+        
+        if self.pk:
+            try:
+                old = ManyImages.objects.get(pk=self.pk)
+                if old.image and old.image != self.image:
+                    old_image_path = old.image.path
+                
+            except ManyImages.DoesNotExist:
+                pass
+        super(ManyImages, self).save(*args, **kwargs)
+        
+        if old_image_path and os.path.isfile(old_image_path):
+            os.remove(old_image_path)
+
 
     def __str__(self):
         return self.product.name
