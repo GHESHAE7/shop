@@ -19,7 +19,11 @@
           </a></div>
           <!-- User Profile Icon -->
           {% if request.user.is_authenticated %}
-            <div class="user-profile-icon ms-2"><a href="{% url 'account_module:profile_page' %}"><img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt=""></a></div>
+            <div class="user-profile-icon ms-2"><a href="{% url 'account_module:profile_page' %}">                {% if user.avatra %}
+                  <img src="{{ user.avatra.url }}" alt="{{ user.username }}" title="{{ user.username }}">
+                {% else %}
+                  <img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt="{{ user.username }}" title="{{ user.username }}">
+                {% endif %}</a></div>
             {% else %}
             <a href="{% url 'account_module:login_page' %}">ورود به حساب</a>
           {% endif %}
@@ -41,7 +45,11 @@
             {% if user.avatar %}
               <div class="user-profile"><img src="{{ user.avatar.email }}" alt=""></div>
             {% else %}
-              <div class="user-profile"><img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt=""></div>
+              <div class="user-profile">                {% if user.avatra %}
+                  <img src="{{ user.avatra.url }}" alt="{{ user.username }}" title="{{ user.username }}">
+                {% else %}
+                  <img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt="{{ user.username }}" title="{{ user.username }}">
+                {% endif %}</div>
             {% endif %}
           <div class="user-info">
              <h5 class="user-name mb-1 text-white">{% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.email }}{% endif %}</h5>

@@ -33,7 +33,12 @@
           <!-- User Information-->
           <div class="card user-info-card">
             <div class="card-body p-4 d-flex align-items-center">
-              <div class="user-profile me-3"><img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt="">
+              <div class="user-profile me-3">
+                {% if user.avatra %}
+                  <img src="{{ user.avatra.url }}" alt="{{ user.username }}" title="{{ user.username }}">
+                {% else %}
+                  <img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt="{{ user.username }}" title="{{ user.username }}">
+                {% endif %}
                 <div class="change-user-thumb">
                   <form>
                     <input class="form-control-file" type="file">
@@ -50,7 +55,7 @@
           <!-- User Meta Data-->
           <div class="card user-data-card">
             <div class="card-body">
-              <form action="{% url 'account_module:edit_profile_page' %}" method="POST">
+              <form action="{% url 'account_module:edit_profile_page' %}" method="POST" enctype="multipart/form-data">
                 {% comment %} <div class="mb-3">
                   <div class="title mb-2"><i class="fa-solid fa-at"></i><span>نام کاربری</span></div>
                   <input class="form-control" type="text" value="طراحی جهان" disabled>

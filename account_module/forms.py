@@ -23,7 +23,7 @@ class RegisterFormModel(forms.ModelForm):
 class EditProfileFormModel(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'phone', 'email', 'address']
+        fields = ['username', 'first_name', 'last_name', 'phone', 'email', 'address', 'avatra']
         
         
         widgets = {
@@ -42,4 +42,5 @@ class EditProfileFormModel(forms.ModelForm):
             'last_name': 'نام خانوادگی',
             'phone': 'تلفن',
             'address': 'آدرس حمل و نقل',
+            'avatra': 'آواتار پروفایل',
         }

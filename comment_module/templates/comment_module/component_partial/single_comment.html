@@ -5,10 +5,11 @@
 <!-- Single User Review -->
 <li class="single-user-review d-flex">
     <div class="user-thumbnail">
-        {% if coment.user.avatar %}<img src="{{ comment.user.avatar.url }}" alt="">
-        {% else %}
-        <img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt="">
-        {% endif %}
+                {% if comment.user.avatra %}
+                  <img src="{{ comment.user.avatra.url }}" alt="{{ comment.user.username }}" title="{{ comment.user.username }}">
+                {% else %}
+                  <img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt="{{ comment.user.username }}" title="{{ comment.user.username }}">
+                {% endif %}
     </div>
     <div class="rating-comment">
     <div class="rating">امتیاز {{ comment.rating }}</div>

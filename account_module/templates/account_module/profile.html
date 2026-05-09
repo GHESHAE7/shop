@@ -35,7 +35,11 @@
           <div class="card user-info-card">
             <div class="card-body p-4 d-flex align-items-center">
               <div class="user-profile me-3">
-              {% if user.avatar %}<img src="{{ user.avatar.url }}" alt="">{% else %}<img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt="">{% endif %}
+                {% if user.avatra %}
+                  <img src="{{ user.avatra.url }}" alt="{{ user.username }}" title="{{ user.username }}">
+                {% else %}
+                  <img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt="{{ user.username }}" title="{{ user.username }}">
+                {% endif %}
                 </div>
               <div class="user-info">
                 <p class="mb-0 text-dark">{% if user.username %}{{ user.username }}{% else %}خالی{% endif %}</p>
