@@ -71,9 +71,10 @@
             <!-- Collection Card-->
             <div class="card collection-card">
               <a href="{% url 'product_module:products_by_brand_page' brand_url=brand.url %}">
-                {% thumbnail brand.image "138x172" crop="center" quality=85 as im %}
+                {% comment %} {% thumbnail brand.image "138x172" crop="center" quality=85 as im %}
                 <img src="{{ im.url }}" alt="{{ brnad.name }}">
-                {% endthumbnail %}
+                {% endthumbnail %} {% endcomment %}
+                <img src="{{ brand.image.url }}" alt="{{ brnad.name }}">
               </a>
               <div class="collection-title"><span>{{ brand.name }}</span></div>
             </div>
@@ -342,9 +343,10 @@
             <!-- Collection Card-->
             <div class="card collection-card">
               <a href="{% url 'product_module:products_by_category_page' category_url=category.url %}">
-                {% thumbnail category.image "138x172" crop="center" quality=85 as im %}
+                {% comment %} {% thumbnail category.image "138x172" crop="center" quality=85 as im %}
                 <img src="{{ im.url }}" alt="{{ category.name }}">
-                {% endthumbnail %}
+                {% endthumbnail %} {% endcomment %}
+                <img src='{{ category.image.url }}' alt="{{ category.name }}">
               </a>
               <div class="collection-title"><span>{{ category.name }}</span><span class="badge bg-danger">{{ category.count_products }}</span></div>
             </div>
