@@ -18,8 +18,8 @@ class User(AbstractUser):
         if self.pk:
             try:
                 old = User.objects.get(pk=self.pk)
-                if old.image and old.image != self.image:
-                    old_image_path = old.image.path
+                if old.avatra and old.avatra != self.avatra:
+                    old_image_path = old.avatra.path
                 
             except User.DoesNotExist:
                 pass
