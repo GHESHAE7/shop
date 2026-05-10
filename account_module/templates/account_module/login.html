@@ -38,11 +38,15 @@
               <form action="{% url 'account_module:login_page' %}" method="POST">
                 <div class="form-group text-start mb-4"><span>نام کاربری</span>
                   <label for="username"><i class="fa-solid fa-user"></i></label>
-                  <input class="form-control" id="username" type="text" name='username' placeholder="help@example.com">
+                  {{ login_form.username }}
                 </div>
                 <div class="form-group text-start mb-4"><span>کلمه عبور</span>
                   <label for="password"><i class="fa-solid fa-key"></i></label>
-                  <input class="form-control" id="password" type="password" name='password' placeholder="کلمه عبور">
+                  {{ login_form.password }}
+                </div>
+                <div class="form-group text-start mb-4"><span>کپتچا</span>
+                  <button class="btn btn-info" type="button" id="refresh-captcha">عوض کردن کپچا</button>
+                  {{ login_form.captcha }}
                 </div>
                 {% csrf_token %}
                 <button class="btn btn-warning btn-lg w-100" type="submit">وارد شدن</button>
@@ -58,5 +62,8 @@
         </div>
       </div>
     </div>
-
 {% endblock body %}
+
+{% block custom_footer_references %}
+    <script src="{% static 'js/account.js' %}"></script>
+{% endblock custom_footer_references %}

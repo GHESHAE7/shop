@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
-from .forms import RegisterFormModel, EditProfileFormModel
+from .forms import RegisterFormModel, EditProfileFormModel, LoginFormModel
 from .models import User
 from django.db.models import Q
 from django.contrib import messages
@@ -15,7 +15,10 @@ from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 
 class RegisterView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        context = {}
+        register_form: RegisterFormModel = RegisterFormModel()
+        context = {
+            'register_form': register_form,
+        }
         return render(request, 'account_module/register.html', context)
     
     
@@ -31,7 +34,7 @@ class RegisterView(View):
             messages.success(request, 'حساب کاربری شما با موفقیت ساخته شد و ایمیلی جهت فعال شدن اکانت شما ارسال گردید')
             return redirect(reverse('account_module:login_page'))
         else:
-            messages.error(request, 'کاربری با این مشخصات وجود دارد')
+            messages.error(request, 'کاربری با این مشخصات وجود دارد یا کپتجا به درستی وارد نشده است')
             return redirect(reverse('account_module:register_page'))
     
     
@@ -52,28 +55,36 @@ def active_account(request: HttpRequest, email_active_code: str) -> HttpResponse
 
 class LoginView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        context = {}
-        return render(request, 'account_module/login.html', context)  
-   
+        login_form = LoginFormModel()
+        context = {
+            'login_form': login_form,
+        }
+        return render(request, 'account_module/login.html', context)
+    
     
     def post(self, request: HttpRequest) -> HttpResponseRedirect:
         if not request.user.is_authenticated:
-            try:
-                username = request.POST['username']
-                password = request.POST['password']     
-                user: User = authenticate(request, username=username, password=password)
-                login(request, user)
-                messages.success(request, 'ورود شما موفقیت آمیز بود')
-                return redirect(reverse('home_module:home_page'))
-            except:
-                messages.error(request, 'مشخصات وارد شده اشتباه یا اکانت شما فعال نمی باشد')
+            login_form: LoginFormModel = LoginFormModel(request.POST)
+            if login_form.is_valid():
+                try:
+                    username = login_form.cleaned_data.get('username')
+                    password = login_form.cleaned_data.get('password')
+                    user: User = authenticate(request, username=username, password=password)
+                    login(request, user)
+                    messages.success(request, 'ورود شما موفقیت آمیز بود')
+                    return redirect(reverse('home_module:home_page'))
+                except:
+                    messages.error(request, 'مشخصات وارد شده اشتباه یا اکانت شما فعال نیست')
+                    return redirect(reverse('account_module:login_page'))   
+            else:
+                messages.error(request, 'کپتچا درست نیست')
                 return redirect(reverse('account_module:login_page'))
+                    
         messages.info(request, 'شما در حال حاظر درون اکانت خود هستید')
         return redirect(reverse('home_module:home_page'))
             
     
-    
-    
+
 def logout_view(request: HttpRequest) -> HttpResponseRedirect:
     if request.user.is_authenticated:
         logout(request)
