@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     # package
     "django_render_partial",
-    "sorl.thumbnail",
     "captcha",
     "django_summernote",
     "django_extensions",
