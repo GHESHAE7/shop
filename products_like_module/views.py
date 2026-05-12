@@ -6,13 +6,11 @@ from datetime import timedelta
 from django.utils import timezone
 from django.http import JsonResponse, HttpRequest, HttpResponse
 from product_module.models import Product
-# Create your views here.
 
 
 
 class LikeProductsView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        # if request.user.is_authenticated:
         likes_products: LikesProduct = LikesProduct.objects.filter(user_id=request.user.id, is_active=True).annotate(discount=Max('product__product_variant__discount')).order_by('-created_at')
         old_time = timezone.now() - timedelta(7)
         context = {
@@ -21,7 +19,6 @@ class LikeProductsView(View):
             'old_time': old_time,
         }
         return render(request, 'products_like_module/products_like.html', context)
-        # else:
     
 
     def post(self, request: HttpRequest) -> JsonResponse:

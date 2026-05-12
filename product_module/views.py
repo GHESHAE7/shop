@@ -9,7 +9,6 @@ from collections import defaultdict
 from comment_module.models import Comment
 from django.db.models import Count
 from django.http import JsonResponse, HttpRequest
-# Create your views here.
 
 
 

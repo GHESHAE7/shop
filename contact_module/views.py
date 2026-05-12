@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.views import View
 from .models import SubjectContact, ContactUs
 from django.http import JsonResponse, HttpRequest, HttpResponse
-# Create your views here.
 
 
 class ContactView(View):

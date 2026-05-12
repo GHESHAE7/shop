@@ -8,7 +8,6 @@ from datetime import timedelta
 from site_setting_module.models import Baner, Elan
 from django.http import HttpRequest, HttpResponse
 from cart_module.models import Order
-# Create your views here.
 
 
 class HomeView(View):

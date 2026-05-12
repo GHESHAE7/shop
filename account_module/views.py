@@ -3,13 +3,11 @@ from django.urls import reverse
 from django.views import View
 from .forms import RegisterFormModel, EditProfileFormModel, LoginFormModel
 from .models import User
-from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils.crypto import get_random_string
 from account_module.models import User
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
-# Create your views here.
 
 
 

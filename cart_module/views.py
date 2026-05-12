@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from cart_module.models import Order, OrderItem, DiscountCode, UserDiscountUsage
 from django.http import JsonResponse, HttpResponse
-from product_module.models import Product, ProductVariant
+from product_module.models import ProductVariant
 from django.http import HttpRequest, HttpResponse
 from django.utils.crypto import get_random_string
 from account_module.models import User
@@ -245,6 +245,3 @@ class DiscountCodeDeleteView(View):
                 'icon': 'error',
                 'message': 'ابتدا وارد حساب کاربری خود شوید',
             })
-            
-            
-            

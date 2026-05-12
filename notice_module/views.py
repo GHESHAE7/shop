@@ -4,7 +4,6 @@ from django.views import View
 from .models import Notice
 from django.http import HttpRequest, HttpResponse
 from django.contrib import messages
-# Create your views here.
 
 
 

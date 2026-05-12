@@ -43,3 +43,4 @@ def add_commnet(request: HttpRequest) -> JsonResponse | HttpResponse:
                 'icon': 'info',
                 'message': 'برای کامنت گذاشتن ابتدا باید وارد حساب کاربر خود شوید'
             })
+          

@@ -3,10 +3,6 @@ from django.views.generic.base import TemplateView
 from .models import SupportCategory
 
 
-
-# Create your views here.
-
-
 class SupportView(TemplateView):
     template_name = 'support_module/support.html'
     
