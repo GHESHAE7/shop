@@ -12,7 +12,6 @@
 
 
 {% block body %}
-
     {% if messages %}
     <script src="{% static 'js/toastify.min.js' %}"></script>
       <script>
@@ -39,7 +38,7 @@
         <div class="back-button me-2"><a href="{% url 'product_module:products_page' %}"><i class="fa-solid fa-arrow-right-long"></i></a></div>
         <!-- Page Title-->
         <div class="page-heading">
-          <h6 class="mb-0">مشخصات محصول {{ product.name }}</h6>
+          <h6 class="mb-0">مشخصات محصول {{ product.category.url }}</h6>
         </div>
         <!-- Navbar Toggler-->
         <div class="suha-navbar-toggler ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaOffcanvas" aria-controls="suhaOffcanvas">
@@ -158,7 +157,8 @@
               <button class="btn btn-danger ms-3" onclick="add_product_in_order()" type="button">به سبد خرید اضافه کنید</button>
             </form>
             <div class="mt-2 mb-0">
-              <p id="stock_product">موجودی کل: <span>{{ stock }}</span></p>
+              <p id="all_stock_product_">موجودی کل: <span>{{ stock }}</span></p>
+              <p id="price_product"><span></span></p>
             </div>
           </div>
         </div>
@@ -170,7 +170,7 @@
           </div>
         </div>
         <div class="pb-3"></div>
-        {% related_products_for_detail_page brand=product.brand.url %}
+        {% related_products_for_detail_page brand=product.brand.url category=product.category.url %}
         <!-- Rating & Review Wrapper -->
         <div class="rating-and-review-wrapper bg-white py-3 mb-3 dir-rtl">
           <div class="container">

@@ -20,7 +20,7 @@
                 {% endif %}
                 <!-- Wishlist Button--><a class="wishlist-btn" href="{% url 'products_like_module:like_products_page' %}"><i class="fa-solid fa-heart"></i></a>
                 <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.slug %}"><img class="mb-2" src="{{ product.image.url }}" alt="{{ product.name }}" title="{{ product.name }}">
-                <!-- Product Title --><a class="product-title" href="{% url 'product_module:product_detail_page' slug=product.slug %}" alt="{{ product.name }}" title="{{ product.name }}">{{ product.name }}</a>
+                <!-- Product Title --><a class="product-title" href="{% url 'product_module:product_detail_page' slug=product.slug %}" alt="{{ product.name }}" title="{{ product.name }}">{{ product.name|truncatechars:12 }}</a>
                 <!-- Product Price -->
                 <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
                       <!-- Rating -->

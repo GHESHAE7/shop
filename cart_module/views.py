@@ -15,7 +15,7 @@ class OrderView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
         context = {}
         try:
-            order: Order = Order.objects.get(is_active=True, user_id=request.user.id, status__in=['cart']).prefetch_related('order_items').prefetch_related('discounts_applied')
+            order: Order = Order.objects.prefetch_related('order_items').prefetch_related('discounts_applied').get(is_active=True, user_id=request.user.id, status__in=['cart'])
             context['order'] = order
             return render(request, 'cart_module/order.html', context)
         except Order.DoesNotExist:

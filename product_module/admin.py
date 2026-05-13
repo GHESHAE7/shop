@@ -38,7 +38,7 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'brand', 'price', 'gender', 'is_active', 'updated_at', 'created_at',)
+    list_display = ('name', 'brand', 'category', 'price', 'gender', 'is_active', 'updated_at', 'created_at',)
     list_filter = ('category', 'brand', 'gender', 'is_active', 'updated_at', 'created_at',)
     list_editable = ('is_active',)
     readonly_fields = ('created_at', 'updated_at',)

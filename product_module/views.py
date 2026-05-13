@@ -161,11 +161,13 @@ def stock_color_size(request: HttpRequest) -> JsonResponse:
         color = request.POST.get('color_name')
         size = request.POST.get('size_name')
         product_id = request.POST.get('product_id')
-        get_product_variant: ProductVariant = ProductVariant.objects.values('stock').get(is_active=True, color__exact=color, size__exact=size, product_id=product_id)
+        get_product_variant: ProductVariant = ProductVariant.objects.values('stock', 'discount', 'product__price').get(is_active=True, color__exact=color, size__exact=size, product_id=product_id)
         return JsonResponse({
             'color': color,
             'size': size,
             'stock': get_product_variant['stock'],
+            'discount': get_product_variant['discount'],
+            'price': get_product_variant['product__price'] - ((get_product_variant['product__price'] / 100) * get_product_variant['discount']) if get_product_variant['discount'] else get_product_variant['product__price'],
         })
     except ProductVariant.DoesNotExist:
         return JsonResponse({

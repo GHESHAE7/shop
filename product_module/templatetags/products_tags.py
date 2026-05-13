@@ -17,10 +17,11 @@ def res_discount(value, price):
 
 
 @register.inclusion_tag('product_module/inclusion/related_products.html')
-def related_products_for_detail_page(brand):
-    products = Product.objects.filter(is_active=True, brand__url=brand).annotate(discount=Max('product_variant__discount'), rating=Avg('comments__rating')).order_by('-created_at')[:8]
+def related_products_for_detail_page(brand, category):
+    products = Product.objects.filter(is_active=True).annotate(discount=Max('product_variant__discount'), rating=Avg('comments__rating')).order_by('?')
+    products = products.filter(Q(brand__url=brand) | Q(category__url=category))[:8]
     old_time = timezone.now() - timedelta(7)
-
+    print(category)
     return {
         'products': products,
         'old_time': old_time,
