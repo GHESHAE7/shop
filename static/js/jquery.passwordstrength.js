@@ -36,27 +36,27 @@
                 $('.progress-bar').css('width', score + '%').attr('aria-valuenow', score);
                 $('#password-recommendation').css('margin-top', '10px');
                 if (score < 50) {
-                    $('#password-score').html('Weak password <span class="icofont-exclamation-tringle"></span>');
-                    $('#password-recommendation').html('<div id="password-recommendation-heading">Some tips for a strong password:</div><ul><li>Use at least 8 characters</li><li>Use upper and lower case characters</li><li>Use 1 or more numbers</li><li>Optionally use special characters</li></ul>');
+                    $('#password-score').html('رمز عبور ضعیف <span class="icofont-exclamation-tringle"></span>');
+                    $('#password-recommendation').html('<div id="password-recommendation-heading">چند پیشنهاد برای رمز عبور قوی:</div><ul><li>حداقل رمز عبور 8 کاراکتری استفاده کنید</li><li>از کاراکتر های کوچک و بزرگ استفاده کنید</li><li>حداقل یک عدد یا بیشتر استفاده کنید</li><li>از کاراکتر های ویژه مانند @ برای رمز عبور قوی تر استفاده کنید</li></ul>');
                     $('#password-progress').removeClass();
                     $('#password-progress').addClass('progress-bar bg-danger');
                 }
                 else if (score <= 60) {
-                    $('#password-score').html('Normal password <span class="icofont-check"></span>');
-                    $('#password-recommendation').html('<div id="password-recommendation-heading">For a stronger password:</div><ul><li>Use upper and lower case characters</li><li>Use 1 or more numbers</li><li>Use special characters for an even stronger password</li></ul>');
+                    $('#password-score').html('رمز عبور خوب <span class="icofont-check"></span>');
+                    $('#password-recommendation').html('<div id="password-recommendation-heading">برای رمز عبور قوی تر:</div><ul><li>از کاراکتر های کوچک و بزرگ استفاده کنید</li><li>حداقل یک عدد یا بیشتر استفاده کنید</li><li>از کاراکتر های ویژه مانند @ برای رمز عبور قوی تر استفاده کنید</li></ul>');
                     $('#password-recommendation-heading').css('text-align', 'left');
                     $('#password-progress').removeClass();
                     $('#password-progress').addClass('progress-bar bg-warning');
                 }
                 else if (score <= 80) {
-                    $('#password-score').html('Strong password <span class="icofont-check"></span>');
-                    $('#password-recommendation').html('<div id="password-recommendation-heading">For an even stronger password:</div><ul><li>Increase the lenghth of your password to 15-30 characters</li><li>Use 2 or more numbers</li><li>Use 2 or more special characters</li></ul>');
+                    $('#password-score').html('رمز عبور قوی <span class="icofont-check"></span>');
+                    $('#password-recommendation').html('<div id="password-recommendation-heading">برای رمز عبور خیلی قوی تر:</div><ul><li>طول رمز عبور شما بین 15 تا 30 کاراکتر باشد</li><li>حداقل دو عدد یا بیشتر استفاده کنید</li><li>از کاراکتر های ویژه مانند @ دو بار یا بیشتر استفاده کنید</li></ul>');
                     $('#password-recommendation-heading').css('text-align', 'left');
                     $('#password-progress').removeClass();
                     $('#password-progress').addClass('progress-bar bg-info');
                 }
                 else {
-                    $('#password-score').html('Very strong password <span class="icofont-check"></span>');
+                    $('#password-score').html('رمز عبور خیلی خیلی قوی <span class="icofont-check"></span>');
                     $('#password-recommendation').html('');
                     $('#password-progress').removeClass();
                     $('#password-progress').addClass('progress-bar bg-success');
