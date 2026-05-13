@@ -20,20 +20,12 @@
             <!-- Badge--><span class="badge rounded-pill badge-warning"> فروش</span>
           {% endif %}
       {% endif %}      
-      <!-- Wishlist Button--><a class="wishlist-btn" href="#"><i class="lni lni-heart"></i></a>
-      <!-- Thumbnail --><a class="product-thumbnail d-block" href="single-product.html"><img class="mb-2" src="{{ product.product.image.url }}" alt="">
-      {% comment %} <!-- Offer Countdown Timer: Please use event time this format: YYYY/MM/DD hh:mm:ss -->
-      <ul class="offer-countdown-timer d-flex align-items-center shadow-sm" data-countdown="2023/12/31 23:59:59">
-      <li><span class="days">0</span>ر</li>
-      <li><span class="hours">0</span>س</li>
-      <li><span class="minutes">0</span>د</li>
-      <li><span class="seconds">0</span>ث</li>
-      </ul></a> {% endcomment %}
-      <!-- Product Title --><a class="product-title d-block" href="single-product.html">{{ product.product.name|truncatechars:20 }}</a>
+      <!-- Thumbnail --><a class="product-thumbnail d-block" href="{% url 'product_module:product_detail_page' slug=product.product.slug %}"><img class="mb-2" src="{{ product.product.image.url }}" alt="{{ product.product.name }}" title="{{ product.product.name }}">
+      <!-- Product Title --><a class="product-title d-block" href="{% url 'product_module:product_detail_page' slug=product.product.slug %}" alt="{{ product.product.name }}" title="{{ product.product.name }}">{{ product.product.name|truncatechars:17 }}</a>
       <!-- Product Price -->
       <p class="sale-price">{% if product.discount %}{{ product.discount|res_discount:product.product.price|intcomma }} تومان <span>{{ product.product.price|intcomma  }} تومان</span> {% else %}{{ product.product.price|intcomma }} تومان{% endif %}</p>
       <!-- Rating -->
-      <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+{% show_rating_products rating=product.rating %}
       <!-- Add to Cart -->
       <input type="hidden" id="#csrf_t" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
       <button class="btn btn-success btn-sm" type="button" onclick="delete_product_to_likes({{ product.id }})"><i class="fa-solid fa-plus"></i></button>
@@ -67,7 +59,7 @@
     <div class="header-area" id="headerArea">
       <div class="container h-100 d-flex align-items-center justify-content-between rtl-flex-d-row-r">
         <!-- Back Button-->
-        <div class="back-button me-2"><a href="home.html"><i class="fa-solid fa-arrow-right-long"></i></a></div>
+        <div class="back-button me-2"><a href="{% url 'home_module:home_page' %}"><i class="fa-solid fa-arrow-right-long"></i></a></div>
         <!-- Page Title-->
         <div class="page-heading">
           <h6 class="mb-0">علاقه مندی ها</h6>
@@ -76,44 +68,6 @@
         <div class="suha-navbar-toggler ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaOffcanvas" aria-controls="suhaOffcanvas">
           <div><span></span><span></span><span></span></div>
         </div>
-      </div>
-    </div>
-    <div class="offcanvas offcanvas-start suha-offcanvas-wrap" tabindex="-1" id="suhaOffcanvas" aria-labelledby="suhaOffcanvasLabel">
-      <!-- Close button-->
-      <button class="btn-close btn-close-white" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      <!-- Offcanvas body-->
-      <div class="offcanvas-body">
-        <!-- Sidenav Profile-->
-        <div class="sidenav-profile">
-          <div class="user-profile"><img src="img/bg-img/9.jpg" alt=""></div>
-          <div class="user-info">
-             <h5 class="user-name mb-1 text-white">سوها سارا</h5>
-            <p class="available-balance text-white"> موجودی <span class="counter">5000</span> <span>تومان</span> </p>
-          </div>
-        </div>
-        <!-- Sidenav Nav-->
-        <ul class="sidenav-nav ps-0">
-          <li><a href="profile.html"><i class="fa-solid fa-user"></i>پروفایل من</a></li></li>
-          <li><a href="notifications.html"><i class="fa-solid fa-bell lni-tada-effect"></i>اعلانات<span class="ms-1 badge badge-warning">3</span></a></li>
-          <li class="suha-dropdown-menu"><a href="#"><i class="fa-solid fa-store"></i>صفحات فروشگاه</a>
-            <ul>
-              <li><a href="shop-grid.html">شبکه فروشگاه</a></li>
-              <li><a href="shop-list.html">لیست فروشگاه</a></li>
-              <li><a href="single-product.html">مشخصات محصول</a></li>
-              <li><a href="featured-products.html">محصولات برجسته</a></li>
-              <li><a href="flash-sale.html">فروش ویژه</a></li>
-            </ul>
-          </li>
-          <li><a href="pages.html"><i class="fa-solid fa-file-code"></i>تمام صفحات</a></li>
-          <li class="suha-dropdown-menu"><a href="wishlist-grid.html"><i class="fa-solid fa-heart"></i>لیست علاقه مندی ها</a>
-            <ul>
-               <li><a href="wishlist-grid.html">شبکه دلخواه</a></li>
-              <li><a href="wishlist-list.html">لیست دلخواه</a></li>
-            </ul>
-          </li>
-          <li><a href="settings.html"><i class="fa-solid fa-sliders"></i>تنظیمات</a></li>
-          <li><a href="intro.html"><i class="fa-solid fa-toggle-off"></i>خروج از سیستم</a></li>
-        </ul>
       </div>
     </div>
     <div class="page-content-wrapper">

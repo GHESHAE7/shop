@@ -64,7 +64,6 @@
             <div class="p-title-price">
               <h5 class="mb-1">{{ product.name }}</h5>
                 <p class="sale-price mb-0 lh-1">{% if product.discount %}{{ product.discount|res_discount:product.price|intcomma }} تومان <span>{{ product.price|intcomma  }} تومان</span> {% else %}{{ product.price|intcomma }} تومان{% endif %}</p>
-              {% comment %} <p class="sale-price mb-0 lh-1">3000 تومان<span>6000 تومان</span></p> {% endcomment %}
             </div>
               <input type="hidden" id="#csrf_t" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <div class="p-wishlist-share"><a><i class="fa-solid fa-heart" onclick="add_product_to_likes({{ product.id }})"></i></a></div>
@@ -81,34 +80,6 @@
             </div>
           </div>
         </div>
-
-        {% comment %} <!-- Flash Sale Panel-->
-        <div class="flash-sale-panel bg-white mb-3 py-3">
-          <div class="container">
-            <!-- Sales Offer Content-->
-            <div class="sales-offer-content d-flex align-items-end justify-content-between">
-              <!-- Sales End-->
-              <div class="sales-end">
-                <p class="mb-1 font-weight-bold"><i class="fa-solid fa-bolt-lightning lni-flashing-effect text-danger"></i>پایان فروش فلش در</p>
-                <!-- Please use event time this format: YYYY/MM/DD hh:mm:ss-->
-                <ul class="sales-end-timer ps-0 d-flex align-items-center" data-countdown="2024/01/01 14:21:37">
-                  <li><span class="days">0</span>ر</li>
-                  <li><span class="hours">0</span>س</li>
-                  <li><span class="minutes">0</span>د</li>
-                  <li><span class="seconds">0</span>ث</li>
-                </ul>
-              </div>
-              <!-- Sales Volume-->
-              <div class="sales-volume text-end">
-                <p class="mb-1 font-weight-bold text-start">82% فروخته شده</p>
-                <div class="progress" style="height: 6px;">
-                  <div class="progress-bar bg-warning" role="progressbar" style="width: 82%;" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> {% endcomment %}
-
         <!-- Selection Panel-->
         <div class="selection-panel bg-white mb-3 py-3">
           <div class="container d-flex align-items-center justify-content-between">

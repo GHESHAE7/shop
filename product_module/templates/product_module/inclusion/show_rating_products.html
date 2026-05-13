@@ -1,0 +1,21 @@
+      <div class="product-rating" alt="{{ rating|floatformat:2 }}" title="{{ rating|floatformat:2 }}">
+        {% if rating > 0 and rating <= 1 %}
+          <i class="fa-solid fa-star"></i>
+        {% elif rating > 1 and rating <= 1.50 %}
+          <i class="fa-solid fa-star">
+        {% elif rating > 1.50 and rating <= 2 %}
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        {% elif rating > 2 and rating <= 2.50 %}
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        {% elif rating > 2.50 and rating <= 3 %}
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        {% elif rating > 3 and rating <= 3.50 %}
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        {% elif rating > 3.50 and rating <= 4 %}
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        {% elif rating > 4 and rating <= 4.50 %}
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        {% elif rating > 4.50 and rating <= 5 %}
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        {% endif %}
+      </div>

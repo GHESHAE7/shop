@@ -27,3 +27,11 @@ def related_products_for_detail_page(brand, category):
         'old_time': old_time,
         'brand': brand,
     }
+    
+    
+
+@register.inclusion_tag('product_module/inclusion/show_rating_products.html')
+def show_rating_products(rating):
+    return {
+        'rating': rating,
+    }

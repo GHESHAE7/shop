@@ -35,9 +35,6 @@
           <div class="col-10 col-lg-8"><img class="big-logo" src="{% static 'img/core-img/logo-white.png' %}" alt="">
             <!-- Register Form-->
             <div class="register-form mt-5">
-
-
-
               <form action="{% url 'account_module:register_page' %}" method="POST">
                 <div class="form-group text-start mb-4"><span>نام کاربری</span>
                   <label for="username"><i class="fa-solid fa-user"></i></label>
@@ -58,9 +55,6 @@
                 {% csrf_token %}
                 <button class="btn btn-warning btn-lg w-100" type="submit">ثبت نام</button>
               </form>
-
-
-
             </div>
             <!-- Login Meta-->
             <div class="login-meta-data">

@@ -39,12 +39,6 @@
                 {% else %}
                   <img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt="{{ user.username }}" title="{{ user.username }}">
                 {% endif %}
-                <div class="change-user-thumb">
-                  <form>
-                    <input class="form-control-file" type="file">
-                    <button><i class="fa-solid fa-pen"></i></button>
-                  </form>
-                </div>
               </div>
               <div class="user-info">
                 <p class="mb-0 text-dark">{{ user.email }}</p>
@@ -56,30 +50,6 @@
           <div class="card user-data-card">
             <div class="card-body">
               <form action="{% url 'account_module:edit_profile_page' %}" method="POST" enctype="multipart/form-data">
-                {% comment %} <div class="mb-3">
-                  <div class="title mb-2"><i class="fa-solid fa-at"></i><span>نام کاربری</span></div>
-                  <input class="form-control" type="text" value="طراحی جهان" disabled>
-                </div>
-                <div class="mb-3">
-                  <div class="title mb-2"><i class="fa-solid fa-user"></i><span>نام</span></div>
-                  <input class="form-control" type="text" value="سوها جانات">
-                </div>
-                <div class="mb-3">
-                  <div class="title mb-2"><i class="fa-solid fa-user"></i><span>نام خانوادگی</span></div>
-                  <input class="form-control" type="text" value="سوها جانات">
-                </div>
-                <div class="mb-3">
-                  <div class="title mb-2"><i class="fa-solid fa-phone"></i><span>تلفن</span></div>
-                  <input class="form-control" type="text" value="09123456789">
-                </div>
-                <div class="mb-3">
-                  <div class="title mb-2"><i class="fa-solid fa-envelope"></i><span>آدرس ایمیل</span></div>
-                  <input class="form-control" type="email" value="care@example.com">
-                </div>
-                <div class="mb-3">
-                  <div class="title mb-2"><i class="fa-solid fa-location-arrow"></i><span>آدرس حمل و نقل</span></div>
-                  <input class="form-control" type="text" value="تهران - ونک">
-                </div> {% endcomment %}
                 {% for item in form %}
                     <div class="mb-3">
                         <div class="title mb-2"><i class="fa-solid fa-location-arrow"></i><span>{{ item.label_tag }}</span></div>

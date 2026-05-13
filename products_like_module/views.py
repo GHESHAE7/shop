@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from .models import LikesProduct
-from django.db.models import Count, Max
+from django.db.models import Count, Max, Avg
 from datetime import timedelta
 from django.utils import timezone
 from django.http import JsonResponse, HttpRequest, HttpResponse
@@ -11,7 +11,7 @@ from product_module.models import Product
 
 class LikeProductsView(View):
     def get(self, request: HttpRequest) -> HttpResponse:
-        likes_products: LikesProduct = LikesProduct.objects.filter(user_id=request.user.id, is_active=True).annotate(discount=Max('product__product_variant__discount')).order_by('-created_at')
+        likes_products: LikesProduct = LikesProduct.objects.filter(user_id=request.user.id, is_active=True).annotate(discount=Max('product__product_variant__discount'), rating=Avg('product__comments__rating')).order_by('-created_at')
         old_time = timezone.now() - timedelta(7)
         context = {
             'likes_products': likes_products,
