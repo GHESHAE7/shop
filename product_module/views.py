@@ -161,7 +161,7 @@ def stock_color_size(request: HttpRequest) -> JsonResponse:
         color = request.POST.get('color_name')
         size = request.POST.get('size_name')
         product_id = request.POST.get('product_id')
-        get_product_variant: ProductVariant = ProductVariant.objects.get(is_active=True, color__exact=color, size__exact=size, product_id=product_id).values('stock')
+        get_product_variant: ProductVariant = ProductVariant.objects.values('stock').get(is_active=True, color__exact=color, size__exact=size, product_id=product_id)
         return JsonResponse({
             'color': color,
             'size': size,
