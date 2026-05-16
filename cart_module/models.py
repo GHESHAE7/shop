@@ -34,10 +34,7 @@ class Order(models.Model):
         current_user_discount_usage = UserDiscountUsage.objects.filter(order_id=self.id, status_usage='not_used', is_active=True).first()
         if current_user_discount_usage:
             current_discount_code = DiscountCode.objects.filter(code=current_user_discount_usage.discount_code).first()
-            if current_discount_code.percent and current_discount_code.amount == None:
-                total -= (total / 100) * current_discount_code.percent
-            else:
-                total -= current_discount_code.amount
+            total -= (total / 100) * current_discount_code.percent
             return total
         else:
             return total
@@ -75,7 +72,6 @@ class OrderItem(models.Model):
 class DiscountCode(models.Model):
     code = models.CharField(max_length=15, unique=True, verbose_name="کد تخفیف")
     percent = models.PositiveIntegerField(null=True, blank=True, verbose_name="درصد تخفیف", validators=[MinValueValidator(1), MaxValueValidator(100)])
-    amount = models.PositiveIntegerField(null=True, blank=True, verbose_name="مبلغ تخفیف (تومان)")
     expires_at = models.DateTimeField(null=True,blank=True,verbose_name="تاریخ انقضا")
     max_uses = models.PositiveIntegerField(null=True, blank=True, verbose_name="حداکثر تعداد کل استفاده")
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')

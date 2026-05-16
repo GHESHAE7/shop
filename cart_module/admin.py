@@ -24,10 +24,10 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 @admin.register(DiscountCode)
 class DiscountCodeAdmin(admin.ModelAdmin):
-    list_display = ('code', 'percent', 'amount', 'expires_at', 'max_uses', 'is_active','updated_at', 'created_at')
-    list_filter = ('percent', 'amount', 'expires_at', 'max_uses', 'is_active', 'updated_at', 'created_at',)
+    list_display = ('code', 'percent', 'expires_at', 'max_uses', 'is_active','updated_at', 'created_at',)
+    list_filter = ('percent', 'expires_at', 'max_uses', 'is_active', 'updated_at', 'created_at',)
     list_editable = ('is_active',)
-    search_fields = ('code', 'percent', 'amount')
+    search_fields = ('code', 'percent',)
     readonly_fields = ('created_at', 'updated_at',)
 
 

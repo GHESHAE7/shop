@@ -6,7 +6,7 @@ from product_module.models import ProductVariant
 from django.http import HttpRequest, HttpResponse
 from django.utils.crypto import get_random_string
 from account_module.models import User
-from django.db.models import F
+from django.db.models import F, Count
 from django.utils import timezone
 
 
@@ -20,8 +20,7 @@ class OrderView(View):
             return render(request, 'cart_module/order.html', context)
         except Order.DoesNotExist:
             return render(request, 'cart_module/order.html', context)
-
-                
+   
                 
 
 class StatusOrderView(View):
@@ -196,20 +195,37 @@ class DiscountCodeView(View):
         if request.user.is_authenticated:
             try:
                 discount_code = request.POST.get('discount_code')
+                
                 current_discount_code: DiscountCode = DiscountCode.objects.get(is_active=True, code__exact=discount_code, expires_at__gte=timezone.now())
                 order_id = request.POST.get('order_id')
-                current_user_discount_usage = UserDiscountUsage.objects.filter(is_active=True, order_id=order_id, user_id=request.user.id,discount_code_id=current_discount_code.id)
-                if current_user_discount_usage is not None:
-                    return JsonResponse({
-                    'icon': 'info',
-                    'message': 'کد تخفیف قبلا توسط شما استفاده یا در حال حاظر اعمال گردیده است',
-                })
+                
+                count_used_discount_code: UserDiscountUsage = UserDiscountUsage.objects.filter(is_active=True, discount_code_id=current_discount_code.id, status_usage='used').aggregate(Count('id'))['id__count']
+                
+                if count_used_discount_code >= current_discount_code.max_uses:
+                        return JsonResponse({
+                        'icon': 'info',
+                        'message': 'تعداد استفاده از کد تخفیف تمام شده است',
+                    })
                 else:
-                    UserDiscountUsage.objects.create(is_active=True, order_id=order_id, user_id=request.user.id, discount_code_id=current_discount_code.id)
-                    return JsonResponse({
-                    'icon': 'success',
-                    'message': 'کد تخفیف اعمال شد',
-                })
+                    current_user_discount_usage = UserDiscountUsage.objects.filter(is_active=True, order_id=order_id, user_id=request.user.id,discount_code_id=current_discount_code.id).first()
+                    
+                    if current_user_discount_usage is not None:
+                        return JsonResponse({
+                        'icon': 'info',
+                        'message': 'کد تخفیف قبلا توسط شما استفاده یا در حال حاظر اعمال گردیده است',
+                    })
+                    else:
+                        try:
+                            UserDiscountUsage.objects.create(is_active=True, order_id=order_id, user_id=request.user.id, discount_code_id=current_discount_code.id)
+                            return JsonResponse({
+                            'icon': 'success',
+                            'message': 'کد تخفیف اعمال شد',
+                            })
+                        except:
+                            return JsonResponse({
+                            'icon': 'error',
+                            'message': 'کد تخفیف قبلا توسط شما استفاده و با آن خرید شده است',
+                            })
             except DiscountCode.DoesNotExist:
                 return JsonResponse({
                     'icon': 'error',
@@ -228,9 +244,9 @@ class DiscountCodeDeleteView(View):
         if request.user.is_authenticated:
             try:
                 discount_code = request.POST.get('discount_code')
-                current_discount_code: DiscountCode = DiscountCode.objects.get(is_active=True, code__exact=discount_code, expires_at__gte=timezone.now()).value('id')
+                current_discount_code: DiscountCode = DiscountCode.objects.values('id').get(is_active=True, code__exact=discount_code, expires_at__gte=timezone.now())
                 order_id = request.POST.get('order_id')
-                UserDiscountUsage.objects.get(is_active=True, order_id=order_id, user_id=request.user.id, status_usage='not_used', discount_code_id=current_discount_code.id).delete()
+                UserDiscountUsage.objects.get(is_active=True, order_id=order_id, user_id=request.user.id, status_usage='not_used', discount_code_id=current_discount_code['id']).delete()
                 return JsonResponse({
                     'icon': 'success',
                     'message': 'کد تخفیف حذف شد',
