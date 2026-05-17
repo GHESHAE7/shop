@@ -199,9 +199,9 @@ class DiscountCodeView(View):
                 current_discount_code: DiscountCode = DiscountCode.objects.get(is_active=True, code__exact=discount_code, expires_at__gte=timezone.now())
                 order_id = request.POST.get('order_id')
                 
-                count_used_discount_code: UserDiscountUsage = UserDiscountUsage.objects.filter(is_active=True, discount_code_id=current_discount_code.id, status_usage='used').aggregate(Count('id'))['id__count']
+                count_used_discount_code: UserDiscountUsage = UserDiscountUsage.objects.filter(is_active=True, discount_code_id=current_discount_code.id, status_usage='used').aggregate(Count('id'))['id__count'] or None
                 
-                if count_used_discount_code >= current_discount_code.max_uses:
+                if ((count_used_discount_code is not None) and (current_discount_code.max_uses is not None)) and (count_used_discount_code >= current_discount_code.max_uses):
                         return JsonResponse({
                         'icon': 'info',
                         'message': 'تعداد استفاده از کد تخفیف تمام شده است',

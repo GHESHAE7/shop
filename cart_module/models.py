@@ -30,14 +30,9 @@ class Order(models.Model):
     is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
         
     def show_total_price(self):
-        total = self.order_items.aggregate(total = Sum(F('price') * F('count')))['total'] or 0
-        current_user_discount_usage = UserDiscountUsage.objects.filter(order_id=self.id, status_usage='not_used', is_active=True).first()
-        if current_user_discount_usage:
-            current_discount_code = DiscountCode.objects.filter(code=current_user_discount_usage.discount_code).first()
-            total -= (total / 100) * current_discount_code.percent
-            return total
-        else:
-            return total
+        total_price = self.order_items.aggregate(total = Sum(F('price') * F('count')))['total'] or 0
+        return total_price
+
     
     def __str__(self):
         return str(self.id)

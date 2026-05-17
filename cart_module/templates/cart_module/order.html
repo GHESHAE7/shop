@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
+{% load products_tags %}
+
 
 {% block title %}
     سبد خرید من
@@ -86,12 +88,8 @@
                         {% if order.discounts_applied.all %}
                             {% for code in order.discounts_applied.all %}
                                 <h6 class="mb-0">کد تخفیف اعمال شده شما: {{ code.discount_code }}</h6>
-                                {% if code.discount_code.percent %}
-                                    <p class="mb-2">کد تخفیف شما شامل {{ code.discount_code.percent }} درصد است</p>
-                                    {% else %}
-                                        <p class="mb-2">کد تخفیف شما شامل {{ code.discount_code.amount }} تومان می باشد</p>
-                                {% endif %}
-                                    <button class="btn btn-primary" type="button" onclick="discount_code_delete({{ order.id }}, '{{ code.discount_code }}')">حذف کد تخفیف</button>
+                                <p class="mb-2">کد تخفیف شما شامل {{ code.discount_code.percent }} درصد است</p>
+                                <button class="btn btn-primary" type="button" onclick="discount_code_delete({{ order.id }}, '{{ code.discount_code }}')">حذف کد تخفیف</button>
                             {% endfor %}
                         {% else %}
                             <h6 class="mb-0">تخفیف دارید؟</h6>
@@ -108,7 +106,15 @@
                 <!-- Cart Amount Area-->
                 <div class="card cart-amount-area">
                     <div class="card-body d-flex align-items-center justify-content-between">
-                    <h5 class="total-price mb-0"><span class="counter">{{ order.show_total_price|floatformat:2|intcomma }}</span> تومان</h5>
+                    <h5 class="total-price mb-0"><span class="counter">
+                        {% if order.discounts_applied.all %}
+                            {% for code in order.discounts_applied.all %}
+                                {{ code.discount_code.percent|res_discount:order.show_total_price|floatformat:2|intcomma }}
+                            {% endfor %}
+                        {% else %}
+                        {{ order.show_total_price|floatformat:2|intcomma }}
+                        {% endif %}
+                    </span> تومان</h5>
                     <a class="btn btn-warning" href="{% url 'cart_module:payment_order' order_id=order.id %}">پرداخت </a>
                     </div>
                 </div>
