@@ -4,8 +4,6 @@
 {% block title %}
     پشتیبانی
 {% endblock title %}
-    
-
 
 
 {% block body %}
@@ -24,7 +22,6 @@
         </div>
       </div>
     </div>
-
         <div class="page-content-wrapper">
       <div class="container">
         <!-- Support Wrapper-->
@@ -33,7 +30,7 @@
             <div class="card-body">
               <h4 class="faq-heading text-center">چگونه می توانیم به شما کمک کنیم؟</h4>
               <!-- Search Form-->
-              <form class="faq-search-form" action="#" method="">
+              <form class="faq-search-form" action="{% url 'support_name:support_page' %}" method="get">
                 <input class="form-control" type="search" name="search" placeholder="جستجو کردن">
                 <button type="submit"><i class="fa fa-search"></i></button>
               </form>

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load jformat %}
 
 
 {% block title %}
@@ -52,23 +53,23 @@
               <div class="order-text">
                 {% if order.status == 'paid' %}
                     <h6>سفارش شما با شماره {{ order.id }} پرداخت شده است و سفارش شما ثبت شده است</h6>
+                    <span>{{ order.updated_at|jformat:"%H:%M %Y/%m/%d"}}</span>
                 {% elif order.status == 'cancelled' %}
                     <h6>سفارش شما با شماره {{ order.id }} توسط شما کنسل شده است</h6>
-                {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
+                    <span>{{ order.updated_at|jformat:"%H:%M %Y/%m/%d"}}</span>
                 {% elif order.status == 'processing' %}
                     <h6>سفارش شما با شماره {{ order.id }} در حال بسته بندی و سپس ارسال می باشد</h6>
-                {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
+                    <span>{{ order.updated_at|jformat:"%H:%M %Y/%m/%d"}}</span>
                 {% elif order.status == 'shipped' %}
                     <h6>سفارش شما با شماره {{ order.id }} به مامور فرستنده بسته داده شده است و به دست شما می رسد</h6>
-                {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
+                    <span>{{ order.updated_at|jformat:"%H:%M %Y/%m/%d"}}</span>
                 {% elif order.status == 'completed' %}
                     <h6>سفارش شما با شماره {{ order.id }} به دست شما رسیده و تکیمل شده است</h6>
-                {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
+                    <span>{{ order.updated_at|jformat:"%H:%M %Y/%m/%d"}}</span>
                 {% elif order.status == 'returned' %}
                     <h6>سفارش شما با شماره {{ order.id }} توسط شما برگشت خورده است</h6>
-                {% comment %} <span>12تیر -  12:38 ظهر</span> {% endcomment %}
+                    <span>{{ order.updated_at|jformat:"%H:%M %Y/%m/%d"}}</span>
                 {% endif %}
-
               </div>
               <div class="order-status"><i class="fa-solid fa-circle-check"></i></div>
             </div>

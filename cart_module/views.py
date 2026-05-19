@@ -93,52 +93,53 @@ def add_product_to_order(request: HttpRequest) -> JsonResponse:
     if request.user.is_authenticated:
         if request.method == 'POST':
             product_id = request.POST.get('product_id') or None
-            order_user: Order = Order.objects.filter(is_active=True, user_id=request.user.id, status='cart').first()
-            if order_user is not None:
+            try:
+                order_user: Order = Order.objects.get(is_active=True, user_id=request.user.id, status='cart')
                 color = request.POST.get('color_name')
                 size = request.POST.get('size_name')
-                current_product_variant: ProductVariant = ProductVariant.objects.filter(is_active=True, product_id=product_id, color=color, size=size).first()
-                if current_product_variant is not None:
-                    current_order_item = OrderItem.objects.filter(is_active=True, order_id=order_user.id, product_variant_id=current_product_variant.id).first()
-                    if current_order_item is not None:
-                        return JsonResponse({
-                            'icon': 'info',
-                            'message': 'این محصول در سبد خرید شما وجود دارد',
-                        })
-                    else:
-                        count = request.POST.get('count')
-                        if (int(count) > current_product_variant.stock) or (int(count) <= 0):
-                            return JsonResponse({
-                                'icon': 'warning',
-                                'message': 'تعداد انتخاب شده نمی تواند بیشتر از موجودی محصول یا کوچک تر از 0 باشد'
-                            })
-                        else:
-                            # new_order_item = OrderItem(order_id=order_user.id, product_id=product_id, product_variant_id=current_product_variant.id, count=count)
-                            # new_order_item.save()
-                            OrderItem.objects.create(order_id=order_user.id, product_id=product_id, product_variant_id=current_product_variant.id, count=count)
-                            return JsonResponse({
-                                'icon': 'success',
-                                'message': 'محصول مورد نظر با موفقیت به سبد خرید شما اضافه شد',
-                            })
-                else:
+                try:
+                    current_product_variant: ProductVariant = ProductVariant.objects.get(is_active=True, product_id=product_id, color=color, size=size)
+                    current_order_item = OrderItem.objects.get(is_active=True, order_id=order_user.id, product_variant_id=current_product_variant.id)
+                    return JsonResponse({
+                        'icon': 'info',
+                        'message': 'این محصول در سبد خرید شما وجود دارد',
+                    })
+                except ProductVariant.DoesNotExist:
                     return JsonResponse({
                         'icon': 'error',
                         'message': 'محصول مورد نظر یافت نشد',
                     })
-            else:
-                new_order = Order(user_id=request.user.id, status='cart')
-                new_order.save()
-                color = request.POST.get('color_name')
-                size = request.POST.get('size_name')
-                current_product_variant = ProductVariant.objects.filter(is_active=True, product_id=product_id, color=color, size=size).first()
-                if current_product_variant is not None:
-                    current_order_item = OrderItem.objects.filter(is_active=True, order_id=new_order.id, product_variant_id=current_product_variant.id).first()
-                    if current_order_item is not None:
+                except OrderItem.DoesNotExist:
+                    count = request.POST.get('count')
+                    if (int(count) > current_product_variant.stock) or (int(count) <= 0):
                         return JsonResponse({
-                            'icon': 'info',
-                            'message': 'این محصول در سبد خرید شما وجود دارد',
+                            'icon': 'warning',
+                            'message': 'تعداد انتخاب شده نمی تواند بیشتر از موجودی محصول یا کوچک تر از 0 باشد'
                         })
                     else:
+                        OrderItem.objects.create(order_id=order_user.id, product_id=product_id, product_variant_id=current_product_variant.id, count=count)
+                        return JsonResponse({
+                            'icon': 'success',
+                            'message': 'محصول مورد نظر با موفقیت به سبد خرید شما اضافه شد',
+                        })
+            except Order.DoesNotExist:
+                    new_order = Order(user_id=request.user.id, status='cart')
+                    new_order.save()
+                    color = request.POST.get('color_name')
+                    size = request.POST.get('size_name')
+                    try:
+                        current_product_variant = ProductVariant.objects.get(is_active=True, product_id=product_id, color=color, size=size)
+                        current_order_item = OrderItem.objects.get(is_active=True, order_id=new_order.id, product_variant_id=current_product_variant.id)
+                        return JsonResponse({
+                                'icon': 'info',
+                                'message': 'این محصول در سبد خرید شما وجود دارد',
+                            })
+                    except ProductVariant.DoesNotExist:
+                        return JsonResponse({
+                            'icon': 'error',
+                            'message': 'محصول مورد نظر یافت نشد',
+                        })
+                    except OrderItem.DoesNotExist:
                         count = request.POST.get('count')
                         if (int(count) > current_product_variant.stock) or (int(count) <= 0):
                             return JsonResponse({
@@ -152,11 +153,6 @@ def add_product_to_order(request: HttpRequest) -> JsonResponse:
                                 'icon': 'success',
                                 'message': 'محصول مورد نظر با موفقیت به سبد خرید شما اضافه شد',
                             })
-                else:
-                    return JsonResponse({
-                        'icon': 'error',
-                        'message': 'محصول مورد نظر یافت نشد',
-                    })
     else:
         return JsonResponse({
             'icon': 'error',
