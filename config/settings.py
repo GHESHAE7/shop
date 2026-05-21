@@ -39,6 +39,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # package
+    "multi_captcha_admin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -173,3 +175,9 @@ CAPTCHA_FOREGROUND_COLOR = "#FFFFFF"
 CAPTCHA_CHALLENGE_FUNCT = "captcha.helpers.random_char_challenge"
 CAPTCHA_NOISE_FUNCTIONS = ("captcha.helpers.noise_arcs",)
 CAPTCHA_TIMEOUT = 1
+
+
+# multy cpatcha admin
+MULTI_CAPTCHA_ADMIN = {
+    'engine': "simple-captcha",
+}
