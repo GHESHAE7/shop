@@ -5,6 +5,6 @@ import os
 
 @receiver(post_delete, sender=User)
 def delete_image_on_user(sender, instance, **kwargs):
-    if instance.image:
-        if os.path.isfile(instance.image.path):
-            os.remove(instance.image.path)
+    if instance.avatra:
+        if os.path.isfile(instance.avatra.path):
+            os.remove(instance.avatra.path)
