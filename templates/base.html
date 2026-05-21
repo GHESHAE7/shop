@@ -4,7 +4,8 @@
 {% partialdef header_references %}
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    {% comment %} <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"> {% endcomment %}
+    <link href="{% static 'googleapis.css' %}" rel="stylesheet">
     <!-- Favicon -->
     <link rel="icon" href="{% static 'img/icons/icon-72x72.png' %}">
     <!-- Apple Touch Icon -->
