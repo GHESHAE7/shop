@@ -25,7 +25,7 @@
                   <img src="{% static 'img/bg-img/defualt_avatar.jpg' %}" alt="{{ user.username }}" title="{{ user.username }}">
                 {% endif %}</a></div>
             {% else %}
-            <a href="{% url 'account_module:login_page' %}">ورود به حساب</a>
+            <a href="{% url 'account_module:login_page' %}">ورود به حساب کاربری</a>
           {% endif %}
           <!-- Navbar Toggler -->
           <div class="suha-navbar-toggler ms-2" data-bs-toggle="offcanvas" data-bs-target="#suhaOffcanvas" aria-controls="suhaOffcanvas">
@@ -57,7 +57,7 @@
           </div>
         </div>
         {% else %}
-        <a href="{% url 'account_module:login_page' %}" style="color: white;">ورود به حساب کاربری</a>
+        <a href="{% url 'account_module:login_page' %}" style="color: white;"><i class="fa-solid fa-sign-in"></i> ورود به حساب کاربری</a>
         {% endif %}
         <!-- Sidenav Nav-->
         <ul class="sidenav-nav ps-0">
@@ -65,11 +65,11 @@
           <li><a href="{% url 'notice_module:notice_page' %}"><i class="fa-solid fa-bell lni-tada-effect"></i>اعلانات<span class="ms-1 badge badge-warning"></span></a></li>
           <li class="suha-dropdown-menu"><a href="#"><i class="fa-solid fa-store"></i>صفحات فروشگاه</a>
             <ul>
-              <li><a href="{% url 'product_module:products_page' %}">محصولات</a></li>
+              <li><a href="{% url 'product_module:products_page' %}"><i class="fa-solid "></i> محصولات</a></li>
               <li><a href="{% url 'product_module:products_discount_page' %}">محصولات تخفیف  دار</a></li>
             </ul>
           </li>
-          <li><a href="{% url 'about_module:about_page' %}"><i class="fa-solid fa-file-code"></i>درباره ما</a></li>
+          <li><a href="{% url 'about_module:about_page' %}"><i class="fa-solid fa-users"></i>درباره ما</a></li>
           <li><a href="{% url 'products_like_module:like_products_page' %}"><i class="fa-solid fa-heart"></i>لیست علاقه مندی ها</a>
           </li>
           <li><a href="{% url 'account_module:settings_page' %}"><i class="fa-solid fa-sliders"></i>تنظیمات</a></li>
