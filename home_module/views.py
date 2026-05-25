@@ -5,7 +5,7 @@ from product_module.models import Brand, Category, Product, ProductVariant
 from django.db.models import Count, Max, Sum, Avg, OuterRef, Subquery
 from django.utils import timezone
 from datetime import timedelta
-from site_setting_module.models import Baner, Elan
+from site_setting_module.models import Baner, Elan, SettingSite
 from django.http import HttpRequest, HttpResponse
 from cart_module.models import Order
 
@@ -53,11 +53,13 @@ def header_component(request: HttpRequest) -> HttpResponse:
         try:
             user_id = request.user.id
             current_user: User = User.objects.get(id=user_id, is_active=True)
+            site_setting = SettingSite.objects.get(is_active=True)
             count_order_item = Order.objects.filter(user_id=user_id, status='cart', is_active=True).aggregate(Count('order_items'))['order_items__count']
             context['user'] = current_user
             context['count_order_item'] = count_order_item
+            context['site_setting'] = site_setting
             return render(request, "component_partial/header_component.html", context)
-        except [User.DoesNotExist, Order.DoesNotExist]:
+        except [User.DoesNotExist, Order.DoesNotExist, SettingSite.DoesNotExist]:
             return render(request, "component_partial/header_component.html", context)
 
     else:

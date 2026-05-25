@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Baner, Elan
+from .models import Baner, Elan, SettingSite
 
 # Register your models here.
 
@@ -23,3 +23,13 @@ class ElanAdmin(admin.ModelAdmin):
     list_editable = ('is_active', 'where')
     readonly_fields = ('created_at', 'updated_at',)
     search_fields = ('title', 'description', 'url_btn', 'text_in_btn', 'where')
+    
+    
+
+@admin.register(SettingSite)
+class ElanAdmin(admin.ModelAdmin):
+    empty_value_display = '-empty-'
+    list_display = ('name', 'is_active', 'updated_at', 'created_at',)
+    list_filter = ('is_active',)
+    list_editable = ('is_active',)
+    readonly_fields = ('updated_at', 'created_at',)

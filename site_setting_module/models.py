@@ -39,3 +39,16 @@ class Elan(models.Model):
     
     def __str__(self):
         return f"{self.title} / {self.id}"
+    
+    
+
+class SettingSite(models.Model):
+    logo = models.ImageField(null=False, blank=False, upload_to='logo/image', verbose_name='لوگو سایت')
+    name = models.CharField(null=False, blank=False, default='', verbose_name='نام سایت')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین آپدیت')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    is_active = models.BooleanField(default=True, null=False, verbose_name='فعال / غیر فعال')
+    
+    
+    def __str__(self):
+        return self.name

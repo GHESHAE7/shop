@@ -9,7 +9,7 @@
     <div class="header-area" id="headerArea">
       <div class="container h-100 d-flex align-items-center justify-content-between d-flex rtl-flex-d-row-r">
         <!-- Logo Wrapper -->
-        <div class="logo-wrapper"><a href="{% url 'home_module:home_page' %}"><img src="{% static 'img/core-img/logo-small.png' %}" alt=""></a></div>
+        <div class="logo-wrapper"><a href="{% url 'home_module:home_page' %}"><img src="{{ site_setting.logo.url }}" alt="{{ site_setting.name }}" title="{{ site_setting.name }}"></a></div>
         <div class="navbar-logo-container d-flex align-items-center">
           <!-- Cart Icon -->
           <div class="cart-icon-wrap"><a href="{% url 'cart_module:order_page' %}"><i class="fa-solid fa-bag-shopping"></i>
