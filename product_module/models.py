@@ -77,7 +77,7 @@ class Product(models.Model):
     
     name = models.CharField(max_length=255, null=False, blank=False, verbose_name='نام محصول')
     category = models.ForeignKey(Category, verbose_name='دسته بندی محصول', related_name="products_category", on_delete=models.SET_NULL, null=True)
-    brand = models.ForeignKey(Brand, null=True, on_delete=models.SET_NULL, verbose_name='برند محصول')
+    brand = models.ForeignKey(Brand, null=True, on_delete=models.SET_NULL, verbose_name='برند محصول', related_name="products_brand")
     price = models.BigIntegerField(null=False, blank=False, verbose_name='قیمت محصول')
     description = models.TextField(verbose_name='توضیحات محصول', null=False, blank=False)
     gender = models.CharField(choices=ChoicesGender, null=False, blank=False, max_length=20,)
