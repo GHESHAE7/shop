@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.crypto import get_random_string
 from account_module.models import User
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from utils.emails import send_email
 
 
 
@@ -30,6 +31,9 @@ class RegisterView(View):
             new_user.is_active = False
             new_user.save()
             messages.success(request, 'حساب کاربری شما با موفقیت ساخته شد و ایمیلی جهت فعال شدن اکانت شما ارسال گردید')
+            print(f'email: {new_user.email}')
+            print(f'email_active_code: {new_user.email_active_code}')
+            send_email('فعالسازی حساب کاربری', new_user.email, {'email_active_code': new_user.email_active_code}, 'account_module/emails/active_account.html')
             return redirect(reverse('account_module:login_page'))
         else:
             messages.error(request, 'کاربری با این مشخصات وجود دارد یا کپتجا به درستی وارد نشده است')
@@ -220,7 +224,7 @@ class ForgetPasswordView(View):
             email = request.POST.get('email')
             current_user: User = User.objects.get(email__exact=email, is_active=True)
             if current_user is not None:
-                # ارسال ایمیل
+                send_email('بازیابی کلمه عبور', current_user.email, {'email_active_code': current_user.email_active_code}, 'account_module/emails/reset_password.html')
                 return render(request, 'account_module/forget_password_success.html')
         except User.DoesNotExist:
             messages.error(request, 'کاربری با این مشخصات وجود ندارد یا حساب کاربری فعال نیست')
