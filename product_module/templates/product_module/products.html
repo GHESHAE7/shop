@@ -163,13 +163,13 @@
                   <div class="row g-3">
                     <div class="col-6">
                       <div class="form-floating">
-                        <input class="form-control" id="min_price_filter" type="text" placeholder="1" value="{{ min_price }}">
+                        <input class="form-control" id="min_price_filter" type="text" placeholder="1" value="{{ min_price|intcomma }}">
                         <label for="min_price_filter">پایین</label>
                       </div>
                     </div>
                     <div class="col-6">
                       <div class="form-floating">
-                        <input class="form-control" id="max_price_filter" type="text" placeholder="1" value="{{ max_price }}">
+                        <input class="form-control" id="max_price_filter" type="text" placeholder="1" value="{{ max_price|intcomma }}">
                         <label for="max_price_filter">بالا</label>
                       </div>
                     </div>
@@ -212,7 +212,6 @@
                   <option>کم ترین امتیاز</option>
                   <option>پرفروش ترین</option>
                   <option>کم فروش ترین</option>
-                  <option>تخفیف دار</option>
                 </select>
               </div>
             </div>

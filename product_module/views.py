@@ -9,6 +9,7 @@ from collections import defaultdict
 from comment_module.models import Comment
 from django.db.models import Count
 from django.http import JsonResponse, HttpRequest
+from django.urls import reverse
 
 
 
@@ -48,9 +49,14 @@ class ProductsListView(ListView):
         if rating:
             query = query.filter(rating__lte=rating)
         if search_products:
-            print(f'search param: {search_products}')
-            query = query.filter(Q(name__icontains=search_products) | Q(category__name__icontains=search_products) | Q(category__url__icontains=search_products) | Q(brand__name__icontains=search_products) |  Q(brand__url__icontains=search_products) | 
-                Q(slug__icontains=search_products) | Q(product_variant__color__icontains=search_products)
+            query = query.filter(
+                Q(name__icontains=search_products)
+                | Q(category__name__icontains=search_products)
+                | Q(category__url__icontains=search_products)
+                | Q(brand__name__icontains=search_products)
+                | Q(brand__url__icontains=search_products)
+                | Q(slug__icontains=search_products)
+                | Q(product_variant__color__icontains=search_products)
             )
         if self.request.path.endswith('/discount'):
             query = query.filter(product_variant__discount__gt=0)
@@ -62,9 +68,7 @@ class ProductsListView(ListView):
             elif order_by == 'بیشترین قیمت':
                 query = query.order_by('-price')          
             elif order_by == 'کمترین قیمت':
-                query = query.order_by('price')       
-            elif order_by == 'تخفیف دار':
-                query = query.filter(product_variant__discount__isnull=False)
+                query = query.order_by('price')
             elif order_by == 'بالاترین امتیاز':
                 query = query.filter(rating__isnull=False).order_by('-rating')
             elif order_by == 'کم ترین امتیاز':
@@ -92,33 +96,29 @@ class ProductsListView(ListView):
         context['max_price'] = Product.objects.filter(is_active=True).aggregate(Max('price'))['price__max'] or 0
         context['min_price'] = Product.objects.filter(is_active=True).aggregate(Min('price'))['price__min'] or 0
         
-        if self.request.path.endswith(''):
+        if self.request.build_absolute_uri() == self.request.build_absolute_uri(reverse('product_module:products_page')):
             context['title_heading'] = 'محصولات'
             context['title'] = 'تمام محصولات فروشگاه'
             context['show_discount'] = True
             
-            
-        if self.request.path.endswith('/discount'):
+        elif self.request.build_absolute_uri() == self.request.build_absolute_uri(reverse('product_module:products_discount_page')):
             context['title_heading'] = 'محصولات تخفیف دار'
             context['title'] = 'تمام محصولات تخفیف دار'
             context['show_discount'] = False
             
-            
-        if '/category/' in self.request.path:
+        elif self.request.build_absolute_uri() == self.request.build_absolute_uri(reverse('product_module:products_by_category_page', kwargs={'category_url': self.kwargs.get('category_url')})):
             category_url = self.kwargs.get('category_url')
             context['title_heading'] = f'دسته بندی {category_url}'
             context['title'] = f'تمام محصولات در دسته بندی {category_url}'
             context['show_discount'] = True
             
-
-        if '/brand/' in self.request.path:
+        elif self.request.build_absolute_uri() == self.request.build_absolute_uri(reverse('product_module:products_by_brand_page', kwargs={'brand_url': self.kwargs.get('brand_url')})):
             brnad_url = self.kwargs.get('brand_url')
             context['title_heading'] = f'برند {brnad_url}'
             context['title'] = f'تمام محصولات در برند {brnad_url}'
             context['show_discount'] = True   
             
-            
-        if self.request.GET.get('search'):
+        elif self.request.GET.get('search'):
             search = self.request.GET.get('search')
             context['title_heading'] = f'جستجو برای {search}'
             context['title'] = f'{search}'

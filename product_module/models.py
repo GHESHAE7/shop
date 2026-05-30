@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
-import os
+from pathlib import Path
 
 
 class Category(models.Model):
@@ -16,19 +16,19 @@ class Category(models.Model):
     
     def save(self, *args, **kwargs):
         old_image_path = None
-
+        
         if self.pk:
             try:
                 old = Category.objects.get(pk=self.pk)
                 if old.image and old.image != self.image:
-                    old_image_path = old.image.path
+                    old_image_path = Path(old.image.path)
+                
             except Category.DoesNotExist:
                 pass
-
-        super().save(*args, **kwargs)
-
-        if old_image_path and os.path.isfile(old_image_path):
-            os.remove(old_image_path)
+        super(Category, self).save(*args, **kwargs)
+        
+        if old_image_path and old_image_path.is_file():
+            old_image_path.unlink()
     
     
     def __str__(self):
@@ -54,14 +54,14 @@ class Brand(models.Model):
             try:
                 old = Brand.objects.get(pk=self.pk)
                 if old.image and old.image != self.image:
-                    old_image_path = old.image.path
+                    old_image_path = Path(old.image.path)
                 
             except Brand.DoesNotExist:
                 pass
         super(Brand, self).save(*args, **kwargs)
         
-        if old_image_path and os.path.isfile(old_image_path):
-            os.remove(old_image_path)
+        if old_image_path and old_image_path.is_file():
+            old_image_path.unlink()
     
     
     def __str__(self):
@@ -96,14 +96,14 @@ class Product(models.Model):
             try:
                 old = Product.objects.get(pk=self.pk)
                 if old.image and old.image != self.image:
-                    old_image_path = old.image.path
+                    old_image_path = Path(old.image.path)
                 
             except Product.DoesNotExist:
                 pass
         super(Product, self).save(*args, **kwargs)
         
-        if old_image_path and os.path.isfile(old_image_path):
-            os.remove(old_image_path)
+        if old_image_path and old_image_path.is_file():
+            old_image_path.unlink()
     
     
     def __str__(self):
@@ -143,14 +143,14 @@ class ManyImages(models.Model):
             try:
                 old = ManyImages.objects.get(pk=self.pk)
                 if old.image and old.image != self.image:
-                    old_image_path = old.image.path
+                    old_image_path = Path(old.image.path)
                 
             except ManyImages.DoesNotExist:
                 pass
         super(ManyImages, self).save(*args, **kwargs)
         
-        if old_image_path and os.path.isfile(old_image_path):
-            os.remove(old_image_path)
+        if old_image_path and old_image_path.is_file():
+            old_image_path.unlink()
 
 
     def __str__(self):
