@@ -6,7 +6,6 @@ from .models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils.crypto import get_random_string
-from account_module.models import User
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from utils.emails import send_email
 

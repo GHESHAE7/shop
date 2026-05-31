@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.views import View
 from cart_module.models import Order, OrderItem, DiscountCode, UserDiscountUsage
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpRequest
 from product_module.models import ProductVariant
-from django.http import HttpRequest, HttpResponse
 from django.utils.crypto import get_random_string
 from account_module.models import User
 from django.db.models import F, Count
@@ -167,7 +166,7 @@ class PaymentView(View):
             order: Order = Order.objects.filter(is_active=True, status='cart', pk=order_id).first()
             if order is not None:
                 current_user: User = User.objects.filter(is_active=True, pk=request.user.id).first()
-                if current_user.address == None or current_user.address == '':
+                if current_user.address is None or current_user.address == '':
                     return HttpResponse('plese address')
                 else:
                     order_items: OrderItem = OrderItem.objects.filter(is_active=True, order_id=order.id).values_list('product_variant_id', 'count')

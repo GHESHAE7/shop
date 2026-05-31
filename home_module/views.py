@@ -22,6 +22,17 @@ class HomeView(View):
         base_qs = Product.objects.filter(is_active=True)
         high_rating_products = (base_qs.annotate(rating=Avg('comments__rating'), max_discount=Max('product_variant__discount')).filter(rating__isnull=False).order_by('-rating').distinct()[:8])
         baners: Baner = Baner.objects.filter(is_active=True).order_by('-created_at')[:3]
+     
+        context = {
+            'brands': brands,
+            'categories': categories,
+            'products_discount': products_discount,
+            'products_new': products_new,
+            'baners': baners,
+            'products_sales_week': products_sales_week,
+            'high_rating_products': high_rating_products,
+        }
+        
         try:
             elan_top: Elan = Elan.objects.get(is_active=True, where="top")
             context['elan_top'] = elan_top
@@ -33,16 +44,7 @@ class HomeView(View):
             context['elan_buttom'] = elan_buttom
         except Elan.DoesNotExist:
             pass
-        
-        context = {
-            'brands': brands,
-            'categories': categories,
-            'products_discount': products_discount,
-            'products_new': products_new,
-            'baners': baners,
-            'products_sales_week': products_sales_week,
-            'high_rating_products': high_rating_products,
-        }
+
         return render(request, 'home_module/home.html', context)
     
     

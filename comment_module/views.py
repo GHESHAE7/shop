@@ -2,7 +2,6 @@ from django.shortcuts import render
 from comment_module.models import Comment
 from django.http import JsonResponse, HttpRequest, HttpResponse
 from product_module.models import Product
-from django.db.models import Avg
 # Create your views here.
 
 

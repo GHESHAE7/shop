@@ -4,7 +4,6 @@ from product_module.models import ProductVariant
 from product_module.models import Product
 from django.utils.translation import gettext_lazy as _
 from django.db.models import F, Sum
-from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 

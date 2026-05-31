@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.utils.crypto import get_random_string
 import os
 # Create your models here.
 
