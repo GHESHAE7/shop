@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("cart_module", "0008_alter_userdiscountusage_discount_amount_applied"),
     ]

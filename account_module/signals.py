@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from .models import User
 import os
 
+
 @receiver(post_delete, sender=User)
 def delete_image_on_user(sender, instance, **kwargs):
     if instance.avatra:

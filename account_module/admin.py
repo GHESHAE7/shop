@@ -4,13 +4,24 @@ from account_module.models import User
 from django.utils.translation import gettext_lazy as _
 
 
-
-
 @admin.register(User)
 class UserAdminModel(UserAdmin):
     fieldsets = (
         (None, {"fields": ("username", "password")}),
-        (_("Personal info"), {"fields": ("first_name", "last_name", "email", "phone", "address", "avatra", "email_active_code")}),
+        (
+            _("Personal info"),
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "phone",
+                    "address",
+                    "avatra",
+                    "email_active_code",
+                )
+            },
+        ),
         (
             _("Permissions"),
             {

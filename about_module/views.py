@@ -6,24 +6,22 @@ from .models import About, PrivacyPolicy
 class AboutView(View):
     def get(self, request):
         context = {}
-        try: 
+        try:
             about = About.objects.get(is_active=True)
-            context['about'] = about
+            context["about"] = about
         except About.DoesNotExist:
             pass
-        
-        return render(request, 'about_module/about.html', context)
-    
-    
-    
+
+        return render(request, "about_module/about.html", context)
+
+
 class PrivacyPolicyView(View):
     def get(self, request):
         context = {}
         try:
             privacy_policy = PrivacyPolicy.objects.get(is_active=True)
-            context['privacy_policy'] = privacy_policy
+            context["privacy_policy"] = privacy_policy
         except PrivacyPolicy.DoesNotExist:
             pass
-        
-        return render(request, 'about_module/privacy_policy.html', context)
-        
+
+        return render(request, "about_module/privacy_policy.html", context)

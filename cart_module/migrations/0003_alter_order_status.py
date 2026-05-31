@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("cart_module", "0002_orderitem_created_at_orderitem_is_active_and_more"),
     ]

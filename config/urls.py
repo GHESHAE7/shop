@@ -24,19 +24,19 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 urlpatterns = [
     path("admin/", admin.site.urls),
     # package
-    path('captcha/', include('captcha.urls')),
-    path('summernote/', include('django_summernote.urls')),
+    path("captcha/", include("captcha.urls")),
+    path("summernote/", include("django_summernote.urls")),
     # app
-    path('', include('home_module.urls')),
-    path('account/', include('account_module.urls')),
-    path('products/', include('product_module.urls')),
-    path('likes/', include('products_like_module.urls')),
-    path('comment/', include('comment_module.urls')),
-    path('contact/', include('contact_module.urls')),
-    path('support/', include('support_module.urls')),
-    path('order/', include('cart_module.urls')),
-    path('about/', include('about_module.urls')),
-    path('notice/', include('notice_module.urls')),
+    path("", include("home_module.urls")),
+    path("account/", include("account_module.urls")),
+    path("products/", include("product_module.urls")),
+    path("likes/", include("products_like_module.urls")),
+    path("comment/", include("comment_module.urls")),
+    path("contact/", include("contact_module.urls")),
+    path("support/", include("support_module.urls")),
+    path("order/", include("cart_module.urls")),
+    path("about/", include("about_module.urls")),
+    path("notice/", include("notice_module.urls")),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

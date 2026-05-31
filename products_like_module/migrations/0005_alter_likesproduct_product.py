@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("product_module", "0010_alter_productvariant_sales_count"),
         ("products_like_module", "0004_alter_likesproduct_product"),

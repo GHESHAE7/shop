@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from .models import SettingSite
 import os
 
+
 @receiver(post_delete, sender=SettingSite)
 def delete_logo_on_site_setting(sender, instance, **kwargs):
     if instance.logo:

@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("comment_module", "0002_comment_rating"),
         ("product_module", "0008_alter_product_category"),

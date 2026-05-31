@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("product_module", "0006_rename_product_variant_manyimages_product"),
         ("products_like_module", "0003_alter_likesproduct_product"),

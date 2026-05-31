@@ -7,8 +7,8 @@ from .models import Category, Brand, Product, ProductVariant, ManyImages
 class ProductVariantInline(admin.StackedInline):
     model = ProductVariant
     extra = 1
-    
-       
+
+
 class ManyImageInline(admin.StackedInline):
     model = ManyImages
     extra = 1
@@ -16,54 +16,128 @@ class ManyImageInline(admin.StackedInline):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'url', 'is_active', 'updated_at', 'created_at',)
-    list_filter = ('created_at', 'updated_at', 'is_active',)
-    list_editable = ('is_active',)
-    readonly_fields = ('updated_at', 'created_at',)
-    date_hierarchy = 'created_at'
-    search_fields = ('name', 'url',)
-    
-    
-    
+    list_display = (
+        "name",
+        "url",
+        "is_active",
+        "updated_at",
+        "created_at",
+    )
+    list_filter = (
+        "created_at",
+        "updated_at",
+        "is_active",
+    )
+    list_editable = ("is_active",)
+    readonly_fields = (
+        "updated_at",
+        "created_at",
+    )
+    date_hierarchy = "created_at"
+    search_fields = (
+        "name",
+        "url",
+    )
+
+
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ('name', 'url', 'is_active', 'updated_at', 'created_at',)
-    list_filter = ('created_at', 'updated_at', 'is_active',)
-    list_editable = ('is_active',)
-    readonly_fields = ('updated_at', 'created_at')
-    date_hierarchy = 'created_at'
-    search_fields = ('name', 'url',)
-    
-    
+    list_display = (
+        "name",
+        "url",
+        "is_active",
+        "updated_at",
+        "created_at",
+    )
+    list_filter = (
+        "created_at",
+        "updated_at",
+        "is_active",
+    )
+    list_editable = ("is_active",)
+    readonly_fields = ("updated_at", "created_at")
+    date_hierarchy = "created_at"
+    search_fields = (
+        "name",
+        "url",
+    )
+
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'brand', 'category', 'price', 'gender', 'is_active', 'updated_at', 'created_at',)
-    list_filter = ('category', 'brand', 'gender', 'is_active', 'updated_at', 'created_at',)
-    list_editable = ('is_active',)
-    readonly_fields = ('created_at', 'updated_at',)
-    date_hierarchy = 'created_at'
-    search_fields = ('name', 'slug', 'category', 'brand',)
+    list_display = (
+        "name",
+        "brand",
+        "category",
+        "price",
+        "gender",
+        "is_active",
+        "updated_at",
+        "created_at",
+    )
+    list_filter = (
+        "category",
+        "brand",
+        "gender",
+        "is_active",
+        "updated_at",
+        "created_at",
+    )
+    list_editable = ("is_active",)
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
+    date_hierarchy = "created_at"
+    search_fields = (
+        "name",
+        "slug",
+        "category",
+        "brand",
+    )
     inlines = (ManyImageInline, ProductVariantInline)
-    
-    
-    
+
+
 @admin.register(ProductVariant)
 class ProductVariantAdmin(admin.ModelAdmin):
-    empty_value_display = '-empty-'
-    list_display = ('product__name', 'product__price', 'stock', 'discount', 'is_active', 'updated_at', 'created_at',)
-    list_filter = ('stock', 'discount', 'is_active', 'created_at',)
-    list_editable = ('is_active', 'stock', 'discount', 'is_active')
-    readonly_fields = ('created_at', 'updated_at', 'sales_count')
-    search_fields = ('product__name',)
-    
-    
-    
+    empty_value_display = "-empty-"
+    list_display = (
+        "product__name",
+        "product__price",
+        "stock",
+        "discount",
+        "is_active",
+        "updated_at",
+        "created_at",
+    )
+    list_filter = (
+        "stock",
+        "discount",
+        "is_active",
+        "created_at",
+    )
+    list_editable = ("is_active", "stock", "discount", "is_active")
+    readonly_fields = ("created_at", "updated_at", "sales_count")
+    search_fields = ("product__name",)
+
+
 @admin.register(ManyImages)
 class ManyImageAdmin(admin.ModelAdmin):
-    empty_value_display = '-empty-'
-    list_display = ('product' ,'is_active', 'updated_at', 'created_at',)
-    list_filter = ('is_active', 'created_at', 'updated_at',)
-    list_editable = ('is_active',)
-    readonly_fields = ('created_at', 'updated_at',)
+    empty_value_display = "-empty-"
+    list_display = (
+        "product",
+        "is_active",
+        "updated_at",
+        "created_at",
+    )
+    list_filter = (
+        "is_active",
+        "created_at",
+        "updated_at",
+    )
+    list_editable = ("is_active",)
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
     # search_fields = ('product_variant',)

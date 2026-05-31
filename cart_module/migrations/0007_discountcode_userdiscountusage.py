@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("cart_module", "0006_remove_order_order_number"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
