@@ -48,7 +48,7 @@ class ElanAdmin(admin.ModelAdmin):
 
 
 @admin.register(SettingSite)
-class ElanAdmin(admin.ModelAdmin):
+class SettingSiteAdmin(admin.ModelAdmin):
     empty_value_display = "-empty-"
     list_display = (
         "name",
