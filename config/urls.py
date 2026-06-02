@@ -20,6 +20,24 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from debug_toolbar.toolbar import debug_toolbar_urls
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import (
+    StaticViewSitemap,
+    ProductsSitemap,
+    CategoriesSitemap,
+    BrandsSitemap,
+    StaticViewSitemap2,
+)
+
+
+sitemaps = {
+    "static": StaticViewSitemap,
+    "static2": StaticViewSitemap2,
+    "products": ProductsSitemap,
+    "categories": CategoriesSitemap,
+    "brands": BrandsSitemap,
+}
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -37,6 +55,12 @@ urlpatterns = [
     path("order/", include("cart_module.urls")),
     path("about/", include("about_module.urls")),
     path("notice/", include("notice_module.urls")),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
