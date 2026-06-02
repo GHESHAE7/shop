@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
 from pathlib import Path
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -28,6 +29,12 @@ class Category(models.Model):
     is_active = models.BooleanField(
         default=True, null=False, verbose_name="فعال / غیر فعال"
     )
+
+    def get_absolute_url(self):
+        return reverse(
+            "product_module:products_by_category_page",
+            kwargs={"category_url": self.url},
+        )
 
     def save(self, *args, **kwargs):
         old_image_path = None
@@ -67,6 +74,11 @@ class Brand(models.Model):
     is_active = models.BooleanField(
         default=True, null=False, verbose_name="فعال / غیر فعال"
     )
+
+    def get_absolute_url(self):
+        return reverse(
+            "product_module:products_by_brand_page", kwargs={"brand_url": self.url}
+        )
 
     def save(self, *args, **kwargs):
         old_image_path = None
@@ -128,6 +140,9 @@ class Product(models.Model):
     is_active = models.BooleanField(
         default=True, null=False, verbose_name="فعال / غیر فعال"
     )
+
+    def get_absolute_url(self):
+        return reverse("product_module:product_detail_page", kwargs={"slug": self.slug})
 
     def save(self, *args, **kwargs):
         old_image_path = None
