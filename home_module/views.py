@@ -98,7 +98,7 @@ def header_component(request: HttpRequest) -> HttpResponse:
             context["count_order_item"] = count_order_item
             context["site_setting"] = site_setting
             return render(request, "component_partial/header_component.html", context)
-        except [User.DoesNotExist, Order.DoesNotExist, SettingSite.DoesNotExist]:
+        except (User.DoesNotExist, Order.DoesNotExist, SettingSite.DoesNotExist):
             return render(request, "component_partial/header_component.html", context)
 
     else:
