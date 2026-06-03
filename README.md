@@ -89,11 +89,11 @@ In the `main` branch of the project, it works with a `postgresql` database. Firs
 ```
 # postgres
 ENGINE=django.db.backends.postgresql
-NAME=shop
-USER=postgres
-PASSWORD=Farhan0991
-HOST=127.0.0.1
-PORT=5432
+NAME=name database
+USER=username
+PASSWORD=password
+HOST=ip or domain
+PORT=port
 ```
 
 To use `sqlite3` database, you need to change the `DATABASE` values ​​in the vongi file and replace it with the following value:
@@ -121,7 +121,7 @@ EMAIL_HOST_USER=example@gmail.com
 EMAIL_HOST_PASSWORD=app passwprd
 
 # secret key
-SECRET_KEY=w0r7njozuyr1ag902@!ha=plwd@ewiw*v(n2d65j1xv-
+SECRET_KEY=secret key
 ```
 
 ## 6. Migrations
