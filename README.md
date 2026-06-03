@@ -87,10 +87,11 @@ pip install -r requirements.txt
 In the `main` branch of the project, it works with a `postgresql` database. First create a new database in `postgresql`. Then create a file called `.env` in your project folder `~/Downloads/shop` and fill these values ​​according to your database specifications.
 
 ```
+# postgres
 ENGINE=django.db.backends.postgresql
-NAME=name database
-USER=usernam
-PASSWORD=password username
+NAME=shop
+USER=postgres
+PASSWORD=Farhan0991
 HOST=127.0.0.1
 PORT=5432
 ```
@@ -110,8 +111,20 @@ Click to install [sqlite3](https://sqlite.org/).
 
 `Note: If the db.sqlite3 file does not exist in the project folder, create it.`
 
+## 7. Config Email & Secret key
 
-## 5. Migrations
+This project has placed the required information in the `.env` file to send emails, as well as the `secret_key` in the project `/config/settings.py`. Place the following texts in the `.evn` file.
+
+```
+# email
+EMAIL_HOST_USER=example@gmail.com
+EMAIL_HOST_PASSWORD=app passwprd
+
+# secret key
+SECRET_KEY=w0r7njozuyr1ag902@!ha=plwd@ewiw*v(n2d65j1xv-
+```
+
+## 6. Migrations
 Then type this command in your terminal to prepare the database.
 
 ```
