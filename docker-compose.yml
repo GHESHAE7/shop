@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:17-alpine3.23
+    container_name: database_postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_PASSWORD: Farhan0991
+      POSTGRES_USER: farhan
+      POSTGRES_DB: shop
+
+    ports:
+     - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  django:
+    container_name: shop
+    restart: unless-stopped
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: shop:v1
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - ./account_module:/app/account_module
+      - ./about_module:/app/about_module
+      - ./cart_module:/app/cart_module
+      - ./comment_module:/app/comment_module
+      - ./contact_module:/app/contact_module
+      - ./home_module:/app/home_module
+      - ./notice_module:/app/notice_module
+      - ./product_module:/app/product_module
+      - ./products_like_module:/app/products_like_module
+      - ./site_setting_module:/app/site_setting_module
+      - ./support_module:/app/support_module
+      - ./static:/app/static
+      - ./config:/app/config
+      - ./templates:/app/templates
+      - ./utils:/app/utils
+      - ./manage.py:/app/manage.py
+      - ./requirements.txt:/app/requirements.txt
+
+    depends_on:
+      - postgres
+
+
+volumes:
+  postgres_data:
