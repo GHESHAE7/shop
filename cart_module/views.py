@@ -357,16 +357,15 @@ class DiscountCodeDeleteView(View):
             )
 
 
-def initiate_payment(request: HttpRequest, order_id: int):
+def initiate_payment(request: HttpRequest, order_id: int) -> HttpResponse:
     if request.user.is_authenticated:
         try:
-            # current_user = User.objects.get(id=request.user.id, is_active=True)
-            current_user = request.user
+            current_user: User = request.user
             if not current_user.address:
                 messages.warning(request, "لطفا آدرس  را در قسمت پروفایل من تکمیل کنید")
                 return redirect(reverse("account_module:profile_page"))
             else:
-                current_order = Order.objects.prefetch_related(
+                current_order: Order = Order.objects.prefetch_related(
                     "order_items__product_variant"
                 ).get(
                     user_id=request.user.id, id=order_id, is_active=True, status="cart"
@@ -374,7 +373,7 @@ def initiate_payment(request: HttpRequest, order_id: int):
                 errors_count_stock = []
 
                 for order_item in current_order.order_items.all():
-                    current_product_variant = order_item.product_variant
+                    current_product_variant: ProductVariant = order_item.product_variant
                     if (order_item.count > 0) and (current_product_variant.stock == 0):
                         errors_count_stock.append(
                             f"{current_product_variant.product.name} موجودی آن تمام شده است"
@@ -388,9 +387,14 @@ def initiate_payment(request: HttpRequest, order_id: int):
                         )
                         order_item.count = current_product_variant.stock
                         order_item.save()
+
+                if errors_count_stock:
+                    for error in errors_count_stock:
+                        messages.error(request, error)
+                    return redirect(reverse("cart_module:order_page"))
                 try:
                     total_price = int(current_order.show_total_price())
-                    discount_user = UserDiscountUsage.objects.filter(
+                    discount_user: UserDiscountUsage = UserDiscountUsage.objects.filter(
                         order_id=current_order.id,
                         is_active=True,
                         status_usage="not_used",
@@ -422,24 +426,23 @@ def initiate_payment(request: HttpRequest, order_id: int):
                         current_order.save()
                         return redirect(payment_url)
                     else:
-                        print("Authority not found in response.")
+                        return render(request, "cart_module/get_error_aythority.html")
                 except Exception as e:
-                    return HttpResponse(e)
+                    pass
 
         except Exception as e:
-            print("Error during payment creation:", e)
-            return HttpResponse(e)
+            pass
     else:
         messages.error(request, "شما برای پرداخت باید وارد حساب کاربری خود شده باشید")
         return redirect(reverse("account_module:login_page"))
 
 
-def verify_payment(request):
+def verify_payment(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated:
-        status = request.GET.get("Status")
-        authority = request.GET.get("Authority")
+        status: str = request.GET.get("Status")
+        authority: str = request.GET.get("Authority")
 
-        current_order = (
+        current_order: Order = (
             Order.objects.filter(
                 user_id=request.user.id, is_active=True, status="pending"
             )
@@ -450,13 +453,13 @@ def verify_payment(request):
 
         if status == "OK":
             try:
-                total_price = int(current_order.show_total_price())
+                total_price: int = int(current_order.show_total_price())
 
-                discount_user = UserDiscountUsage.objects.filter(
+                discount_user: UserDiscountUsage = UserDiscountUsage.objects.filter(
                     order_id=current_order.id, is_active=True, status_usage="not_used"
                 ).first()
                 if discount_user:
-                    max_uses_discount_code = (
+                    max_uses_discount_code: UserDiscountUsage = (
                         UserDiscountUsage.objects.filter(
                             is_active=True,
                             discount_code=discount_user.discount_code,
@@ -464,7 +467,6 @@ def verify_payment(request):
                         ).aggregate(Count("id"))["id__count"]
                         or 0
                     )
-                    print(f"max used: {max_uses_discount_code}")
                     if max_uses_discount_code < discount_user.discount_code.max_uses:
                         discount_amount_applied = (total_price / 100) * int(
                             discount_user.discount_code.percent
@@ -479,7 +481,6 @@ def verify_payment(request):
                                 "authority": authority,
                             }
                         )
-                        print(f"response: {response}")
                         if response["data"]["code"] == 100:
                             ref_id = response["data"]["ref_id"]
                             card_pan = response["data"]["card_pan"]

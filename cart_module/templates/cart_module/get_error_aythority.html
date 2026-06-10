@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    درگاه پرداخت
+{% endblock title %}
+
+{% block body %}
+    </div>
+    <!-- Order/Payment Success-->
+    <div class="order-success-wrapper">
+      <div class="content"><i class="fa-solid fa-basket-shopping"></i>
+        <h5 class="text-white">مشکل از طرف درگاه پرداخت</h5>
+        <p class="text-white opacity-75">مشکلی از طرف درگاه پرداخت به جود آمده است مجدد امتحان فرمایید </p>
+        <a class="btn btn-warning mt-3" href="{% url "cart_module:order_page" %}">سبد خرید</a>
+      </div>
+    </div>
+{% endblock body %}
