@@ -10,6 +10,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class Order(models.Model):
     class status_choices(models.TextChoices):
         CART = "cart", _("cart")
+        PENDING = "pending", _("pending")
         PAID = "paid", _("paid")
         CANCELLED = "cancelled", _("cancelled")
         PROCESSING = "processing", _("processing")
@@ -24,6 +25,9 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=20, decimal_places=2, null=True)
     rahgiri_code = models.CharField(
         max_length=200, null=True, blank=True, verbose_name="کد رهگیری پرداخت سفارش"
+    )
+    card_pan = models.CharField(
+        max_length=16, null=True, blank=True, verbose_name="شماره کارت پرداخت شده"
     )
     address = models.TextField(null=True, blank=True, verbose_name="آدرس تحویل گیرنده")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="آخرین آپدیت")

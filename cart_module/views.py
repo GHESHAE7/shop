@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from cart_module.models import Order, OrderItem, DiscountCode, UserDiscountUsage
 from django.http import JsonResponse, HttpResponse, HttpRequest
@@ -7,6 +7,10 @@ from django.utils.crypto import get_random_string
 from account_module.models import User
 from django.db.models import F, Count
 from django.utils import timezone
+from config import settings
+from django.urls import reverse
+from django.contrib import messages
+from account_module.models import User
 
 
 class OrderView(View):
@@ -227,41 +231,6 @@ def add_product_to_order(request: HttpRequest) -> JsonResponse:
         )
 
 
-class PaymentView(View):
-    def get(self, request: HttpRequest, order_id: str) -> HttpResponse:
-        if request.user.is_authenticated:
-            order: Order = Order.objects.filter(
-                is_active=True, status="cart", pk=order_id
-            ).first()
-            if order is not None:
-                current_user: User = User.objects.filter(
-                    is_active=True, pk=request.user.id
-                ).first()
-                if current_user.address is None or current_user.address == "":
-                    return HttpResponse("plese address")
-                else:
-                    order_items: OrderItem = OrderItem.objects.filter(
-                        is_active=True, order_id=order.id
-                    ).values_list("product_variant_id", "count")
-                    for pro_var_id, count in order_items:
-                        ProductVariant.objects.filter(
-                            is_active=True, id=pro_var_id
-                        ).update(
-                            stock=F("stock") - count,
-                            sales_count=F("sales_count") + count,
-                        )
-                    order.address = current_user.address
-                    order.total_price = order.show_total_price()
-                    order.status = "processing"
-                    order.rahgiri_code = get_random_string(75)
-                    order.save()
-                    return HttpResponse("sefaresh shoma sabt shod")
-            else:
-                return HttpResponse("order not exists")
-        else:
-            return HttpResponse("you not login")
-
-
 class DiscountCodeView(View):
     def post(self, request: HttpRequest) -> JsonResponse:
         if request.user.is_authenticated:
@@ -386,3 +355,198 @@ class DiscountCodeDeleteView(View):
                     "message": "ابتدا وارد حساب کاربری خود شوید",
                 }
             )
+
+
+def initiate_payment(request: HttpRequest, order_id: int):
+    if request.user.is_authenticated:
+        try:
+            # current_user = User.objects.get(id=request.user.id, is_active=True)
+            current_user = request.user
+            if not current_user.address:
+                messages.warning(request, "لطفا آدرس  را در قسمت پروفایل من تکمیل کنید")
+                return redirect(reverse("account_module:profile_page"))
+            else:
+                current_order = Order.objects.prefetch_related(
+                    "order_items__product_variant"
+                ).get(
+                    user_id=request.user.id, id=order_id, is_active=True, status="cart"
+                )
+                errors_count_stock = []
+
+                for order_item in current_order.order_items.all():
+                    current_product_variant = order_item.product_variant
+                    if (order_item.count > 0) and (current_product_variant.stock == 0):
+                        errors_count_stock.append(
+                            f"{current_product_variant.product.name} موجودی آن تمام شده است"
+                        )
+                        order_item.delete()
+                    elif (order_item.count > 0) and (
+                        order_item.count > current_product_variant.stock
+                    ):
+                        errors_count_stock.append(
+                            f"{current_product_variant.product.name} تعدادی که انتخاب کردی بیشتر از موجودی می باشد. موجودی این محصول  {current_product_variant.stock} عدد می باشد."
+                        )
+                        order_item.count = current_product_variant.stock
+                        order_item.save()
+                try:
+                    total_price = int(current_order.show_total_price())
+                    discount_user = UserDiscountUsage.objects.filter(
+                        order_id=current_order.id,
+                        is_active=True,
+                        status_usage="not_used",
+                    ).first()
+                    if discount_user:
+                        total_price = int(
+                            (
+                                total_price
+                                - (
+                                    (total_price / 100)
+                                    * int(discount_user.discount_code.percent)
+                                )
+                            )
+                        )
+                    zarinpal = settings.zarinpal
+                    response = zarinpal.payments.create(
+                        {
+                            "amount": total_price * 10,
+                            "callback_url": request.build_absolute_uri(
+                                reverse("cart_module:verify_order")
+                            ),
+                            "description": "پرداخت سبد خرید",
+                        }
+                    )
+                    if "data" in response and "authority" in response["data"]:
+                        authority = response["data"]["authority"]
+                        payment_url = zarinpal.payments.generate_payment_url(authority)
+                        current_order.status = "pending"
+                        current_order.save()
+                        return redirect(payment_url)
+                    else:
+                        print("Authority not found in response.")
+                except Exception as e:
+                    return HttpResponse(e)
+
+        except Exception as e:
+            print("Error during payment creation:", e)
+            return HttpResponse(e)
+    else:
+        messages.error(request, "شما برای پرداخت باید وارد حساب کاربری خود شده باشید")
+        return redirect(reverse("account_module:login_page"))
+
+
+def verify_payment(request):
+    if request.user.is_authenticated:
+        status = request.GET.get("Status")
+        authority = request.GET.get("Authority")
+
+        current_order = (
+            Order.objects.filter(
+                user_id=request.user.id, is_active=True, status="pending"
+            )
+            .prefetch_related("order_items")
+            .first()
+        )
+
+        if status == "OK":
+            try:
+                total_price = int(current_order.show_total_price())
+
+                discount_user = UserDiscountUsage.objects.filter(
+                    order_id=current_order.id, is_active=True, status_usage="not_used"
+                ).first()
+                if discount_user:
+                    max_uses_discount_code = (
+                        UserDiscountUsage.objects.filter(
+                            is_active=True,
+                            discount_code=discount_user.discount_code,
+                            status_usage="used",
+                        ).aggregate(Count("id"))["id__count"]
+                        or 0
+                    )
+                    print(f"max used: {max_uses_discount_code}")
+                    if max_uses_discount_code < discount_user.discount_code.max_uses:
+                        discount_amount_applied = (total_price / 100) * int(
+                            discount_user.discount_code.percent
+                        )
+                        total_price = int(total_price - discount_amount_applied)
+                if total_price:
+                    try:
+                        zarinpal = settings.zarinpal
+                        response = zarinpal.verifications.verify(
+                            {
+                                "amount": total_price * 10,
+                                "authority": authority,
+                            }
+                        )
+                        print(f"response: {response}")
+                        if response["data"]["code"] == 100:
+                            ref_id = response["data"]["ref_id"]
+                            card_pan = response["data"]["card_pan"]
+
+                            current_order.rahgiri_code = ref_id
+                            current_order.card_pan = card_pan
+                            current_order.address = request.user.address
+                            current_order.status = "paid"
+                            current_order.save()
+
+                            if (
+                                discount_user
+                                and max_uses_discount_code
+                                < discount_user.discount_code.max_uses
+                            ):
+                                discount_user.discount_amount_applied = (
+                                    discount_amount_applied
+                                )
+                                discount_user.status_usage = "used"
+                                discount_user.save()
+
+                            for order_item in current_order.order_items.all():
+                                # current_product_variant = ProductVariant.objects.get(id=order_item.product_variant_id, is_active=True)
+                                # current_product_variant.stock -= order_item.count
+                                # current_product_variant.save()
+
+                                ProductVariant.objects.filter(
+                                    id=order_item.product_variant_id, is_active=True
+                                ).update(stock=F("stock") - order_item.count)
+
+                            context = {
+                                "rahgiri_code": ref_id,
+                                "number_order": current_order.id,
+                            }
+                            return render(
+                                request, "cart_module/payment_success.html", context
+                            )
+
+                        elif response["data"]["code"] == 101:
+                            print("Payment already verified.")
+                            return HttpResponse("پرداخت شده بود قبلا")
+
+                        else:
+                            print(
+                                "Transaction failed with code:",
+                                response["data"]["code"],
+                            )
+                            return HttpResponse("به ارور خوردی خوشگله")
+
+                    except Exception as e:
+                        print("Payment Verification Failed:", e)
+                        return HttpResponse(f"به ارور خوردی خوشگله به عنوان {e}")
+                else:
+                    print("No Matching Transaction Found For This Authority Code.")
+                    return HttpResponse("اصن اتوریتی کدی وجود نداره عزیزم")
+            except Exception as e:
+                current_order.status = "cart"
+                current_order.save()
+                return HttpResponse(e)
+        elif status == "NOK":
+            print("خودت کنسل کردی عزیزم")
+            current_order.status = "cart"
+            current_order.save()
+            context = {
+                "number_order": current_order.id,
+            }
+            return render(request, "cart_module/payment_cancle.html", context)
+        else:
+            current_order.status = "cart"
+            current_order.save()
+            return redirect(reverse("cart_module:order_page"))

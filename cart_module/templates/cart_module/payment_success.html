@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    پرداخت موفقیت آمیز
+{% endblock title %}
+
+{% block body %}
+    </div>
+    <!-- Order/Payment Success-->
+    <div class="order-success-wrapper">
+      <div class="content"><i class="fa-solid fa-basket-shopping"></i>
+        <h5 class="text-white">پرداخت موفقیت آمیز</h5>
+        <p class="text-white opacity-75">خرید شما با شماره سفارش {{ number_order }} و کد رهگیری {{ rahgiri_code }} با موفقیت پرداخت شده است </p>
+        <a class="btn btn-warning mt-3" href="{% url "cart_module:status_order_page" %}">پیگیری سفارش</a>
+      </div>
+    </div>
+{% endblock body %}

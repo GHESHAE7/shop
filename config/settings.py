@@ -193,3 +193,17 @@ EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
 # sites
 SITE_ID = 2
+
+
+# zarinpal
+
+from zarinpal import ZarinPal
+from utils.config import Config
+
+config = Config(
+    merchant_id="qagktoekffdfdfdfdhhsdfsdofsodfksodfk",
+    access_token="your-access-token",
+    sandbox=True,
+    base_url="https://sandbox.zarinpal.com",
+)
+zarinpal = ZarinPal(config)

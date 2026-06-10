@@ -329,3 +329,23 @@ function discount_code_delete(order_id, discount_code){
         })
     
 }
+
+
+
+function payment_request(){
+    let csrf_token = document.getElementById('#csrf_t');
+    let total_price = document.getElementById('total_price');
+    $.post('http://127.0.0.1:8000/order/payment/', {csrfmiddlewaretoken: csrf_token.value, total_price: total_price.innerHTML}, function(res){
+        if (res.icon == 'warning'){
+            div_warning = document.getElementById('warnings');
+            div_warning.classList.remove('d-none');
+            div_warning.style.display = 'block';
+            div_warning.innerHTML = res.message;
+            setTimeout(function() {
+            window.location.reload();
+            }, 4000);
+        }else if(res.url){
+            window.location.href = res.url;
+        }
+    });
+}
