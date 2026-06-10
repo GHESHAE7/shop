@@ -38,7 +38,10 @@ class Order(models.Model):
 
     def show_total_price(self):
         total_price = (
-            self.order_items.aggregate(total=Sum(F("price") * F("count")))["total"] or 0
+            self.order_items.aggregate(total=Sum(F("product__price") * F("count")))[
+                "total"
+            ]
+            or 0
         )
         return total_price
 
@@ -53,9 +56,6 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     product_variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
     count = models.IntegerField()
-    price = models.DecimalField(
-        max_digits=10, decimal_places=2, db_index=True, null=True
-    )
     updated_at = models.DateTimeField(auto_now=True, verbose_name="آخرین آپدیت")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاریخ ایجاد")
     is_active = models.BooleanField(

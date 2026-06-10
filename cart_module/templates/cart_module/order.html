@@ -63,7 +63,7 @@
                                 <th scope="row"><a class="remove-product" onclick="remove_order_item()"><i class="fa-solid fa-xmark"></i></a></th>
                                 <td><img src="{{ order_item.product.image.url }}" alt="{{ order_item.product.name }}" title="{{ order_item.product.name }}"></td>
                                 <td><a href="{% url 'product_module:product_detail_page' slug=order_item.product.slug %}" title="{{ order_item.product.name }}">{{ order_item.product.name|truncatechars:55 }}
-                                    <span>{{ order_item.price|intcomma }} تومان ×  {{ order_item.count }} </span> </a> </td>
+                                    <span>{{ order_item.product.price|intcomma }} تومان ×  {{ order_item.count }} </span> </a> </td>
                                 <td>
                                     <p>رنگ: {{ order_item.product_variant.color }}</p>
                                     <p>سایز: {{ order_item.product_variant.size }}</p>

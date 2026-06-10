@@ -443,6 +443,7 @@ def verify_payment(request):
             Order.objects.filter(
                 user_id=request.user.id, is_active=True, status="pending"
             )
+            .order_by("-created_at")
             .prefetch_related("order_items")
             .first()
         )
@@ -501,14 +502,12 @@ def verify_payment(request):
                                 discount_user.save()
 
                             for order_item in current_order.order_items.all():
-                                # current_product_variant = ProductVariant.objects.get(id=order_item.product_variant_id, is_active=True)
-                                # current_product_variant.stock -= order_item.count
-                                # current_product_variant.save()
-
                                 ProductVariant.objects.filter(
                                     id=order_item.product_variant_id, is_active=True
-                                ).update(stock=F("stock") - order_item.count)
-
+                                ).update(
+                                    stock=F("stock") - order_item.count,
+                                    sales_count=F("sales_count") + order_item.count,
+                                )
                             context = {
                                 "rahgiri_code": ref_id,
                                 "number_order": current_order.id,
@@ -518,8 +517,10 @@ def verify_payment(request):
                             )
 
                         elif response["data"]["code"] == 101:
-                            print("Payment already verified.")
-                            return HttpResponse("پرداخت شده بود قبلا")
+                            return render(
+                                request,
+                                "cart_module/paid.html",
+                            )
 
                         else:
                             print(
@@ -532,14 +533,13 @@ def verify_payment(request):
                         print("Payment Verification Failed:", e)
                         return HttpResponse(f"به ارور خوردی خوشگله به عنوان {e}")
                 else:
-                    print("No Matching Transaction Found For This Authority Code.")
-                    return HttpResponse("اصن اتوریتی کدی وجود نداره عزیزم")
+                    return render(request, "cart_module/error_authority.html")
+
             except Exception as e:
                 current_order.status = "cart"
                 current_order.save()
                 return HttpResponse(e)
         elif status == "NOK":
-            print("خودت کنسل کردی عزیزم")
             current_order.status = "cart"
             current_order.save()
             context = {

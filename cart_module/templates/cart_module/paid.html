@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    قبلا پرداخت شده
+{% endblock title %}
+
+{% block body %}
+    </div>
+    <!-- Order/Payment Success-->
+    <div class="order-success-wrapper">
+      <div class="content"><i class="fa-solid fa-basket-shopping"></i>
+        <h5 class="text-white">پرداخت شده است</h5>
+        <p class="text-white opacity-75">این سبد خرید قبلا پرداخت شده است</p>
+        <a class="btn btn-warning mt-3" href="{% url "home_module:home_page" %}">خانه</a>
+      </div>
+    </div>
+{% endblock body %}
