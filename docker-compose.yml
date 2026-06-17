@@ -1,4 +1,8 @@
 services:
+  redis:
+    image: redis:8.6.4-alpine3.23
+    restart: unless-stopped
+
   postgres:
     image: postgres:17-alpine3.23
     container_name: database_postgres
@@ -15,7 +19,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-
   django:
     container_name: shop
     restart: unless-stopped
@@ -25,6 +28,8 @@ services:
       dockerfile: Dockerfile
 
     image: shop:v1
+
+    command: sh -c 'python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
 
     ports:
       - "8000:8000"
@@ -51,6 +56,41 @@ services:
     depends_on:
       - postgres
 
+  django_celery:
+    container_name: shop_celery
+    restart: unless-stopped
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: shop_celery:v1
+
+    command: celery -A config.celeryy worker -l INFO
+
+    volumes:
+      - ./account_module:/app/account_module
+      - ./about_module:/app/about_module
+      - ./cart_module:/app/cart_module
+      - ./comment_module:/app/comment_module
+      - ./contact_module:/app/contact_module
+      - ./home_module:/app/home_module
+      - ./notice_module:/app/notice_module
+      - ./product_module:/app/product_module
+      - ./products_like_module:/app/products_like_module
+      - ./site_setting_module:/app/site_setting_module
+      - ./support_module:/app/support_module
+      - ./static:/app/static
+      - ./config:/app/config
+      - ./templates:/app/templates
+      - ./utils:/app/utils
+      - ./manage.py:/app/manage.py
+      - ./requirements.txt:/app/requirements.txt
+
+    depends_on:
+      - redis
+      - postgres
+      - django
 
 volumes:
   postgres_data:
