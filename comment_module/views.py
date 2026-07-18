@@ -6,9 +6,11 @@ from product_module.models import Product
 
 
 def comments_product(request: HttpRequest, product_id: int) -> HttpResponse:
-    comments: Comment = Comment.objects.filter(
-        is_active=True, product_id=product_id
-    ).order_by("-created_at")
+    comments: Comment = (
+        Comment.objects.filter(is_active=True, product_id=product_id)
+        .select_related("user")
+        .order_by("-created_at")
+    )
     context = {"comments": comments}
 
     return render(
